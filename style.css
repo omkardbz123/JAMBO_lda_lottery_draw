@@ -1,0 +1,1168 @@
+/* ==========================================================================
+   Lottery Draw Master Styling - Futuristic Neon Casino & Event Edition
+   Recreated to match starting.png, token wheel.png, and winner ui.png
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Great+Vibes&family=Montserrat:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --reel-h: 168px;
+  --neon-cyan: #00f2fe;
+  --neon-cyan-glow: rgba(0, 242, 254, 0.7);
+  --neon-blue: #4facfe;
+  --neon-blue-glow: rgba(79, 172, 254, 0.8);
+  --gold-start: #ffe066;
+  --gold-mid: #f59e0b;
+  --gold-end: #b45309;
+  --gold-glow: rgba(245, 158, 11, 0.6);
+  --gold-light: #fff3bf;
+  --dark-pill-bg: #071536;
+  --dark-overlay: rgba(3, 7, 18, 0.85);
+  --font-main: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-winner: 'Cinzel', 'Montserrat', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #030a1c;
+  font-family: var(--font-main);
+  color: #ffffff;
+}
+
+/* App Root Container */
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('image/background_opt.jpg');
+  background-size: 100% 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Subtle Vignette & Glow Overlay */
+.stage-atmosphere {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, rgba(0, 242, 254, 0.05) 0%, transparent 60%);
+  z-index: 1;
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 90;
+}
+
+/* ==========================================================================
+   Top Header Navigation HUD - Floating Centered Capsule
+   Carefully centered in open sky between ENOC (left) and JAMBO (right) logos
+   ========================================================================== */
+.top-nav-hud {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.top-nav-hud.hud-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -30px);
+}
+
+.hud-capsule {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  background: rgba(7, 21, 54, 0.88);
+  border: 1.5px solid rgba(0, 242, 254, 0.5);
+  border-radius: 9999px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.7),
+    0 0 15px rgba(0, 242, 254, 0.25),
+    inset 0 0 10px rgba(0, 242, 254, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.round-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: rgba(15, 39, 84, 0.85);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.35);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #e0f7ff;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.round-pill .pulse-dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--neon-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--neon-cyan);
+  animation: pulse-dot-anim 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-dot-anim {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.hud-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(0, 242, 254, 0.3);
+}
+
+.hud-btn {
+  background: rgba(15, 39, 84, 0.7);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  color: #c7ecff;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hud-btn:hover {
+  background: rgba(0, 242, 254, 0.25);
+  border-color: var(--neon-cyan);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
+  transform: translateY(-1px);
+}
+
+.hud-btn:active {
+  transform: translateY(1px);
+}
+
+/* ==========================================================================
+   Main Stage Workspace
+   ========================================================================== */
+.main-stage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Stage Area Bounded Box */
+.stage-center-anchor {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1400px;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   State 1: Starting UI (Prize Showcase on Podium)
+   ========================================================================== */
+.showcase-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.prize-display-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: center bottom;
+  animation: float-prize 4s ease-in-out infinite alternate;
+}
+
+@keyframes float-prize {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-12px); }
+}
+
+.prize-image-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 380px;
+  max-width: 680px;
+}
+
+.prize-image-wrapper img {
+  max-height: 360px;
+  max-width: 620px;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 25px rgba(0, 242, 254, 0.25));
+  transition: all 0.4s ease;
+}
+
+/* Prize Floor Reflection & Light Glow */
+.podium-light-ring {
+  position: absolute;
+  bottom: -20px;
+  width: 480px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 242, 254, 0.55) 0%, rgba(79, 172, 254, 0.25) 45%, transparent 70%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: pulse-podium 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-podium {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+.prize-info-panel {
+  margin-top: 10px;
+  text-align: center;
+  z-index: 5;
+}
+
+.prize-badge-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  background: linear-gradient(90deg, #d97706, #f59e0b, #d97706);
+  color: #1a0f00;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+  margin-bottom: 6px;
+}
+
+.prize-title-text {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(0, 242, 254, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.prize-subtitle-text {
+  font-size: 0.95rem;
+  color: #9fe3ff;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   State 2: Token Wheel / Roller Capsule (matches token wheel.png)
+   ========================================================================== */
+.wheel-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* 3D Cylindrical Neon Capsule */
+.token-cylinder-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 24px;
+  border-radius: 46px;
+  background: linear-gradient(180deg, #091c3d 0%, #061128 40%, #030817 100%);
+  border: 3.5px solid #22d3ee;
+  box-shadow: 
+    0 0 25px rgba(34, 211, 238, 0.8),
+    0 0 60px rgba(6, 182, 212, 0.5),
+    inset 0 0 25px rgba(34, 211, 238, 0.5),
+    inset 0 6px 14px rgba(255, 255, 255, 0.4),
+    inset 0 -8px 18px rgba(0, 0, 0, 0.9),
+    0 25px 50px rgba(0, 0, 0, 0.85);
+  animation: cylinder-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes cylinder-glow {
+  0% {
+    box-shadow: 
+      0 0 25px rgba(34, 211, 238, 0.8),
+      0 0 50px rgba(6, 182, 212, 0.4),
+      inset 0 0 20px rgba(34, 211, 238, 0.45),
+      inset 0 6px 14px rgba(255, 255, 255, 0.35),
+      inset 0 -8px 18px rgba(0, 0, 0, 0.9),
+      0 25px 50px rgba(0, 0, 0, 0.85);
+  }
+  100% {
+    box-shadow: 
+      0 0 40px rgba(34, 211, 238, 1),
+      0 0 80px rgba(6, 182, 212, 0.7),
+      inset 0 0 35px rgba(34, 211, 238, 0.65),
+      inset 0 8px 18px rgba(255, 255, 255, 0.5),
+      inset 0 -8px 18px rgba(0, 0, 0, 0.9),
+      0 25px 50px rgba(0, 0, 0, 0.85);
+  }
+}
+
+/* Outer Glass Halo Ring */
+.token-cylinder-container::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  border-radius: 54px;
+  border: 1.5px solid rgba(110, 231, 247, 0.5);
+  pointer-events: none;
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+}
+
+/* Wheel Stage Row with Flanking Prizes */
+.wheel-stage-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+}
+
+/* 4 Individual Reels */
+.reels-grid {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.reel-slot {
+  position: relative;
+  width: 124px;
+  height: var(--reel-h);
+  overflow: hidden;
+  box-sizing: content-box; /* Crucial: border does not shrink the inner viewable height! */
+  border-radius: 16px;
+  background: linear-gradient(180deg, #091e3e 0%, #0f305c 48%, #091e3e 100%);
+  border: 2.5px solid rgba(34, 211, 238, 0.6);
+  box-shadow: 
+    inset 0 16px 20px -8px rgba(0, 0, 0, 0.95),
+    inset 0 -16px 20px -8px rgba(0, 0, 0, 0.95),
+    0 0 12px rgba(34, 211, 238, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glass Reflection Highlight on each Reel */
+.reel-slot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-radius: 14px 14px 0 0;
+  pointer-events: none;
+}
+
+/* Vertical Digit Reel Strip (Hardware Accelerated) */
+.reel-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.reel-digit {
+  width: 100%;
+  height: var(--reel-h);
+  min-height: var(--reel-h);
+  max-height: var(--reel-h);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-main);
+  font-size: 6.8rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: var(--reel-h);
+  text-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.9),
+    0 0 30px rgba(34, 211, 238, 0.8),
+    0 4px 12px rgba(0, 0, 0, 0.8);
+  letter-spacing: -2px;
+}
+
+/* Hardware-friendly spinning indicator */
+.reel-slot.is-spinning {
+  border-color: #38bdf8;
+  box-shadow: 
+    0 0 20px rgba(56, 189, 248, 0.6),
+    inset 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+/* Reel Stopped Lock Flash & Glow */
+.reel-slot.is-locked {
+  border-color: #67e8f9;
+  animation: reel-lock-flash 0.45s ease-out;
+  box-shadow: 
+    0 0 30px rgba(103, 232, 249, 1),
+    inset 0 0 20px rgba(103, 232, 249, 0.5);
+}
+
+@keyframes reel-lock-flash {
+  0% {
+    transform: scale(1.08);
+    border-color: #ffffff;
+    box-shadow: 0 0 45px #ffffff, inset 0 0 25px #ffffff;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    border-color: #67e8f9;
+    box-shadow: 0 0 30px rgba(103, 232, 249, 1), inset 0 0 20px rgba(103, 232, 249, 0.5);
+  }
+}
+
+/* ==========================================================================
+   State 3: Winner Celebration UI (matches winner ui.png)
+   ========================================================================== */
+.winner-view {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 20;
+}
+
+/* Golden Winner Header */
+.winner-header-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 22px;
+  text-align: center;
+  animation: winner-entrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes winner-entrance {
+  0% { transform: scale(0.6) translateY(-40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* "Congratulations!" Glowing Script */
+.congrats-script {
+  font-family: var(--font-script);
+  font-size: 4.8rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #ffca3a;
+  text-shadow: 
+    0 0 10px #ffb703,
+    0 0 25px #fb8500,
+    0 0 45px #ffb703,
+    2px 2px 4px rgba(0, 0, 0, 0.9);
+  transform: rotate(-3deg);
+  margin-bottom: -10px;
+}
+
+/* "YOU ARE THE" Royal Purple Ribbon */
+.ribbon-banner {
+  position: relative;
+  background: linear-gradient(180deg, #49179c 0%, #2f0e69 100%);
+  border: 1.5px solid #ffcc00;
+  color: #ffffff;
+  padding: 4px 34px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 15px rgba(138, 43, 226, 0.6);
+  margin-bottom: -12px;
+  z-index: 2;
+}
+
+.ribbon-banner::before,
+.ribbon-banner::after {
+  content: '★';
+  color: #ffdd44;
+  margin: 0 8px;
+  font-size: 0.85rem;
+}
+
+/* Massive 3D Gold "WINNER" */
+.winner-3d-text {
+  font-family: var(--font-winner);
+  font-size: 6.2rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #ffea79 22%,
+    #e5a50a 45%,
+    #824e03 50%,
+    #eeb816 75%,
+    #fff29a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 0 #5c3501) 
+          drop-shadow(0 7px 0 #3a2100) 
+          drop-shadow(0 14px 20px rgba(0, 0, 0, 0.9))
+          drop-shadow(0 0 35px rgba(255, 200, 55, 0.85));
+  animation: gold-shimmer 3s ease-in-out infinite alternate;
+}
+
+@keyframes gold-shimmer {
+  0% { filter: drop-shadow(0 4px 0 #5c3501) drop-shadow(0 7px 0 #3a2100) drop-shadow(0 14px 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(255, 200, 55, 0.7)); }
+  100% { filter: drop-shadow(0 4px 0 #5c3501) drop-shadow(0 7px 0 #3a2100) drop-shadow(0 14px 20px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 50px rgba(255, 220, 100, 1)); }
+}
+
+/* Winner Stage Layout (Flanked with Prizes & Center Token) */
+.winner-center-showcase {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.flank-prize {
+  width: 240px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  animation: flank-float 4s ease-in-out infinite alternate;
+}
+
+.flank-prize.flank-left {
+  animation-delay: 0.5s;
+}
+
+.flank-prize.flank-right {
+  animation-delay: 1.5s;
+}
+
+@keyframes flank-float {
+  0% { transform: translateY(0px) scale(0.95); }
+  100% { transform: translateY(-8px) scale(1.02); }
+}
+
+.flank-prize img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(0, 242, 254, 0.4));
+}
+
+/* ==========================================================================
+   Luxury Award Plaque (Center Stage Prize Badge)
+   ========================================================================== */
+.grand-prize-laurel-badge {
+  position: relative;
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 30px;
+  background: linear-gradient(180deg, rgba(9, 24, 58, 0.95) 0%, rgba(4, 12, 32, 0.98) 100%);
+  border: 2px solid #ffd700;
+  border-radius: 9999px;
+  box-shadow: 
+    0 0 25px rgba(255, 215, 0, 0.5),
+    0 0 50px rgba(0, 242, 254, 0.3),
+    inset 0 0 16px rgba(255, 215, 0, 0.25),
+    0 12px 28px rgba(0, 0, 0, 0.85);
+  animation: laurel-pulse 2.5s ease-in-out infinite alternate;
+  max-width: 90vw;
+}
+
+@keyframes laurel-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 
+      0 0 20px rgba(255, 215, 0, 0.4),
+      0 0 40px rgba(0, 242, 254, 0.25),
+      inset 0 0 14px rgba(255, 215, 0, 0.2);
+  }
+  100% {
+    transform: scale(1.03);
+    box-shadow: 
+      0 0 32px rgba(255, 215, 0, 0.75),
+      0 0 65px rgba(0, 242, 254, 0.5),
+      inset 0 0 22px rgba(255, 215, 0, 0.35);
+  }
+}
+
+.plaque-center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.plaque-badge-tag {
+  font-family: var(--font-main);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #ffca3a;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 202, 58, 0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plaque-badge-tag::before,
+.plaque-badge-tag::after {
+  content: '★';
+  color: #ffde7a;
+  font-size: 0.7rem;
+}
+
+.plaque-prize-title {
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 
+    0 0 12px rgba(0, 242, 254, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.laurel-svg {
+  width: 28px;
+  height: 48px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
+}
+
+.laurel-svg.right {
+  transform: scaleX(-1);
+}
+
+/* ==========================================================================
+   Bottom Action Control Bar
+   ========================================================================== */
+.bottom-action-bar {
+  position: relative;
+  z-index: 50;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 28px 20px;
+  background: transparent;
+}
+
+/* Neon Pill Button "SPIN THE WHEEL" (matches starting.png) */
+.btn-spin-wheel {
+  position: relative;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 16px 54px;
+  background: linear-gradient(180deg, #09193b 0%, #061128 100%);
+  border: 3.5px solid #38bdf8;
+  border-radius: 9999px;
+  font-family: var(--font-main);
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #ffffff;
+  box-shadow: 
+    0 0 25px rgba(56, 189, 248, 0.9),
+    0 0 50px rgba(14, 165, 233, 0.6),
+    inset 0 0 20px rgba(56, 189, 248, 0.4),
+    0 12px 30px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-spin-wheel:hover:not(:disabled) {
+  transform: scale(1.06);
+  border-color: #67e8f9;
+  background: linear-gradient(180deg, #0f2759 0%, #091c42 100%);
+  box-shadow: 
+    0 0 35px rgba(103, 232, 249, 1),
+    0 0 70px rgba(14, 165, 233, 0.9),
+    inset 0 0 30px rgba(103, 232, 249, 0.6),
+    0 16px 36px rgba(0, 0, 0, 0.9);
+}
+
+.btn-spin-wheel:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-spin-wheel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+}
+
+/* Next Draw / Claim Button */
+.btn-next-draw {
+  position: relative;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 14px 44px;
+  background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+  border: 3px solid #ffde7a;
+  border-radius: 9999px;
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  box-shadow: 
+    0 0 25px rgba(245, 158, 11, 0.8),
+    inset 0 0 15px rgba(255, 222, 122, 0.4),
+    0 10px 25px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-next-draw:hover {
+  transform: scale(1.05);
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 0 40px rgba(245, 158, 11, 1), 0 12px 30px rgba(0, 0, 0, 0.9);
+}
+
+.btn-next-draw:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Winners Drawer & Modal
+   ========================================================================== */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 7, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.drawer-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.winners-drawer {
+  position: fixed;
+  top: 0;
+  right: -480px;
+  width: 440px;
+  max-width: 90vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #071536 0%, #030a1c 100%);
+  border-left: 2px solid rgba(0, 242, 254, 0.4);
+  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.8);
+  z-index: 101;
+  transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.winners-drawer.active {
+  right: 0;
+}
+
+.drawer-header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+}
+
+.drawer-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-close-drawer {
+  background: transparent;
+  border: none;
+  color: #9fe3ff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.btn-close-drawer:hover {
+  color: #ffffff;
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.winner-card {
+  background: rgba(9, 28, 61, 0.6);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.25s ease;
+}
+
+.winner-card.won {
+  border-color: rgba(245, 158, 11, 0.7);
+  background: linear-gradient(135deg, rgba(15, 39, 84, 0.7) 0%, rgba(245, 158, 11, 0.1) 100%);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+.winner-card-thumb {
+  width: 70px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.winner-card-thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.winner-card-info {
+  flex: 1;
+}
+
+.winner-card-round {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.winner-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 2px 0 4px 0;
+}
+
+.winner-card-token {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffde7a;
+}
+
+.winner-card-status-pending {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.drawer-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(0, 242, 254, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-drawer-action {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 242, 254, 0.4);
+  background: rgba(7, 21, 54, 0.8);
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-drawer-action:hover {
+  background: rgba(0, 242, 254, 0.2);
+  border-color: var(--neon-cyan);
+}
+
+.btn-drawer-action.danger {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.btn-drawer-action.danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Grand Finale Summary Modal
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.finale-card {
+  width: 900px;
+  max-width: 95vw;
+  background: linear-gradient(180deg, #071536 0%, #030a1c 100%);
+  border: 3px solid #ffde7a;
+  box-shadow: 0 0 50px rgba(245, 158, 11, 0.4), 0 25px 60px rgba(0, 0, 0, 0.9);
+  border-radius: 24px;
+  padding: 36px 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.finale-title {
+  font-family: var(--font-winner);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #ffde7a;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+  margin-bottom: 6px;
+}
+
+.finale-subtitle {
+  font-size: 1.1rem;
+  color: #9fe3ff;
+  margin-bottom: 28px;
+}
+
+.finale-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.finale-winner-item {
+  background: rgba(9, 28, 61, 0.7);
+  border: 1.5px solid rgba(255, 222, 122, 0.4);
+  border-radius: 16px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.finale-thumb {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.finale-thumb img {
+  max-height: 85px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.finale-item-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+}
+
+.finale-item-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+}
+
+.finale-item-token {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffde7a;
+  letter-spacing: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 222, 122, 0.3);
+}
+
+/* ==========================================================================
+   Responsive Scaling for Different Screen Sizes
+   ========================================================================== */
+@media (max-width: 1200px) {
+  :root { --reel-h: 136px; }
+  .congrats-script { font-size: 3.8rem; }
+  .winner-3d-text { font-size: 4.8rem; }
+  .reel-slot { width: 100px; }
+  .reel-digit { font-size: 5.5rem; }
+  .flank-prize { width: 170px; height: 150px; }
+  .prize-image-wrapper { height: 300px; }
+  .prize-image-wrapper img { max-height: 280px; }
+  .btn-spin-wheel { font-size: 1.7rem; padding: 14px 44px; }
+  .finale-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  :root { --reel-h: 96px; }
+  .congrats-script { font-size: 2.8rem; }
+  .winner-3d-text { font-size: 3.2rem; letter-spacing: 4px; }
+  .ribbon-banner { font-size: 0.8rem; padding: 3px 20px; }
+  .reel-slot { width: 68px; }
+  .reel-digit { font-size: 3.6rem; }
+  .token-cylinder-container { padding: 8px 12px; border-radius: 26px; }
+  .flank-prize { display: none; }
+  .grand-prize-laurel-badge { padding: 6px 18px; gap: 10px; }
+  .plaque-prize-title { font-size: 1.05rem; }
+  .plaque-badge-tag { font-size: 0.68rem; letter-spacing: 2px; }
+  .laurel-svg { width: 20px; height: 36px; }
+  .btn-spin-wheel { font-size: 1.3rem; padding: 12px 32px; letter-spacing: 2px; }
+  .btn-next-draw { font-size: 1.1rem; padding: 10px 28px; }
+  .prize-image-wrapper { height: 230px; }
+  .prize-image-wrapper img { max-height: 210px; }
+  .prize-title-text { font-size: 1.3rem; }
+  .finale-grid { grid-template-columns: 1fr; }
+}

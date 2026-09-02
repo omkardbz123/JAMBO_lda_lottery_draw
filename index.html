@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mega Lottery Draw - Live Stage</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Great+Vibes&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Fullscreen Confetti Particle Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Application Main Container -->
+  <div id="app-container">
+    <div class="stage-atmosphere"></div>
+
+    <!-- Centered Stage HUD Controls (Toggleable via 'F' key) -->
+    <header id="top-nav-hud" class="top-nav-hud">
+      <div class="hud-capsule">
+        <div class="round-pill">
+          <span class="pulse-dot"></span>
+          <span id="nav-round-text">DRAW 1 OF 4</span>
+        </div>
+        <div class="hud-divider"></div>
+        <button id="btn-sound" class="hud-btn" title="Toggle Sound">
+          <span id="sound-icon">🔊</span>
+          <span id="sound-text">Sound</span>
+        </button>
+        <button id="btn-open-drawer" class="hud-btn" title="View Winners Board">
+          <span>🏆</span>
+          <span id="drawer-btn-badge">Winners (0/4)</span>
+        </button>
+        <button id="btn-fullscreen" class="hud-btn" title="Toggle Fullscreen">
+          <span id="fullscreen-icon">⛶</span>
+          <span>Full</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Center Stage Area -->
+    <main class="main-stage">
+      <div class="stage-center-anchor">
+
+        <!-- STATE 1: Starting UI Showcase (matches starting.png) -->
+        <section id="showcase-view" class="showcase-view">
+          <div class="prize-display-card">
+            <div class="prize-image-wrapper">
+              <img id="showcase-prize-img" src="image/tv.png" alt="Current Prize" />
+              <div class="podium-light-ring"></div>
+            </div>
+            <div class="prize-info-panel">
+              <div class="prize-badge-tag" id="showcase-prize-badge">GRAND PRIZE</div>
+              <h1 class="prize-title-text" id="showcase-prize-title">Samsung 65" 4K UHD Smart TV</h1>
+              <p class="prize-subtitle-text" id="showcase-prize-subtitle">4K UHD Resolution • HDR10+ • Dynamic Crystal Color</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- UNIFIED STATE 2 & 3: Token Wheel & Winner Celebration Stage -->
+        <section id="wheel-view" class="wheel-view" style="display: none;">
+          <!-- Winner Header (Hidden during spin, animated in when reels lock) -->
+          <div id="winner-header-group" class="winner-header-group" style="display: none;">
+            <div class="congrats-script">Congratulations!</div>
+            <div class="ribbon-banner">YOU ARE THE</div>
+            <div class="winner-3d-text">WINNER</div>
+          </div>
+
+          <!-- Wheel Center Row with Flanking Prizes for Winner Celebration -->
+          <div class="wheel-stage-row">
+            <div id="winner-flank-left" class="flank-prize flank-left" style="display: none;">
+              <img id="winner-flank-img-left" src="image/tv.png" alt="Prize Left" />
+            </div>
+
+            <!-- The Unified Token Cylinder Container -->
+            <div class="token-cylinder-container" id="main-token-cylinder">
+              <div class="reels-grid">
+                <!-- Reel 1 (Thousands) -->
+                <div class="reel-slot" id="reel-slot-0">
+                  <div class="reel-strip" id="reel-strip-0"></div>
+                </div>
+                <!-- Reel 2 (Hundreds) -->
+                <div class="reel-slot" id="reel-slot-1">
+                  <div class="reel-strip" id="reel-strip-1"></div>
+                </div>
+                <!-- Reel 3 (Tens) -->
+                <div class="reel-slot" id="reel-slot-2">
+                  <div class="reel-strip" id="reel-strip-2"></div>
+                </div>
+                <!-- Reel 4 (Ones) -->
+                <div class="reel-slot" id="reel-slot-3">
+                  <div class="reel-strip" id="reel-strip-3"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="winner-flank-right" class="flank-prize flank-right" style="display: none;">
+              <img id="winner-flank-img-right" src="image/tv.png" alt="Prize Right" />
+            </div>
+          </div>
+
+          <!-- Golden Luxury Award Plaque (Hidden during spin, animated in on winner) -->
+          <div id="winner-laurel-badge" class="grand-prize-laurel-badge" style="display: none;">
+            <!-- Left Gold Laurel Wreath SVG -->
+            <svg class="laurel-svg left" viewBox="0 0 32 54" fill="none">
+              <path d="M25,50 C18,36 14,18 20,4" stroke="#ffd700" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M21,46 C13,44 8,38 14,32 C20,36 21,42 21,46 Z" fill="#ffd700"/>
+              <path d="M19,34 C10,32 6,24 13,20 C18,23 20,30 19,34 Z" fill="#ffd700"/>
+              <path d="M18,23 C9,20 6,12 13,9 C18,12 19,19 18,23 Z" fill="#ffd700"/>
+              <path d="M19,11 C13,8 10,2 15,0 C19,2 20,8 19,11 Z" fill="#ffd700"/>
+            </svg>
+
+            <div class="plaque-center-content">
+              <span class="plaque-badge-tag" id="winner-laurel-badge-tag">PREMIUM PRIZE</span>
+              <span class="plaque-prize-title" id="winner-laurel-title">Samsung EcoBubble 8kg Washing Machine</span>
+            </div>
+
+            <!-- Right Gold Laurel Wreath SVG (Mirrored) -->
+            <svg class="laurel-svg right" viewBox="0 0 32 54" fill="none">
+              <path d="M25,50 C18,36 14,18 20,4" stroke="#ffd700" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M21,46 C13,44 8,38 14,32 C20,36 21,42 21,46 Z" fill="#ffd700"/>
+              <path d="M19,34 C10,32 6,24 13,20 C18,23 20,30 19,34 Z" fill="#ffd700"/>
+              <path d="M18,23 C9,20 6,12 13,9 C18,12 19,19 18,23 Z" fill="#ffd700"/>
+              <path d="M19,11 C13,8 10,2 15,0 C19,2 20,8 19,11 Z" fill="#ffd700"/>
+            </svg>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Bottom Action Bar with Glowing Buttons -->
+    <footer class="bottom-action-bar">
+      <!-- Starting State Action: SPIN THE WHEEL (matches starting.png) -->
+      <button id="btn-spin-wheel" class="btn-spin-wheel">
+        SPIN THE WHEEL
+      </button>
+
+      <!-- Winner State Action: NEXT DRAW -->
+      <button id="btn-next-draw" class="btn-next-draw" style="display: none;">
+        <span>CLAIM &amp; NEXT DRAW</span>
+        <span>❯</span>
+      </button>
+
+      <!-- Final State Action: VIEW ALL WINNERS -->
+      <button id="btn-final-summary" class="btn-next-draw" style="display: none;">
+        <span>🏆 VIEW ALL WINNERS</span>
+      </button>
+    </footer>
+  </div>
+
+  <!-- Retractable Winners Board Drawer -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <aside id="winners-drawer" class="winners-drawer">
+    <div class="drawer-header">
+      <h2 class="drawer-title">
+        <span>🏆</span>
+        <span>Lottery Draw Results</span>
+      </h2>
+      <button id="btn-close-drawer" class="btn-close-drawer" title="Close Drawer">&times;</button>
+    </div>
+
+    <div class="drawer-content" id="drawer-winners-list">
+      <!-- Populated dynamically via script.js -->
+    </div>
+
+    <div class="drawer-footer">
+      <button id="btn-copy-winners" class="btn-drawer-action">
+        📋 Copy Winners List
+      </button>
+      <button id="btn-reset-session" class="btn-drawer-action danger">
+        🔄 Reset Entire Draw Session
+      </button>
+    </div>
+  </aside>
+
+  <!-- Grand Finale Summary Modal -->
+  <div id="finale-modal" class="modal-overlay">
+    <div class="finale-card">
+      <h2 class="finale-title">LOTTERY DRAW COMPLETE!</h2>
+      <p class="finale-subtitle">All 4 exclusive prizes have been successfully awarded to winning tokens.</p>
+
+      <div class="finale-grid" id="finale-grid">
+        <!-- Injected via script.js -->
+      </div>
+
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <button id="btn-finale-close" class="nav-icon-btn" style="padding: 12px 28px; font-size: 1rem;">
+          Close Summary
+        </button>
+        <button id="btn-finale-restart" class="btn-next-draw" style="padding: 12px 32px; font-size: 1rem;">
+          🔄 Start New Lottery
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
