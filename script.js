@@ -1,64 +1,198 @@
 /**
  * Mega Lottery Draw - Interactive Stage Controller
- * Unified Single-Cylinder Stage with Exact Pixel Physics Deceleration
- * Matching starting.png, token wheel.png, and winner ui.png
+ * Series No: 1111 - 1360
+ * Background: PALCO 8X3 Stage
+ * Theatrical Curtain Welcome Page with Smooth Broadcast Transitions
+ * 100% Synchronized Bilingual Support: Portuguese (PT) & English (EN)
+ * New Objects: Coluna de Som LG, Fogão a Gás Prince, Ar-Condicionado Prince, Geleira Prince
  */
 
 (function () {
   'use strict';
 
   // =========================================================================
-  // 1. Prizes Configuration (4 Rounds)
+  // 1. Bilingual Localization System (PT default, switchable to EN)
+  // =========================================================================
+  const I18N = {
+    pt: {
+      curtainEyebrow: 'BEM-VINDOS AO',
+      curtainTitleW1: 'SORTEIO',
+      curtainTitleW2: 'DE PRÉMIOS',
+      curtainTitle: 'Bem-vindos ao Sorteio de Prémios',
+      curtainSubtitle: 'GRANDE SORTEIO OFICIAL DE PRÉMIOS EXCLUSIVOS',
+      curtainButton: 'ABRIR O PALCO',
+      curtainHint: 'Pressione ESPAÇO ou clique para iniciar',
+      curtainLangBtn: 'Mudar para Inglês (EN)',
+      welcomeTitle: 'Bem-vindos ao Sorteio de Prémios',
+      seriesLabel: 'Série Nº: 1111 — 1360',
+      spinWheel: 'Gire a Roda',
+      congrats: 'Parabéns!',
+      youAreWinner: 'É O VENCEDOR!',
+      claimNextDraw: (nextRound) => `Levantar o Prémio e Próxima Rodada (${nextRound}/4)`,
+      viewAllWinners: '🏆 Ver todos os Vencedores',
+      drawOf: (current, total) => `SORTEIO ${current} DE ${total}`,
+      soundOn: 'Som Ligado',
+      soundMuted: 'Sem Som',
+      winnersCount: (count, total) => `Vencedores (${count}/${total})`,
+      fullScreen: 'Ecrã',
+      exitFullScreen: 'Janela',
+      drawerTitle: 'Resultados do Sorteio',
+      drawerAwaiting: 'Aguardando Sorteio...',
+      drawerTokenLabel: 'NÚMERO:',
+      copyWinners: '📋 Copiar Lista de Vencedores',
+      copySuccess: '✅ Copiado com Sucesso!',
+      noWinnersYet: 'Ainda não foram sorteados vencedores!',
+      resetSession: '🔄 Reiniciar Sessão',
+      resetConfirm: 'Tem a certeza de que deseja reiniciar o sorteio? Todos os números vencedores serão limpos.',
+      allDrawnAlert: 'Todos os números da Série 1111 a 1360 já foram sorteados!',
+      summaryTitle: 'Sorteio Concluído !',
+      summarySubtitle: 'Os 4 Prémios Exclusivos foram Atribuídos com Sucesso aos números Vencedores',
+      closeSummary: '✕ Fechar Resumo',
+      startNewLottery: '🔄 Iniciar Novo Sorteio',
+      copyReportHeader: '🏆 VENCEDORES DO GRANDE SORTEIO DE PRÉMIOS 🏆\nSérie Nº: 1111 — 1360\n=========================================\n\n',
+      copyReportFooter: 'Parabéns a todos os números contemplados!'
+    },
+    en: {
+      curtainEyebrow: 'WELCOME TO THE',
+      curtainTitleW1: 'PRIZE',
+      curtainTitleW2: 'DRAW',
+      curtainTitle: 'Welcome to the Prize Draw',
+      curtainSubtitle: 'OFFICIAL EXCLUSIVE PRIZE DRAW',
+      curtainButton: 'OPEN THE STAGE',
+      curtainHint: 'Press SPACE or click to open',
+      curtainLangBtn: 'Switch to Portuguese (PT)',
+      welcomeTitle: 'Welcome to the Prize Draw',
+      seriesLabel: 'Series No: 1111 — 1360',
+      spinWheel: 'SPIN THE WHEEL',
+      congrats: 'Congratulations!',
+      youAreWinner: 'YOU ARE THE WINNER',
+      claimNextDraw: (nextRound) => `Claim Prize & Next Draw (${nextRound}/4)`,
+      viewAllWinners: '🏆 View All Winners',
+      drawOf: (current, total) => `DRAW ${current} OF ${total}`,
+      soundOn: 'Sound On',
+      soundMuted: 'Sound Muted',
+      winnersCount: (count, total) => `Winners (${count}/${total})`,
+      fullScreen: 'Fullscreen',
+      exitFullScreen: 'Exit Fullscreen',
+      drawerTitle: 'Lottery Draw Results',
+      drawerAwaiting: 'Awaiting Draw...',
+      drawerTokenLabel: 'TOKEN:',
+      copyWinners: '📋 Copy Winners List',
+      copySuccess: '✅ Copied to Clipboard!',
+      noWinnersYet: 'No winners drawn yet!',
+      resetSession: '🔄 Reset Entire Session',
+      resetConfirm: 'Are you sure you want to reset the entire lottery draw session? All current winning tokens will be cleared.',
+      allDrawnAlert: 'All tokens from Series 1111 to 1360 have already won!',
+      summaryTitle: 'LOTTERY DRAW COMPLETE !',
+      summarySubtitle: 'All 4 exclusive prizes have been successfully awarded to winning tokens',
+      closeSummary: '✕ Close Summary',
+      startNewLottery: '🔄 Start New Lottery',
+      copyReportHeader: '🏆 MEGA LOTTERY DRAW WINNERS 🏆\nSeries No: 1111 — 1360\n=========================================\n\n',
+      copyReportFooter: 'Congratulations to all winning tokens!'
+    }
+  };
+
+  // =========================================================================
+  // 2. Exclusive New Prizes (4 Rounds)
   // =========================================================================
   const PRIZES = [
     {
       id: 1,
-      name: 'Samsung 65" 4K UHD Smart TV',
-      badge: 'GRAND PRIZE',
-      subtitle: 'Crystal 4K Display • HDR 10+ • Dynamic Color • Smart Hub',
-      image: 'image/tv.png',
-      icon: '📺'
+      name: {
+        pt: 'Coluna de Som LG XBOOM RNC5',
+        en: 'LG XBOOM RNC5 Sound Tower'
+      },
+      badge: {
+        pt: '1º PRÉMIO',
+        en: '1ST PRIZE'
+      },
+      subtitle: {
+        pt: 'Double Super Bass Boost • Luzes de Festa Multicolor • Modo DJ & Karaoke',
+        en: 'Double Super Bass Boost • Party Lighting • DJ App & Karaoke Star'
+      },
+      image: 'image/coluna_lg.png',
+      icon: '🔊'
     },
     {
       id: 2,
-      name: 'Samsung EcoBubble 8kg Washing Machine',
-      badge: 'PREMIUM PRIZE',
-      subtitle: 'AI Control • EcoBubble™ • Hygiene Steam Drum • Digital Inverter',
-      image: 'image/washing machine.png',
-      icon: '🧺'
+      name: {
+        pt: 'Fogão a Gás Prince 4 Bocas',
+        en: 'Prince 4-Burner Gas Cooker'
+      },
+      badge: {
+        pt: '2º PRÉMIO',
+        en: '2ND PRIZE'
+      },
+      subtitle: {
+        pt: 'Grelhas em Ferro Fundido • Forno com Vidro Duplo • Ignição Automática',
+        en: 'Cast Iron Grid • Double Glass Oven • Auto Ignition • Stainless Steel'
+      },
+      image: 'image/fogao_prince.png',
+      icon: '🔥'
     },
     {
       id: 3,
-      name: '1.5 Ton Inverter Air Conditioner',
-      badge: 'LUXURY PRIZE',
-      subtitle: 'Dual Inverter Compressor • 5-Star Energy • Fast Turbo Cooling',
-      image: 'image/ac.png',
+      name: {
+        pt: 'Ar-Condicionado Inverter Prince',
+        en: 'Prince Inverter Air Conditioner'
+      },
+      badge: {
+        pt: '3º PRÉMIO',
+        en: '3RD PRIZE'
+      },
+      subtitle: {
+        pt: 'Dual Inverter • Refrigeração Rápida Turbo • Alta Eficiência Energética',
+        en: 'Dual Inverter • Fast Turbo Cooling • Eco Energy Saving • Silent Mode'
+      },
+      image: 'image/ar_condicionado_prince.png',
       icon: '❄️'
     },
     {
       id: 4,
-      name: 'LG ThinQ Smart Double-Door Refrigerator',
-      badge: 'MEGA PRIZE',
-      subtitle: 'Smart Inverter • Multi Air Flow • Door Cooling+™ • Frost Free',
-      image: 'image/fridge.png',
+      name: {
+        pt: 'Geleira Prince Duas Portas',
+        en: 'Prince Double-Door Refrigerator'
+      },
+      badge: {
+        pt: 'GRANDE PRÉMIO',
+        en: 'GRAND PRIZE'
+      },
+      subtitle: {
+        pt: 'Tecnologia Frost Free • Multi Fluxo de Ar • Vidro Temperado • Baixo Consumo',
+        en: 'Smart Frost Free • Multi Air Flow • Tempered Glass • Low Energy Consumption'
+      },
+      image: 'image/geleira_prince.png',
       icon: '🧊'
     }
   ];
 
+  // Series Range: 1111 to 1360
+  const MIN_TOKEN = 1111;
+  const MAX_TOKEN = 1360;
+
   // =========================================================================
-  // 2. State & Storage
+  // 3. Application State & Storage
   // =========================================================================
-  const STORAGE_KEY = 'lottery_system_state_v3';
+  const STORAGE_KEY = 'lottery_palco_series_v4';
+  let currentLang = 'pt';
   let soundEnabled = true;
   let currentRound = 0; // 0 = Draw 1, 1 = Draw 2, 2 = Draw 3, 3 = Draw 4
   let drawnTokens = new Set();
   let winnersHistory = []; // array of { round, prize, token, formattedToken, time }
   let isSpinning = false;
   let masterRafId = null;
-  let currentReelDigits = [0, 0, 0, 0]; // Currently displayed digits on reels
+  let currentReelDigits = [1, 1, 1, 1]; // Starts on Series base 1111
+  let curtainsOpened = false;
+
+  function getLocalized(val) {
+    if (typeof val === 'object' && val !== null) {
+      return val[currentLang] || val.pt || val.en || '';
+    }
+    return val || '';
+  }
 
   // =========================================================================
-  // 3. Ultra-Fast Web Audio Synthesizer (Zero Lag, Pre-Buffered Audio)
+  // 4. Web Audio Synthesizer
   // =========================================================================
   class SoundManager {
     constructor() {
@@ -80,7 +214,6 @@
       }
     }
 
-    // Pre-generate a crisp 20ms mechanical noise click buffer (zero CPU allocation during spin)
     createClickBuffer() {
       if (!this.ctx) return;
       try {
@@ -99,11 +232,30 @@
       } catch (e) {}
     }
 
-    // Rapid mechanical click
+    playCurtainOpen() {
+      if (!soundEnabled || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(392, this.ctx.currentTime); // G4
+        osc.frequency.exponentialRampToValueAtTime(784, this.ctx.currentTime + 0.6); // G5
+
+        gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.3, this.ctx.currentTime + 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.8);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.8);
+      } catch (e) {}
+    }
+
     playTick() {
       if (!soundEnabled || !this.ctx || !this.clickBuffer) return;
       const now = performance.now();
-      if (now - this.lastTickTime < 38) return; // Strict throttle prevents audio overload
+      if (now - this.lastTickTime < 38) return;
       this.lastTickTime = now;
 
       try {
@@ -117,11 +269,10 @@
       } catch (e) {}
     }
 
-    // Heavy mechanical latch sound when each reel locks in (ascending pitch)
     playReelLock(index) {
       if (!soundEnabled || !this.ctx) return;
       try {
-        const baseFreqs = [146.83, 196.00, 246.94, 329.63]; // D3, G3, B3, E4
+        const baseFreqs = [146.83, 196.00, 246.94, 329.63];
         const freq = baseFreqs[index] || 329.63;
 
         const osc = this.ctx.createOscillator();
@@ -140,17 +291,16 @@
       } catch (e) {}
     }
 
-    // Triumphant Fanfare when winner is revealed
     playFanfare() {
       if (!soundEnabled || !this.ctx) return;
       try {
         const chords = [
-          { f: 261.63, t: 0.0, d: 0.15 }, // C4
-          { f: 329.63, t: 0.12, d: 0.15 }, // E4
-          { f: 392.00, t: 0.24, d: 0.18 }, // G4
-          { f: 523.25, t: 0.36, d: 0.45 }, // C5
-          { f: 659.25, t: 0.50, d: 0.45 }, // E5
-          { f: 783.99, t: 0.65, d: 0.90 }  // G5
+          { f: 261.63, t: 0.0, d: 0.15 },
+          { f: 329.63, t: 0.12, d: 0.15 },
+          { f: 392.00, t: 0.24, d: 0.18 },
+          { f: 523.25, t: 0.36, d: 0.45 },
+          { f: 659.25, t: 0.50, d: 0.45 },
+          { f: 783.99, t: 0.65, d: 0.90 }
         ];
 
         chords.forEach(note => {
@@ -174,7 +324,7 @@
   const audio = new SoundManager();
 
   // =========================================================================
-  // 4. Confetti Engine (Canvas Particle Physics)
+  // 5. Confetti Engine
   // =========================================================================
   class ConfettiEngine {
     constructor(canvasId) {
@@ -194,7 +344,7 @@
       this.canvas.height = window.innerHeight;
     }
 
-    start(burstCount = 140) {
+    start(burstCount = 150) {
       this.active = true;
       this.particles = [];
       for (let i = 0; i < burstCount; i++) {
@@ -271,9 +421,23 @@
   const confetti = new ConfettiEngine('confetti-canvas');
 
   // =========================================================================
-  // 5. DOM References
+  // 6. DOM Element Map
   // =========================================================================
   const dom = {
+    // Stage Curtains Welcome Screen
+    stageCurtains: document.getElementById('stage-curtains'),
+    btnOpenCurtains: document.getElementById('btn-open-curtains'),
+    btnOpenCurtainsText: document.getElementById('btn-open-curtains-text'),
+    curtainEyebrow: document.getElementById('curtain-eyebrow'),
+    titleWordPrize: document.getElementById('title-word-prize'),
+    titleWordDraw: document.getElementById('title-word-draw'),
+    curtainTitle: document.getElementById('curtain-title'),
+    curtainSubtitle: document.getElementById('curtain-subtitle'),
+    curtainSeriesText: document.getElementById('curtain-series-text'),
+    curtainHintText: document.getElementById('curtain-hint-text'),
+    btnCurtainLang: document.getElementById('btn-curtain-lang'),
+    curtainLangText: document.getElementById('curtain-lang-text'),
+
     // Navigation HUD
     topNavHud: document.getElementById('top-nav-hud'),
     navRoundText: document.getElementById('nav-round-text'),
@@ -284,19 +448,26 @@
     drawerBtnBadge: document.getElementById('drawer-btn-badge'),
     btnFullscreen: document.getElementById('btn-fullscreen'),
     fullscreenIcon: document.getElementById('fullscreen-icon'),
+    fullscreenText: document.getElementById('fullscreen-text'),
+    btnLang: document.getElementById('btn-lang'),
+    langOptPt: document.getElementById('lang-opt-pt'),
+    langOptEn: document.getElementById('lang-opt-en'),
 
-    // Stage Views
+    // Showcase View
     showcaseView: document.getElementById('showcase-view'),
-    wheelView: document.getElementById('wheel-view'),
-
-    // Showcase Elements
+    showcaseWelcomeText: document.getElementById('showcase-welcome-text'),
+    showcaseSeriesPill: document.getElementById('showcase-series-pill'),
+    seriesLabelText: document.getElementById('series-label-text'),
     showcasePrizeImg: document.getElementById('showcase-prize-img'),
     showcasePrizeBadge: document.getElementById('showcase-prize-badge'),
     showcasePrizeTitle: document.getElementById('showcase-prize-title'),
     showcasePrizeSubtitle: document.getElementById('showcase-prize-subtitle'),
 
-    // Winner Elements (Inside unified wheel stage)
+    // Wheel View & Celebratory Overlays
+    wheelView: document.getElementById('wheel-view'),
     winnerHeaderGroup: document.getElementById('winner-header-group'),
+    winnerCongratsText: document.getElementById('winner-congrats-text'),
+    winnerYouAreText: document.getElementById('winner-youare-text'),
     winnerFlankLeft: document.getElementById('winner-flank-left'),
     winnerFlankRight: document.getElementById('winner-flank-right'),
     winnerFlankImgLeft: document.getElementById('winner-flank-img-left'),
@@ -305,7 +476,8 @@
     winnerLaurelBadgeTag: document.getElementById('winner-laurel-badge-tag'),
     winnerLaurelTitle: document.getElementById('winner-laurel-title'),
 
-    // Roller Reels (The authoritative single cylinder)
+    // Unified 4-Reel Cylinder
+    mainTokenCylinder: document.getElementById('main-token-cylinder'),
     reelStrips: [
       document.getElementById('reel-strip-0'),
       document.getElementById('reel-strip-1'),
@@ -321,37 +493,62 @@
 
     // Bottom Action Buttons
     btnSpinWheel: document.getElementById('btn-spin-wheel'),
+    spinBtnText: document.getElementById('spin-btn-text'),
     btnNextDraw: document.getElementById('btn-next-draw'),
+    nextDrawBtnText: document.getElementById('next-draw-btn-text'),
     btnFinalSummary: document.getElementById('btn-final-summary'),
+    viewWinnersBtnText: document.getElementById('view-winners-btn-text'),
 
-    // Drawer Elements
+    // Winners Drawer
     drawerBackdrop: document.getElementById('drawer-backdrop'),
     winnersDrawer: document.getElementById('winners-drawer'),
+    drawerTitleText: document.getElementById('drawer-title-text'),
     btnCloseDrawer: document.getElementById('btn-close-drawer'),
     drawerWinnersList: document.getElementById('drawer-winners-list'),
     btnCopyWinners: document.getElementById('btn-copy-winners'),
     btnResetSession: document.getElementById('btn-reset-session'),
 
-    // Finale Modal Elements
+    // Finale Summary Modal
     finaleModal: document.getElementById('finale-modal'),
+    finaleTitleText: document.getElementById('finale-title-text'),
+    finaleSubtitleText: document.getElementById('finale-subtitle-text'),
     finaleGrid: document.getElementById('finale-grid'),
     btnFinaleClose: document.getElementById('btn-finale-close'),
     btnFinaleRestart: document.getElementById('btn-finale-restart')
   };
 
   // =========================================================================
-  // 6. Token Generation & Strip Builder
+  // 7. Curtain Welcome Stage Controller
   // =========================================================================
+  function openCurtains() {
+    if (curtainsOpened) return;
+    audio.init();
+    audio.playCurtainOpen();
+    curtainsOpened = true;
+    if (dom.stageCurtains) {
+      dom.stageCurtains.classList.add('curtains-opened');
+    }
+  }
 
-  // Generate unique token from 1 to 9999
+  function closeCurtains() {
+    curtainsOpened = false;
+    if (dom.stageCurtains) {
+      dom.stageCurtains.classList.remove('curtains-opened');
+    }
+  }
+
+  // =========================================================================
+  // 8. Series No 1111 - 1360 Token Generation
+  // =========================================================================
   function generateWinningToken() {
-    if (drawnTokens.size >= 9999) {
-      alert('All tokens from 1 to 9999 have already won!');
-      return 1;
+    const totalPossible = MAX_TOKEN - MIN_TOKEN + 1; // 250 tokens
+    if (drawnTokens.size >= totalPossible) {
+      alert(I18N[currentLang].allDrawnAlert);
+      return MIN_TOKEN;
     }
     let candidate;
     do {
-      candidate = Math.floor(Math.random() * 9999) + 1;
+      candidate = Math.floor(Math.random() * totalPossible) + MIN_TOKEN;
     } while (drawnTokens.has(candidate));
 
     drawnTokens.add(candidate);
@@ -362,7 +559,6 @@
     return String(num).padStart(4, '0');
   }
 
-  // Build sequential drum strip that starts on `start_d` and ends cleanly on `target_d`
   function generateStripSequence(start_d, target_d, min_digits) {
     const curr_end = (start_d + min_digits - 1) % 10;
     const diff = (target_d - curr_end + 10) % 10;
@@ -374,7 +570,6 @@
     return digits;
   }
 
-  // Set up initial reel view displaying currentReelDigits
   function renderStaticReels() {
     dom.reelStrips.forEach((strip, idx) => {
       strip.innerHTML = '';
@@ -391,33 +586,21 @@
   }
 
   // =========================================================================
-  // 7. Mechanical Deceleration Physics Model
+  // 9. Mechanical Deceleration Physics Model
   // =========================================================================
-  /**
-   * Calculates continuous position with smooth cubic braking:
-   * Phase 1: High speed constant spin (0 to t_spin)
-   * Phase 2: Deceleration from v0 to 0 with gradual visible digit steps (t_spin to t_total)
-   * Phase 3: Subtle tactile spring settle into the notch
-   */
   function calculateReelPosition(t, t_spin, t_decel, D_total) {
     const denom = t_spin + (1.0 / 3.0) * t_decel;
     const v0 = D_total / denom;
     const t_total = t_spin + t_decel;
 
-    if (t <= 0) {
-      return 0;
-    }
-    if (t <= t_spin) {
-      return v0 * t;
-    }
+    if (t <= 0) return 0;
+    if (t <= t_spin) return v0 * t;
     if (t < t_total) {
       const tau = (t - t_spin) / t_decel;
-      // Integral of v0 * (1 - tau)^2 = v0 * t_decel * (tau - tau^2 + (tau^3)/3)
       const d_decel = v0 * t_decel * (tau - Math.pow(tau, 2) + Math.pow(tau, 3) / 3.0);
       return v0 * t_spin + d_decel;
     }
 
-    // Micro-bounce spring settle (180ms after locking)
     const settleElapsed = t - t_total;
     if (settleElapsed < 0.18) {
       const s = settleElapsed / 0.18;
@@ -429,14 +612,14 @@
   }
 
   // =========================================================================
-  // 8. Core Draw Animation Workflow (Unified Single Cylinder)
+  // 10. Core Draw Animation Workflow
   // =========================================================================
   function startDraw() {
     if (isSpinning) return;
     audio.init();
     isSpinning = true;
 
-    // Pick winning token (e.g. 8954 -> ['8', '9', '5', '4'])
+    // Pick unique winning token from Series 1111 - 1360
     const winningToken = generateWinningToken();
     const tokenStr = formatToken(winningToken);
     const targetDigits = tokenStr.split('').map(Number);
@@ -445,24 +628,17 @@
     dom.showcaseView.style.display = 'none';
     dom.wheelView.style.display = 'flex';
 
-    // Hide winner celebration layers while spinning
+    // Hide celebration layers during active spin
     dom.winnerHeaderGroup.style.display = 'none';
     dom.winnerFlankLeft.style.display = 'none';
     dom.winnerFlankRight.style.display = 'none';
     dom.winnerLaurelBadge.style.display = 'none';
     dom.btnSpinWheel.disabled = true;
 
-    // Wait 1 animation frame so DOM has completed layout and rendered height is exact
     requestAnimationFrame(() => {
-      // Read exact rendered digit height from slot clientHeight
       const slot = dom.reelSlots[0];
       const digitHeight = slot.clientHeight || 168;
 
-      // Reel configs with staggered deceleration:
-      // Reel 0 (Thousands): locks at ~3.2s
-      // Reel 1 (Hundreds): locks at ~4.5s
-      // Reel 2 (Tens): locks at ~5.9s
-      // Reel 3 (Ones - THE FINALE!): locks at ~7.8s after slow crawl
       const reelConfigs = [
         { minDigits: 36, t_spin: 1.6, t_decel: 1.6 },
         { minDigits: 52, t_spin: 2.6, t_decel: 1.9 },
@@ -477,7 +653,6 @@
         const totalDistance = (digitsSequence.length - 1) * digitHeight;
         const totalTime = cfg.t_spin + cfg.t_decel;
 
-        // Populate DOM reel strip
         const strip = dom.reelStrips[i];
         strip.innerHTML = '';
         const fragment = document.createDocumentFragment();
@@ -511,7 +686,6 @@
 
       const startTime = performance.now();
 
-      // Unified Master Animation Loop
       function animationLoop(now) {
         const elapsedSec = (now - startTime) / 1000;
         let allLocked = true;
@@ -522,17 +696,14 @@
             const currentY = calculateReelPosition(elapsedSec, r.t_spin, r.t_decel, r.totalDistance);
             r.strip.style.transform = `translate3d(0, -${currentY.toFixed(1)}px, 0)`;
 
-            // Play tick when a digit threshold is crossed
             const currentPassed = Math.floor(currentY / digitHeight);
             if (currentPassed > r.lastPassedDigit) {
               r.lastPassedDigit = currentPassed;
               audio.playTick();
             }
 
-            // Check if reel completed
             if (elapsedSec >= r.totalTime + 0.18) {
               r.isLocked = true;
-              // Snap with 0.0px error exactly to target distance
               r.strip.style.transform = `translate3d(0, -${r.totalDistance}px, 0)`;
               r.slot.classList.remove('is-spinning');
               r.slot.classList.add('is-locked');
@@ -546,10 +717,8 @@
         if (!allLocked) {
           masterRafId = requestAnimationFrame(animationLoop);
         } else {
-          // All 4 reels stopped on the exact target digits!
           currentReelDigits = [...targetDigits];
 
-          // Suspenseful 600ms breath before celebration reveals
           setTimeout(() => {
             completeDraw(winningToken, tokenStr);
           }, 650);
@@ -576,11 +745,10 @@
     winnersHistory.push(record);
     saveState();
 
-    // Populate flanking prizes and plaque details
+    // Populate flanking prizes and award plaque details
     dom.winnerFlankImgLeft.src = currentPrize.image;
     dom.winnerFlankImgRight.src = currentPrize.image;
-    if (dom.winnerLaurelBadgeTag) dom.winnerLaurelBadgeTag.textContent = currentPrize.badge;
-    if (dom.winnerLaurelTitle) dom.winnerLaurelTitle.textContent = currentPrize.name;
+    updateAwardPlaqueText();
 
     // Reveal winner elements around the existing cylinder!
     dom.winnerHeaderGroup.style.display = 'flex';
@@ -596,7 +764,7 @@
     dom.btnSpinWheel.style.display = 'none';
     if (currentRound < 3) {
       dom.btnNextDraw.style.display = 'inline-flex';
-      dom.btnNextDraw.querySelector('span:first-child').textContent = `CLAIM & NEXT DRAW (${currentRound + 2}/4)`;
+      updateActionButtonsText();
     } else {
       dom.btnNextDraw.style.display = 'none';
       dom.btnFinalSummary.style.display = 'inline-flex';
@@ -606,7 +774,31 @@
     renderWinnersDrawer();
   }
 
-  // Move to next draw (e.g. Draw 2, Draw 3, Draw 4)
+  function updateAwardPlaqueText() {
+    const currentPrize = PRIZES[currentRound];
+    if (!currentPrize) return;
+    if (dom.winnerLaurelBadgeTag) {
+      dom.winnerLaurelBadgeTag.textContent = getLocalized(currentPrize.badge);
+    }
+    if (dom.winnerLaurelTitle) {
+      dom.winnerLaurelTitle.textContent = getLocalized(currentPrize.name);
+    }
+  }
+
+  function updateActionButtonsText() {
+    const t = I18N[currentLang];
+    if (dom.spinBtnText) {
+      dom.spinBtnText.textContent = t.spinWheel;
+    }
+    if (dom.nextDrawBtnText) {
+      dom.nextDrawBtnText.textContent = t.claimNextDraw(currentRound + 2);
+    }
+    if (dom.viewWinnersBtnText) {
+      dom.viewWinnersBtnText.textContent = t.viewAllWinners;
+    }
+  }
+
+  // Move to next draw (Draw 2, Draw 3, Draw 4)
   function nextDraw() {
     if (currentRound < 3) {
       currentRound++;
@@ -636,24 +828,29 @@
   // Update showcase view with current prize details
   function setupShowcaseForCurrentRound() {
     const prize = PRIZES[currentRound];
+    if (!prize) return;
     dom.showcasePrizeImg.src = prize.image;
-    dom.showcasePrizeBadge.textContent = prize.badge;
-    dom.showcasePrizeTitle.textContent = prize.name;
-    dom.showcasePrizeSubtitle.textContent = prize.subtitle;
+    dom.showcasePrizeBadge.textContent = getLocalized(prize.badge);
+    dom.showcasePrizeTitle.textContent = getLocalized(prize.name);
+    dom.showcasePrizeSubtitle.textContent = getLocalized(prize.subtitle);
   }
 
   // Update top navigation bar
   function updateNavigationStatus() {
-    const prize = PRIZES[currentRound];
-    if (dom.navRoundText) dom.navRoundText.textContent = `DRAW ${currentRound + 1} OF 4`;
-    if (dom.navPrizeName) dom.navPrizeName.textContent = prize ? `${prize.icon} ${prize.name}` : 'Draw Completed';
-    if (dom.drawerBtnBadge) dom.drawerBtnBadge.textContent = `Winners (${winnersHistory.length}/4)`;
+    const t = I18N[currentLang];
+    if (dom.navRoundText) {
+      dom.navRoundText.textContent = t.drawOf(currentRound + 1, 4);
+    }
+    if (dom.drawerBtnBadge) {
+      dom.drawerBtnBadge.textContent = t.winnersCount(winnersHistory.length, 4);
+    }
   }
 
   // =========================================================================
-  // 9. Winners Drawer & Finale Modals
+  // 11. Winners Drawer & Finale Modals
   // =========================================================================
   function renderWinnersDrawer() {
+    const t = I18N[currentLang];
     dom.drawerWinnersList.innerHTML = '';
 
     PRIZES.forEach((prize, idx) => {
@@ -663,15 +860,15 @@
 
       card.innerHTML = `
         <div class="winner-card-thumb">
-          <img src="${prize.image}" alt="${prize.name}" />
+          <img src="${prize.image}" alt="${getLocalized(prize.name)}" />
         </div>
         <div class="winner-card-info">
-          <div class="winner-card-round">DRAW ${idx + 1} • ${prize.badge}</div>
-          <div class="winner-card-title">${prize.name}</div>
+          <div class="winner-card-round">${t.drawOf(idx + 1, 4)} • ${getLocalized(prize.badge)}</div>
+          <div class="winner-card-title">${getLocalized(prize.name)}</div>
           ${
             winner
-              ? `<div class="winner-card-token">🎟️ TOKEN: #${winner.formattedToken}</div>`
-              : `<div class="winner-card-status-pending">Awaiting Draw...</div>`
+              ? `<div class="winner-card-token">${t.drawerTokenLabel} #${winner.formattedToken}</div>`
+              : `<div class="winner-card-status-pending">${t.drawerAwaiting}</div>`
           }
         </div>
       `;
@@ -691,6 +888,7 @@
   }
 
   function showFinalSummary() {
+    const t = I18N[currentLang];
     dom.finaleGrid.innerHTML = '';
 
     PRIZES.forEach((prize, idx) => {
@@ -699,11 +897,11 @@
       item.className = 'finale-winner-item';
 
       item.innerHTML = `
-        <div class="finale-item-badge">DRAW ${idx + 1} • ${prize.badge}</div>
+        <div class="finale-item-badge">${t.drawOf(idx + 1, 4)} • ${getLocalized(prize.badge)}</div>
         <div class="finale-thumb">
-          <img src="${prize.image}" alt="${prize.name}" />
+          <img src="${prize.image}" alt="${getLocalized(prize.name)}" />
         </div>
-        <div class="finale-item-title">${prize.name}</div>
+        <div class="finale-item-title">${getLocalized(prize.name)}</div>
         <div class="finale-item-token">🎟️ #${winner ? winner.formattedToken : '----'}</div>
       `;
       dom.finaleGrid.appendChild(item);
@@ -714,20 +912,21 @@
   }
 
   function copyWinnersList() {
+    const t = I18N[currentLang];
     if (winnersHistory.length === 0) {
-      alert('No winners drawn yet!');
+      alert(t.noWinnersYet);
       return;
     }
 
-    let text = '🏆 MEGA LOTTERY DRAW WINNERS 🏆\n==============================\n\n';
+    let text = t.copyReportHeader;
     winnersHistory.forEach(w => {
-      text += `• Draw ${w.round}: ${w.prize.name}\n  Winner Token: #${w.formattedToken} (Time: ${w.time})\n\n`;
+      text += `• ${t.drawOf(w.round, 4)}: ${getLocalized(w.prize.name)}\n  ${t.drawerTokenLabel} #${w.formattedToken} (${w.time})\n\n`;
     });
-    text += 'Congratulations to all winning tokens!';
+    text += t.copyReportFooter;
 
     navigator.clipboard.writeText(text).then(() => {
       const originalText = dom.btnCopyWinners.textContent;
-      dom.btnCopyWinners.textContent = '✅ Copied to Clipboard!';
+      dom.btnCopyWinners.textContent = t.copySuccess;
       setTimeout(() => {
         dom.btnCopyWinners.textContent = originalText;
       }, 2500);
@@ -737,9 +936,8 @@
   }
 
   function resetSession() {
-    const confirmReset = confirm(
-      'Are you sure you want to reset the entire lottery draw session? All current winning tokens will be cleared.'
-    );
+    const t = I18N[currentLang];
+    const confirmReset = confirm(t.resetConfirm);
     if (!confirmReset) return;
 
     if (masterRafId) {
@@ -752,7 +950,7 @@
     drawnTokens.clear();
     winnersHistory = [];
     isSpinning = false;
-    currentReelDigits = [0, 0, 0, 0];
+    currentReelDigits = [1, 1, 1, 1];
     confetti.stop();
 
     dom.finaleModal.classList.remove('active');
@@ -773,16 +971,78 @@
     dom.btnSpinWheel.style.display = 'inline-block';
     dom.btnSpinWheel.disabled = false;
 
+    // Reset curtains to closed state for a fresh opening ceremony
+    closeCurtains();
+
     updateNavigationStatus();
+    updateActionButtonsText();
     renderWinnersDrawer();
   }
 
   // =========================================================================
-  // 10. State Persistence (LocalStorage)
+  // 12. Complete Bilingual Language Switching
+  // =========================================================================
+  function applyLanguage() {
+    const t = I18N[currentLang];
+
+    // Curtain elements
+    if (dom.curtainEyebrow) dom.curtainEyebrow.textContent = t.curtainEyebrow;
+    if (dom.titleWordPrize) dom.titleWordPrize.textContent = t.curtainTitleW1;
+    if (dom.titleWordDraw) dom.titleWordDraw.textContent = t.curtainTitleW2;
+    if (dom.curtainSubtitle) dom.curtainSubtitle.textContent = t.curtainSubtitle;
+    if (dom.btnOpenCurtainsText) dom.btnOpenCurtainsText.textContent = t.curtainButton;
+    if (dom.curtainHintText) dom.curtainHintText.textContent = t.curtainHint;
+    if (dom.curtainLangText) dom.curtainLangText.textContent = t.curtainLangBtn;
+    if (dom.curtainSeriesText) dom.curtainSeriesText.textContent = t.seriesLabel;
+
+    // Top HUD language pill indicators
+    if (dom.langOptPt) dom.langOptPt.classList.toggle('active', currentLang === 'pt');
+    if (dom.langOptEn) dom.langOptEn.classList.toggle('active', currentLang === 'en');
+
+    // Showcase View
+    if (dom.showcaseWelcomeText) dom.showcaseWelcomeText.textContent = t.welcomeTitle;
+    if (dom.seriesLabelText) dom.seriesLabelText.textContent = t.seriesLabel;
+
+    // Winner View
+    if (dom.winnerCongratsText) dom.winnerCongratsText.textContent = t.congrats;
+    if (dom.winnerYouAreText) dom.winnerYouAreText.textContent = t.youAreWinner;
+
+    // Drawer & Modals
+    if (dom.drawerTitleText) dom.drawerTitleText.textContent = t.drawerTitle;
+    if (dom.btnCopyWinners) dom.btnCopyWinners.textContent = t.copyWinners;
+    if (dom.btnResetSession) dom.btnResetSession.textContent = t.resetSession;
+    if (dom.finaleTitleText) dom.finaleTitleText.textContent = t.summaryTitle;
+    if (dom.finaleSubtitleText) dom.finaleSubtitleText.textContent = t.summarySubtitle;
+    if (dom.btnFinaleClose) dom.btnFinaleClose.textContent = t.closeSummary;
+    if (dom.btnFinaleRestart) dom.btnFinaleRestart.textContent = t.startNewLottery;
+
+    // Sub-components
+    updateSoundButton();
+    updateFullscreenButton();
+    updateNavigationStatus();
+    updateActionButtonsText();
+    setupShowcaseForCurrentRound();
+    updateAwardPlaqueText();
+    renderWinnersDrawer();
+
+    if (dom.finaleModal && dom.finaleModal.classList.contains('active')) {
+      showFinalSummary();
+    }
+  }
+
+  function toggleLanguage() {
+    currentLang = currentLang === 'pt' ? 'en' : 'pt';
+    saveState();
+    applyLanguage();
+  }
+
+  // =========================================================================
+  // 13. State Persistence (LocalStorage)
   // =========================================================================
   function saveState() {
     try {
       const payload = {
+        currentLang,
         currentRound,
         drawnTokens: Array.from(drawnTokens),
         winnersHistory,
@@ -799,6 +1059,9 @@
       if (!raw) return;
       const data = JSON.parse(raw);
 
+      if (data.currentLang && I18N[data.currentLang]) {
+        currentLang = data.currentLang;
+      }
       if (Array.isArray(data.drawnTokens)) {
         drawnTokens = new Set(data.drawnTokens);
       }
@@ -810,7 +1073,6 @@
       }
       if (typeof data.soundEnabled === 'boolean') {
         soundEnabled = data.soundEnabled;
-        updateSoundButton();
       }
 
       if (winnersHistory.length >= 4) {
@@ -830,7 +1092,7 @@
   }
 
   // =========================================================================
-  // 11. Sound & Fullscreen Controls
+  // 14. Sound & Fullscreen Controls
   // =========================================================================
   function toggleSound() {
     soundEnabled = !soundEnabled;
@@ -839,39 +1101,66 @@
   }
 
   function updateSoundButton() {
+    const t = I18N[currentLang];
     dom.soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
-    dom.soundText.textContent = soundEnabled ? 'Sound On' : 'Muted';
+    dom.soundText.textContent = soundEnabled ? t.soundOn : t.soundMuted;
+  }
+
+  function updateFullscreenButton() {
+    const t = I18N[currentLang];
+    if (document.fullscreenElement) {
+      dom.fullscreenIcon.textContent = '🗗';
+      if (dom.fullscreenText) dom.fullscreenText.textContent = t.exitFullScreen;
+    } else {
+      dom.fullscreenIcon.textContent = '⛶';
+      if (dom.fullscreenText) dom.fullscreenText.textContent = t.fullScreen;
+    }
   }
 
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
-      dom.fullscreenIcon.textContent = '🗗';
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
-      dom.fullscreenIcon.textContent = '⛶';
     }
+    setTimeout(updateFullscreenButton, 100);
   }
 
   // =========================================================================
-  // 12. Event Listeners & Bootstrap
+  // 15. Event Listeners & Bootstrap
   // =========================================================================
   function attachEvents() {
+    // Curtain open actions
+    if (dom.btnOpenCurtains) {
+      dom.btnOpenCurtains.addEventListener('click', openCurtains);
+    }
+    if (dom.btnCurtainLang) {
+      dom.btnCurtainLang.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleLanguage();
+      });
+    }
+
+    // Stage action buttons
     dom.btnSpinWheel.addEventListener('click', startDraw);
     dom.btnNextDraw.addEventListener('click', nextDraw);
     dom.btnFinalSummary.addEventListener('click', showFinalSummary);
 
+    // Top HUD buttons
     dom.btnSound.addEventListener('click', toggleSound);
     dom.btnFullscreen.addEventListener('click', toggleFullscreen);
+    if (dom.btnLang) dom.btnLang.addEventListener('click', toggleLanguage);
 
+    // Drawer buttons
     dom.btnOpenDrawer.addEventListener('click', () => toggleDrawer(true));
     dom.btnCloseDrawer.addEventListener('click', () => toggleDrawer(false));
     dom.drawerBackdrop.addEventListener('click', () => toggleDrawer(false));
     dom.btnCopyWinners.addEventListener('click', copyWinnersList);
     dom.btnResetSession.addEventListener('click', resetSession);
 
+    // Finale modal buttons
     dom.btnFinaleClose.addEventListener('click', () => {
       dom.finaleModal.classList.remove('active');
     });
@@ -883,13 +1172,30 @@
       }
     }
 
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
+
     window.addEventListener('keydown', e => {
-      if (e.code === 'Space' && !isSpinning && dom.showcaseView.style.display !== 'none') {
+      // Space key handling
+      if (e.code === 'Space') {
+        if (!curtainsOpened) {
+          e.preventDefault();
+          openCurtains();
+          return;
+        }
+        if (!isSpinning && dom.showcaseView.style.display !== 'none') {
+          e.preventDefault();
+          startDraw();
+        }
+      }
+      if (e.code === 'Enter' && !curtainsOpened) {
         e.preventDefault();
-        startDraw();
+        openCurtains();
       }
       if (e.key === 'f' || e.key === 'F') {
         toggleTopNav();
+      }
+      if (e.key === 'l' || e.key === 'L') {
+        toggleLanguage();
       }
       if (e.code === 'Escape') {
         toggleDrawer(false);
@@ -899,13 +1205,16 @@
   }
 
   function init() {
-    renderStaticReels();
-    setupShowcaseForCurrentRound();
-    updateNavigationStatus();
-    renderWinnersDrawer();
-    attachEvents();
     loadState();
-    updateSoundButton();
+    renderStaticReels();
+    applyLanguage();
+    attachEvents();
+
+    // Curtains always remain closed on load until explicitly opened by user click or Space/Enter
+    curtainsOpened = false;
+    if (dom.stageCurtains) {
+      dom.stageCurtains.classList.remove('curtains-opened');
+    }
   }
 
   if (document.readyState === 'loading') {

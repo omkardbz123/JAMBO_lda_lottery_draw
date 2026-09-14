@@ -18,25 +18,106 @@
   <div id="app-container">
     <div class="stage-atmosphere"></div>
 
+    <!-- Grand Theatrical Curtain Welcome Screen -->
+    <div id="stage-curtains" class="stage-curtains">
+      <!-- Left Curtain Panel -->
+      <div class="curtain-panel curtain-left" id="curtain-left">
+        <div class="curtain-folds"></div>
+        <div class="curtain-edge-shadow"></div>
+      </div>
+
+      <!-- Right Curtain Panel -->
+      <div class="curtain-panel curtain-right" id="curtain-right">
+        <div class="curtain-folds"></div>
+        <div class="curtain-edge-shadow"></div>
+      </div>
+
+      <!-- Top Valance Drapery with Gold Trim -->
+      <div class="curtain-valance">
+        <div class="valance-swags"></div>
+        <div class="valance-gold-fringe"></div>
+      </div>
+
+      <!-- Center Opening Card (Matching User Design) -->
+      <div class="curtain-center-card" id="curtain-center-card">
+        <!-- Brand Logos Header -->
+        <div class="curtain-brands-header">
+          <img src="image/user_brands_header_2x.png" alt="ENOC Lubrificantes - JAMBO Lda" class="curtain-brands-img">
+        </div>
+
+        <!-- Title Block -->
+        <div class="curtain-title-block">
+          <span class="curtain-eyebrow" id="curtain-eyebrow">BEM-VINDOS AO</span>
+          <div class="curtain-main-title-wrap">
+            <h1 class="curtain-main-title" id="curtain-title">
+              <span class="title-word-prize" id="title-word-prize">SORTEIO</span>
+              <span class="title-word-draw" id="title-word-draw">DE PRÉMIOS</span>
+            </h1>
+            <span class="title-lens-flare"></span>
+          </div>
+          <p class="curtain-sub-title" id="curtain-subtitle">GRANDE SORTEIO OFICIAL DE PRÉMIOS EXCLUSIVOS</p>
+          <div class="curtain-gold-divider"></div>
+        </div>
+
+        <!-- Series Pill -->
+        <div class="curtain-series-pill" id="curtain-series-pill">
+          <span class="series-icon">🎟️</span>
+          <span id="curtain-series-text">SÉRIE Nº: 1111 — 1360</span>
+        </div>
+
+        <!-- Open Stage Action Button -->
+        <button id="btn-open-curtains" class="btn-open-curtains">
+          <svg class="btn-svg-gift" viewBox="0 0 24 24" width="21" height="21" fill="currentColor">
+            <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.65-.5-.65C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1h-2.22l.8-1.07c.33-.44.86-.73 1.42-.73zM9 4c.56 0 1.09.29 1.42.73L11.22 6H9c-.55 0-1-.45-1-1s.45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76V14h2V8.76L15.38 12 17 10.83 14.92 8H20v6z"/>
+          </svg>
+          <span id="btn-open-curtains-text">ABRIR O PALCO</span>
+          <svg class="btn-svg-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+        <!-- Keyboard Hint -->
+        <p class="curtain-hint" id="curtain-hint-text">Pressione ESPAÇO ou clique para iniciar</p>
+
+        <!-- Language Switcher -->
+        <div class="curtain-lang-selector">
+          <button id="btn-curtain-lang" class="curtain-lang-btn" title="Mudar Idioma / Switch Language">
+            <span>🌐</span>
+            <span id="curtain-lang-text">Mudar para Inglês (EN)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Centered Stage HUD Controls (Toggleable via 'F' key) -->
     <header id="top-nav-hud" class="top-nav-hud">
       <div class="hud-capsule">
         <div class="round-pill">
           <span class="pulse-dot"></span>
-          <span id="nav-round-text">DRAW 1 OF 4</span>
+          <span id="nav-round-text">SORTEIO 1 DE 4</span>
         </div>
         <div class="hud-divider"></div>
-        <button id="btn-sound" class="hud-btn" title="Toggle Sound">
+        <button id="btn-sound" class="hud-btn" title="Alternar Som / Toggle Sound">
           <span id="sound-icon">🔊</span>
-          <span id="sound-text">Sound</span>
+          <span id="sound-text">Som Ligado</span>
         </button>
-        <button id="btn-open-drawer" class="hud-btn" title="View Winners Board">
+        <button id="btn-open-drawer" class="hud-btn" title="Ver Vencedores / View Winners">
           <span>🏆</span>
-          <span id="drawer-btn-badge">Winners (0/4)</span>
+          <span id="drawer-btn-badge">Vencedores (0/4)</span>
         </button>
-        <button id="btn-fullscreen" class="hud-btn" title="Toggle Fullscreen">
+        <button id="btn-fullscreen" class="hud-btn" title="Ecrã Inteiro / Fullscreen">
           <span id="fullscreen-icon">⛶</span>
-          <span>Full</span>
+          <span id="fullscreen-text">Ecrã</span>
+        </button>
+        <div class="hud-divider"></div>
+        <button id="btn-lang" class="hud-btn lang-btn" title="Mudar Idioma / Switch Language">
+          <span class="btn-icon">🌐</span>
+          <span class="lang-pill">
+            <span id="lang-opt-pt" class="lang-opt active">PT</span>
+            <span class="lang-sep">|</span>
+            <span id="lang-opt-en" class="lang-opt">EN</span>
+          </span>
         </button>
       </div>
     </header>
@@ -47,15 +128,23 @@
 
         <!-- STATE 1: Starting UI Showcase (matches starting.png) -->
         <section id="showcase-view" class="showcase-view">
+          <div class="showcase-welcome-header">
+            <h2 class="welcome-heading" id="showcase-welcome-text">Bem-vindos ao Sorteio de Prémios</h2>
+            <div class="series-range-pill" id="showcase-series-pill">
+              <span class="series-icon">🎟️</span>
+              <span class="series-text" id="series-label-text">Série Nº: 1111 — 1360</span>
+            </div>
+          </div>
+
           <div class="prize-display-card">
             <div class="prize-image-wrapper">
-              <img id="showcase-prize-img" src="image/tv.png" alt="Current Prize" />
+              <img id="showcase-prize-img" src="image/coluna_lg.png" alt="Current Prize" />
               <div class="podium-light-ring"></div>
             </div>
             <div class="prize-info-panel">
-              <div class="prize-badge-tag" id="showcase-prize-badge">GRAND PRIZE</div>
-              <h1 class="prize-title-text" id="showcase-prize-title">Samsung 65" 4K UHD Smart TV</h1>
-              <p class="prize-subtitle-text" id="showcase-prize-subtitle">4K UHD Resolution • HDR10+ • Dynamic Crystal Color</p>
+              <div class="prize-badge-tag" id="showcase-prize-badge">1º PRÉMIO</div>
+              <h1 class="prize-title-text" id="showcase-prize-title">Coluna de Som LG XBOOM RNC5</h1>
+              <p class="prize-subtitle-text" id="showcase-prize-subtitle">Double Super Bass Boost • Luzes de Festa Multicolor • Modo DJ &amp; Karaoke</p>
             </div>
           </div>
         </section>
@@ -64,15 +153,14 @@
         <section id="wheel-view" class="wheel-view" style="display: none;">
           <!-- Winner Header (Hidden during spin, animated in when reels lock) -->
           <div id="winner-header-group" class="winner-header-group" style="display: none;">
-            <div class="congrats-script">Congratulations!</div>
-            <div class="ribbon-banner">YOU ARE THE</div>
-            <div class="winner-3d-text">WINNER</div>
+            <div class="congrats-script" id="winner-congrats-text">Parabéns!</div>
+            <div class="winner-3d-text" id="winner-youare-text">É O VENCEDOR!</div>
           </div>
 
           <!-- Wheel Center Row with Flanking Prizes for Winner Celebration -->
           <div class="wheel-stage-row">
             <div id="winner-flank-left" class="flank-prize flank-left" style="display: none;">
-              <img id="winner-flank-img-left" src="image/tv.png" alt="Prize Left" />
+              <img id="winner-flank-img-left" src="image/coluna_lg.png" alt="Prize Left" />
             </div>
 
             <!-- The Unified Token Cylinder Container -->
@@ -98,7 +186,7 @@
             </div>
 
             <div id="winner-flank-right" class="flank-prize flank-right" style="display: none;">
-              <img id="winner-flank-img-right" src="image/tv.png" alt="Prize Right" />
+              <img id="winner-flank-img-right" src="image/coluna_lg.png" alt="Prize Right" />
             </div>
           </div>
 
@@ -114,8 +202,8 @@
             </svg>
 
             <div class="plaque-center-content">
-              <span class="plaque-badge-tag" id="winner-laurel-badge-tag">PREMIUM PRIZE</span>
-              <span class="plaque-prize-title" id="winner-laurel-title">Samsung EcoBubble 8kg Washing Machine</span>
+              <span class="plaque-badge-tag" id="winner-laurel-badge-tag">1º PRÉMIO</span>
+              <span class="plaque-prize-title" id="winner-laurel-title">Coluna de Som LG XBOOM RNC5</span>
             </div>
 
             <!-- Right Gold Laurel Wreath SVG (Mirrored) -->
@@ -134,20 +222,20 @@
 
     <!-- Bottom Action Bar with Glowing Buttons -->
     <footer class="bottom-action-bar">
-      <!-- Starting State Action: SPIN THE WHEEL (matches starting.png) -->
+      <!-- Starting State Action: SPIN THE WHEEL -->
       <button id="btn-spin-wheel" class="btn-spin-wheel">
-        SPIN THE WHEEL
+        <span id="spin-btn-text">Gire a Roda</span>
       </button>
 
       <!-- Winner State Action: NEXT DRAW -->
       <button id="btn-next-draw" class="btn-next-draw" style="display: none;">
-        <span>CLAIM &amp; NEXT DRAW</span>
+        <span id="next-draw-btn-text">Levantar o Prémio e Próxima Rodada (2/4)</span>
         <span>❯</span>
       </button>
 
       <!-- Final State Action: VIEW ALL WINNERS -->
       <button id="btn-final-summary" class="btn-next-draw" style="display: none;">
-        <span>🏆 VIEW ALL WINNERS</span>
+        <span id="view-winners-btn-text">🏆 Ver todos os Vencedores</span>
       </button>
     </footer>
   </div>
@@ -158,9 +246,9 @@
     <div class="drawer-header">
       <h2 class="drawer-title">
         <span>🏆</span>
-        <span>Lottery Draw Results</span>
+        <span id="drawer-title-text">Resultados do Sorteio</span>
       </h2>
-      <button id="btn-close-drawer" class="btn-close-drawer" title="Close Drawer">&times;</button>
+      <button id="btn-close-drawer" class="btn-close-drawer" title="Fechar / Close">&times;</button>
     </div>
 
     <div class="drawer-content" id="drawer-winners-list">
@@ -169,10 +257,10 @@
 
     <div class="drawer-footer">
       <button id="btn-copy-winners" class="btn-drawer-action">
-        📋 Copy Winners List
+        📋 Copiar Lista de Vencedores
       </button>
       <button id="btn-reset-session" class="btn-drawer-action danger">
-        🔄 Reset Entire Draw Session
+        🔄 Reiniciar Sessão
       </button>
     </div>
   </aside>
@@ -180,19 +268,19 @@
   <!-- Grand Finale Summary Modal -->
   <div id="finale-modal" class="modal-overlay">
     <div class="finale-card">
-      <h2 class="finale-title">LOTTERY DRAW COMPLETE!</h2>
-      <p class="finale-subtitle">All 4 exclusive prizes have been successfully awarded to winning tokens.</p>
+      <h2 class="finale-title" id="finale-title-text">Sorteio Concluído !</h2>
+      <p class="finale-subtitle" id="finale-subtitle-text">Os 4 Prémios Exclusivos foram Atribuídos com Sucesso aos números Vencedores</p>
 
       <div class="finale-grid" id="finale-grid">
         <!-- Injected via script.js -->
       </div>
 
-      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-        <button id="btn-finale-close" class="nav-icon-btn" style="padding: 12px 28px; font-size: 1rem;">
-          Close Summary
+      <div class="finale-actions">
+        <button id="btn-finale-close" class="btn-finale-close">
+          ✕ Fechar Resumo
         </button>
-        <button id="btn-finale-restart" class="btn-next-draw" style="padding: 12px 32px; font-size: 1rem;">
-          🔄 Start New Lottery
+        <button id="btn-finale-restart" class="btn-finale-restart">
+          🔄 Iniciar Novo Sorteio
         </button>
       </div>
     </div>

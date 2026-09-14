@@ -46,7 +46,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-image: url('image/background_opt.jpg');
+  background-image: url('image/background_palco_opt.jpg');
   background-size: 100% 100%;
   background-position: center top;
   background-repeat: no-repeat;
@@ -184,6 +184,19 @@ html, body {
   transform: translateY(1px);
 }
 
+.hud-btn.lang-btn {
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.7), rgba(3, 105, 161, 0.7));
+  border: 1.5px solid rgba(56, 189, 248, 0.7);
+  color: #ffffff;
+  padding: 6px 12px;
+}
+
+.hud-btn.lang-btn:hover {
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.95), rgba(3, 105, 161, 0.95));
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.8);
+}
+
 /* ==========================================================================
    Main Stage Workspace
    ========================================================================== */
@@ -224,6 +237,32 @@ html, body {
   width: 100%;
   height: 100%;
   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Showcase Welcome Header & Series Range Pill */
+.showcase-welcome-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.welcome-heading {
+  font-family: var(--font-script);
+  font-size: 3.1rem;
+  font-weight: 400;
+  color: #ffde7a;
+  text-shadow: 
+    0 0 16px rgba(255, 222, 122, 0.8),
+    0 2px 8px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.series-range-pill {
+  display: none !important;
 }
 
 .prize-display-card {
@@ -282,33 +321,20 @@ html, body {
 }
 
 .prize-badge-tag {
-  display: inline-block;
-  padding: 4px 14px;
-  background: linear-gradient(90deg, #d97706, #f59e0b, #d97706);
-  color: #1a0f00;
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-radius: 4px;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
-  margin-bottom: 6px;
+  display: none !important;
 }
 
 .prize-title-text {
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: 1px;
   color: #ffffff;
   text-shadow: 0 0 15px rgba(0, 242, 254, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
+  margin-top: 6px;
 }
 
 .prize-subtitle-text {
-  font-size: 0.95rem;
-  color: #9fe3ff;
-  letter-spacing: 1px;
-  margin-top: 2px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -568,14 +594,15 @@ html, body {
   font-size: 0.85rem;
 }
 
-/* Massive 3D Gold "WINNER" */
+/* Massive 3D Gold "WINNER" / "É O VENCEDOR!" */
 .winner-3d-text {
   font-family: var(--font-winner);
-  font-size: 6.2rem;
+  font-size: clamp(2.6rem, 5vw, 5.2rem);
   font-weight: 900;
-  line-height: 1;
-  letter-spacing: 8px;
+  line-height: 1.05;
+  letter-spacing: clamp(2px, 0.5vw, 6px);
   text-transform: uppercase;
+  white-space: nowrap;
   background: linear-gradient(
     180deg,
     #ffffff 0%,
@@ -759,6 +786,7 @@ html, body {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #ffffff;
+  margin-bottom: 95px;
   box-shadow: 
     0 0 25px rgba(56, 189, 248, 0.9),
     0 0 50px rgba(14, 165, 233, 0.6),
@@ -804,6 +832,7 @@ html, body {
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: #ffffff;
+  margin-bottom: 95px;
   box-shadow: 
     0 0 25px rgba(245, 158, 11, 0.8),
     inset 0 0 15px rgba(255, 222, 122, 0.4),
@@ -1043,8 +1072,8 @@ html, body {
   width: 900px;
   max-width: 95vw;
   background: linear-gradient(180deg, #071536 0%, #030a1c 100%);
-  border: 3px solid #ffde7a;
-  box-shadow: 0 0 50px rgba(245, 158, 11, 0.4), 0 25px 60px rgba(0, 0, 0, 0.9);
+  border: 1.5px solid rgba(255, 215, 0, 0.35);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.95);
   border-radius: 24px;
   padding: 36px 30px;
   text-align: center;
@@ -1059,7 +1088,7 @@ html, body {
   font-weight: 900;
   color: #ffde7a;
   letter-spacing: 4px;
-  text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   margin-bottom: 6px;
 }
 
@@ -1128,6 +1157,511 @@ html, body {
   padding: 4px 12px;
   border-radius: 8px;
   border: 1px solid rgba(255, 222, 122, 0.3);
+}
+
+.finale-actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-finale-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 38px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #e2e8f0;
+  font-family: var(--font-main);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+  margin: 0;
+}
+
+.btn-finale-close:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.65);
+}
+
+.btn-finale-close:active {
+  transform: translateY(0);
+}
+
+.btn-finale-restart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 40px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #fbc02d 0%, #f59e0b 50%, #e67e22 100%);
+  border: none;
+  color: #0a0f1d;
+  font-family: var(--font-main);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s ease;
+  margin: 0;
+}
+
+.btn-finale-restart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+  filter: brightness(1.05);
+}
+
+.btn-finale-restart:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   Grand Theatrical Stage Curtains Welcome Screen
+   ========================================================================== */
+.stage-curtains {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: visibility 1.5s ease;
+}
+
+.stage-curtains.curtains-opened {
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Luxury Velvet / Satin Fabric Panels */
+.curtain-panel {
+  position: absolute;
+  top: 0;
+  width: 51%;
+  height: 100%;
+  transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+  z-index: 201;
+  background: 
+    radial-gradient(ellipse at 50% 40%, #20042d 0%, #0c0114 70%, #040008 100%),
+    linear-gradient(90deg, #150220 0%, #35084d 50%, #150220 100%);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+}
+
+.curtain-left {
+  left: 0;
+  z-index: 202;
+}
+
+.curtain-right {
+  right: 0;
+  z-index: 201;
+}
+
+.stage-curtains.curtains-opened .curtain-left {
+  transform: translateX(-105%);
+}
+
+.stage-curtains.curtains-opened .curtain-right {
+  transform: translateX(105%);
+}
+
+/* 3D Vertical Satin Drapery Folds */
+.curtain-folds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0px,
+    rgba(255, 255, 255, 0.08) 25px,
+    rgba(147, 51, 234, 0.22) 45px,
+    rgba(0, 0, 0, 0.8) 75px,
+    rgba(0, 0, 0, 0.45) 100px
+  );
+  opacity: 0.95;
+}
+
+.curtain-edge-shadow {
+  position: absolute;
+  top: 0;
+  width: 44px;
+  height: 100%;
+}
+
+.curtain-left .curtain-edge-shadow {
+  right: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+  border-right: none;
+  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.95);
+}
+
+.curtain-right .curtain-edge-shadow {
+  left: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  border-left: none;
+}
+
+/* Top Valance with Golden Trim */
+.curtain-valance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  z-index: 205;
+  background: linear-gradient(180deg, #230433 0%, #0d0115 100%);
+  border-bottom: 2.5px solid #d4af37;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95);
+  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  display: flex;
+  align-items: flex-end;
+}
+
+.stage-curtains.curtains-opened .curtain-valance {
+  transform: translateY(-100%);
+}
+
+.valance-gold-fringe {
+  width: 100%;
+  height: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ffd700 0px,
+    #ffb703 4px,
+    #8f5c00 8px
+  );
+}
+
+/* Center Emblem Opening Card (Exact User Design Mockup) */
+.curtain-center-card {
+  position: relative;
+  z-index: 210;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 34px 38px 28px;
+  background: linear-gradient(180deg, #0a0e1c 0%, #080b18 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  max-width: 530px;
+  width: 90vw;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.stage-curtains.curtains-opened .curtain-center-card {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+/* Brands Header Image (ENOC & JAMBO side by side with divider) */
+.curtain-brands-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.curtain-brands-img {
+  width: 100%;
+  max-width: 385px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+}
+
+/* Title Block */
+.curtain-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.curtain-eyebrow {
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.curtain-main-title-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.curtain-main-title {
+  font-family: var(--font-main);
+  font-size: clamp(2.2rem, 4.5vw, 2.85rem);
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  line-height: 1.08;
+  margin: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.title-word-prize {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF4CC 35%, #FFD54F 80%, #FFCA28 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+}
+
+.title-word-draw {
+  background: linear-gradient(180deg, #FFE082 0%, #FFCA28 35%, #FFA000 75%, #FF8F00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+}
+
+.title-lens-flare {
+  position: absolute;
+  bottom: 0px;
+  left: 48%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 16px;
+  background: radial-gradient(ellipse at center, rgba(236, 72, 153, 0.85) 0%, rgba(168, 85, 247, 0.4) 35%, transparent 70%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(1px);
+}
+
+.curtain-sub-title {
+  font-family: var(--font-main);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin-top: 8px;
+  margin-bottom: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.curtain-gold-divider {
+  width: 44px;
+  height: 2.5px;
+  background: #eab308;
+  border-radius: 2px;
+  margin: 12px auto 4px;
+}
+
+/* Series Pill */
+.curtain-series-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 22px;
+  border-radius: 9999px;
+  background: rgba(18, 24, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.curtain-series-pill .series-icon {
+  font-size: 0.95rem;
+}
+
+/* Open Stage Action Button */
+.btn-open-curtains {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 84%;
+  max-width: 420px;
+  padding: 15px 32px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #fbc02d 0%, #f59e0b 50%, #e67e22 100%);
+  border: none;
+  color: #0a0f1d;
+  font-family: var(--font-main);
+  font-size: 1.12rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-open-curtains:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.65);
+  filter: brightness(1.05);
+}
+
+.btn-open-curtains:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.btn-open-curtains .btn-svg-gift {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-open-curtains .btn-svg-arrow {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.btn-open-curtains:hover .btn-svg-arrow {
+  transform: translateX(4px);
+}
+
+/* Keyboard Hint */
+.curtain-hint {
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Language Switcher */
+.curtain-lang-selector {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.curtain-lang-btn {
+  background: rgba(18, 24, 48, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  border-radius: 9999px;
+  padding: 6px 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.curtain-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Smooth Staggered Transition from Curtains to Stage
+   ========================================================================== */
+#stage-curtains:not(.curtains-opened) ~ .main-stage .showcase-welcome-header,
+#stage-curtains:not(.curtains-opened) ~ .main-stage .prize-display-card,
+#stage-curtains:not(.curtains-opened) ~ .bottom-action-bar,
+#stage-curtains:not(.curtains-opened) ~ .top-nav-hud {
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  pointer-events: none;
+}
+
+#stage-curtains.curtains-opened ~ .top-nav-hud:not(.hud-hidden) {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition: opacity 0.8s ease 0.35s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+
+#stage-curtains.curtains-opened ~ .main-stage .showcase-welcome-header {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.8s ease 0.45s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s;
+}
+
+#stage-curtains.curtains-opened ~ .main-stage .prize-display-card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.9s ease 0.65s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.65s;
+}
+
+#stage-curtains.curtains-opened ~ .bottom-action-bar {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.9s ease 0.85s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.85s;
+}
+
+/* Language Pill in Top HUD */
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.lang-opt {
+  opacity: 0.45;
+  transition: all 0.2s ease;
+  color: #c7ecff;
+}
+
+.lang-opt.active {
+  opacity: 1;
+  color: #ffd700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+.lang-sep {
+  opacity: 0.35;
+  font-size: 0.75rem;
 }
 
 /* ==========================================================================
