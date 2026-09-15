@@ -277,6 +277,19 @@
       box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
     }
 
+    .input-control.input-error {
+      border-color: var(--status-red) !important;
+      background: rgba(244, 63, 94, 0.08) !important;
+      box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2) !important;
+      animation: shakeInput 0.3s ease;
+    }
+
+    @keyframes shakeInput {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-4px); }
+      40%, 80% { transform: translateX(4px); }
+    }
+
     .input-control::placeholder {
       color: var(--text-muted);
       font-weight: 400;
@@ -511,6 +524,205 @@
       border: 1px solid rgba(244, 63, 94, 0.35);
       color: #fda4af;
     }
+
+    /* =========================================================================
+       MODAL: Executive Sync & Confirmation Popup
+       ========================================================================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 16, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      z-index: 9999;
+      animation: fadeInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
+      background: #0f1523;
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(56, 189, 248, 0.15);
+      animation: popCard 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes popCard {
+      from { transform: scale(0.92) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .modal-icon-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      position: relative;
+      margin-bottom: -4px;
+    }
+
+    .modal-icon-badge.loading {
+      background: rgba(56, 189, 248, 0.1);
+      border: 2px solid rgba(56, 189, 248, 0.25);
+      color: var(--cyan-primary);
+    }
+
+    .modal-icon-badge.success {
+      background: rgba(16, 185, 129, 0.14);
+      border: 2px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .modal-icon-badge.error {
+      background: rgba(244, 63, 94, 0.14);
+      border: 2px solid rgba(244, 63, 94, 0.4);
+      color: #fb7185;
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
+    }
+
+    /* Modal Spinner */
+    .spinner-ring {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(56, 189, 248, 0.2);
+      border-top-color: var(--cyan-primary);
+      border-radius: 50%;
+      animation: spinRing 0.8s linear infinite;
+    }
+
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    .modal-header-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.01em;
+    }
+
+    .modal-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Details Box inside Modal */
+    .modal-details-box {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .modal-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      gap: 10px;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      color: var(--text-white);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .detail-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan-primary);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .modal-actions {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 13px 18px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .modal-btn-primary {
+      background: var(--blue-gradient);
+      border: 1px solid var(--cyan-primary);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+    }
+
+    .modal-btn-primary:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.55);
+      transform: translateY(-1px);
+    }
+
+    .modal-btn-secondary {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-medium);
+      color: var(--text-secondary);
+    }
+
+    .modal-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-white);
+    }
   </style>
 </head>
 <body>
@@ -671,6 +883,44 @@
 
   </div>
 
+  <!-- Sync Progress & Confirmation Modal Popup -->
+  <div id="sync-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div id="modal-icon" class="modal-icon-badge loading">
+        <div class="spinner-ring"></div>
+      </div>
+      
+      <div class="modal-header-block">
+        <h3 id="modal-title" class="modal-title">A Sincronizar com a Planilha...</h3>
+        <p id="modal-desc" class="modal-desc">Enviando dados em tempo real para a planilha Google e ecrã do palco...</p>
+      </div>
+
+      <div id="modal-details" class="modal-details-box">
+        <div class="modal-detail-row">
+          <span class="detail-label" id="modal-lbl-action">Ação Remota:</span>
+          <span class="detail-value"><span class="detail-badge" id="modal-val-action">SALVAR</span></span>
+        </div>
+        <div class="modal-detail-row">
+          <span class="detail-label" id="modal-lbl-range">Faixa da Série:</span>
+          <span class="detail-value" id="modal-val-range">1111 — 1360</span>
+        </div>
+        <div class="modal-detail-row" style="align-items: flex-start;">
+          <span class="detail-label" id="modal-lbl-winners">Vencedores:</span>
+          <span class="detail-value" id="modal-val-winners" style="max-width: 60%; font-size: 0.76rem;">Todos Aleatórios</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="modal-btn-proceed" class="modal-btn modal-btn-primary" style="display: none;">
+          <span id="modal-btn-proceed-txt">Continuar</span> ➔
+        </button>
+        <button id="modal-btn-close" class="modal-btn modal-btn-secondary" style="display: none;">
+          <span id="modal-btn-close-txt">Fechar &amp; Corrigir</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const STORAGE_KEY = 'lottery_admin_api_url';
     const LANG_STORAGE_KEY = 'lottery_admin_lang';
@@ -717,7 +967,32 @@
         msgAllRandom: 'Todos os prémios foram definidos para Sorteio Aleatório.',
         msgSaved: 'Configurações salvas e sincronizadas com sucesso!',
         msgLoaded: 'Conectado com sucesso à planilha Google!',
-        msgSendingAction: (act) => `Enviando comando: ${act}...`
+        msgSendingAction: (act) => `Enviando comando: ${act}...`,
+        
+        // Modal Texts
+        modalLoadingTitle: 'A Sincronizar com o Palco...',
+        modalLoadingDesc: 'Enviando alterações para a planilha Google e sincronizando com a tela do sorteio...',
+        modalSuccessTitle: 'Alterações Aplicadas com Sucesso!',
+        modalSuccessDesc: 'As configurações foram salvas e validadas no Google Sheets e aplicadas ao palco.',
+        modalErrorTitle: 'Falha na Validação / Sincronização',
+        modalActionSave: 'SALVAR CONFIGURAÇÃO',
+        modalActionSpin: 'GIRAR RODA NO PALCO',
+        modalActionNext: 'AVANÇAR RODADA',
+        modalActionReset: 'REINICIAR SORTEIO',
+        modalLblAction: 'Ação Remota:',
+        modalLblRange: 'Faixa da Série:',
+        modalLblWinners: 'Vencedores Fixados:',
+        modalAllRandom: 'Todos Aleatórios (Sem pré-fixação)',
+        modalBtnProceed: 'Continuar',
+        modalBtnClose: 'Fechar & Corrigir',
+        
+        // Validation Errors
+        errMinMaxRequired: 'Por favor, insira valores numéricos válidos para o mínimo e máximo.',
+        errMinGreaterMax: 'O número mínimo deve ser estritamente menor que o número máximo.',
+        errInvalidPrizeNum: (badge, prize) => `O valor inserido no ${badge} (${prize}) não é um número válido.`,
+        errOutOfRange: (val, badge, min, max) => `O número ${val} no ${badge} está fora da faixa permitida (${min} a ${max}).`,
+        errDuplicatePrize: (val, p1, p2) => `O número ${val} foi atribuído a mais de um prémio (${p1} e ${p2}). Cada prémio deve ter um número exclusivo.`,
+        errNoUrl: 'Por favor, insira a URL do Web App do Google Apps Script.'
       },
       en: {
         brandSub: 'Series Management & Live Stage Remote',
@@ -757,7 +1032,32 @@
         msgAllRandom: 'All prizes set to random draw mode.',
         msgSaved: 'Configuration saved and synced successfully!',
         msgLoaded: 'Successfully connected to Google Sheet!',
-        msgSendingAction: (act) => `Sending command: ${act}...`
+        msgSendingAction: (act) => `Sending command: ${act}...`,
+        
+        // Modal Texts
+        modalLoadingTitle: 'Syncing with Stage & Sheet...',
+        modalLoadingDesc: 'Pushing real-time updates to Google Apps Script and broadcasting to the stage screen...',
+        modalSuccessTitle: 'Changes Applied Successfully!',
+        modalSuccessDesc: 'Configuration has been confirmed by Google Sheets and applied live to the stage.',
+        modalErrorTitle: 'Validation / Sync Failure',
+        modalActionSave: 'SAVE CONFIGURATION',
+        modalActionSpin: 'SPIN WHEEL ON STAGE',
+        modalActionNext: 'NEXT ROUND',
+        modalActionReset: 'RESTART LOTTERY',
+        modalLblAction: 'Remote Action:',
+        modalLblRange: 'Series Range:',
+        modalLblWinners: 'Fixed Winners:',
+        modalAllRandom: 'All Random (Fair Draw)',
+        modalBtnProceed: 'Proceed',
+        modalBtnClose: 'Close & Fix',
+
+        // Validation Errors
+        errMinMaxRequired: 'Please enter valid numbers for minimum and maximum series limits.',
+        errMinGreaterMax: 'Minimum number must be strictly less than maximum number.',
+        errInvalidPrizeNum: (badge, prize) => `The token in ${badge} (${prize}) is not a valid number.`,
+        errOutOfRange: (val, badge, min, max) => `Token ${val} in ${badge} is outside the allowed range (${min} to ${max}).`,
+        errDuplicatePrize: (val, p1, p2) => `Token ${val} is assigned to multiple prizes (${p1} and ${p2}). Each prize must have a unique token.`,
+        errNoUrl: 'Please provide the Google Apps Script Web App URL.'
       }
     };
 
@@ -780,7 +1080,23 @@
       saveText: document.getElementById('save-text'),
       btnRemoteSpin: document.getElementById('btn-remote-spin'),
       btnRemoteNext: document.getElementById('btn-remote-next'),
-      btnRemoteReset: document.getElementById('btn-remote-reset')
+      btnRemoteReset: document.getElementById('btn-remote-reset'),
+      
+      // Modal Elements
+      syncModal: document.getElementById('sync-modal'),
+      modalIcon: document.getElementById('modal-icon'),
+      modalTitle: document.getElementById('modal-title'),
+      modalDesc: document.getElementById('modal-desc'),
+      modalLblAction: document.getElementById('modal-lbl-action'),
+      modalValAction: document.getElementById('modal-val-action'),
+      modalLblRange: document.getElementById('modal-lbl-range'),
+      modalValRange: document.getElementById('modal-val-range'),
+      modalLblWinners: document.getElementById('modal-lbl-winners'),
+      modalValWinners: document.getElementById('modal-val-winners'),
+      modalBtnProceed: document.getElementById('modal-btn-proceed'),
+      modalBtnProceedTxt: document.getElementById('modal-btn-proceed-txt'),
+      modalBtnClose: document.getElementById('modal-btn-close'),
+      modalBtnCloseTxt: document.getElementById('modal-btn-close-txt')
     };
 
     if (DEFAULT_API_URL) {
@@ -835,6 +1151,13 @@
       document.getElementById('txt-btn-next').textContent = t.btnNext;
       document.getElementById('txt-btn-reset').textContent = t.btnReset;
 
+      // Modal labels
+      dom.modalLblAction.textContent = t.modalLblAction;
+      dom.modalLblRange.textContent = t.modalLblRange;
+      dom.modalLblWinners.textContent = t.modalLblWinners;
+      dom.modalBtnProceedTxt.textContent = t.modalBtnProceed;
+      dom.modalBtnCloseTxt.textContent = t.modalBtnClose;
+
       dom.syncPill.className = 'sync-pill ' + currentSyncState;
       dom.syncText.textContent = t[currentSyncMsgKey] || currentSyncMsgKey;
     }
@@ -861,15 +1184,166 @@
     function setRange(min, max) {
       dom.minToken.value = min;
       dom.maxToken.value = max;
+      clearInputErrors();
     }
+
+    function clearInputErrors() {
+      dom.minToken.classList.remove('input-error');
+      dom.maxToken.classList.remove('input-error');
+      dom.prize1Token.classList.remove('input-error');
+      dom.prize2Token.classList.remove('input-error');
+      dom.prize3Token.classList.remove('input-error');
+      dom.prize4Token.classList.remove('input-error');
+    }
+
+    // Attach real-time error cleaner on input
+    [dom.minToken, dom.maxToken, dom.prize1Token, dom.prize2Token, dom.prize3Token, dom.prize4Token].forEach(el => {
+      el.addEventListener('input', () => el.classList.remove('input-error'));
+    });
 
     dom.btnClearWinners.addEventListener('click', () => {
       dom.prize1Token.value = '';
       dom.prize2Token.value = '';
       dom.prize3Token.value = '';
       dom.prize4Token.value = '';
+      clearInputErrors();
       showBanner('success', I18N[currentLang].msgAllRandom);
     });
+
+    // =========================================================================
+    // Strict Input Validation Logic
+    // - Unique number per prize (no duplicates among all 4 prizes)
+    // - Every prize token must fall strictly between minToken and maxToken
+    // =========================================================================
+    function validateInputs() {
+      clearInputErrors();
+      const t = I18N[currentLang];
+
+      const minVal = dom.minToken.value.trim();
+      const maxVal = dom.maxToken.value.trim();
+      const min = parseInt(minVal, 10);
+      const max = parseInt(maxVal, 10);
+
+      if (!minVal || !maxVal || isNaN(min) || isNaN(max)) {
+        if (!minVal || isNaN(min)) dom.minToken.classList.add('input-error');
+        if (!maxVal || isNaN(max)) dom.maxToken.classList.add('input-error');
+        return { valid: false, message: t.errMinMaxRequired };
+      }
+
+      if (min >= max) {
+        dom.minToken.classList.add('input-error');
+        dom.maxToken.classList.add('input-error');
+        return { valid: false, message: t.errMinGreaterMax };
+      }
+
+      const prizeInputs = [
+        { el: dom.prize1Token, id: 1 },
+        { el: dom.prize2Token, id: 2 },
+        { el: dom.prize3Token, id: 3 },
+        { el: dom.prize4Token, id: 4 }
+      ];
+
+      const seenNumbers = new Map(); // tokenNumber -> { index, badge }
+
+      for (let i = 0; i < prizeInputs.length; i++) {
+        const item = prizeInputs[i];
+        const valStr = item.el.value.trim();
+        if (!valStr) continue;
+
+        const val = parseInt(valStr, 10);
+        const badge = t[`badge${item.id}`];
+        const prizeName = t[`prize${item.id}`];
+
+        // Format check
+        if (isNaN(val) || !/^\d+$/.test(valStr)) {
+          item.el.classList.add('input-error');
+          return { valid: false, message: t.errInvalidPrizeNum(badge, prizeName) };
+        }
+
+        // Range check: must fall between minToken and maxToken
+        if (val < min || val > max) {
+          item.el.classList.add('input-error');
+          return { valid: false, message: t.errOutOfRange(val, badge, min, max) };
+        }
+
+        // Uniqueness check: cannot be identical across any of the prizes
+        if (seenNumbers.has(val)) {
+          item.el.classList.add('input-error');
+          const firstSeen = seenNumbers.get(val);
+          firstSeen.el.classList.add('input-error');
+          return { valid: false, message: t.errDuplicatePrize(val, firstSeen.badge, badge) };
+        }
+
+        seenNumbers.set(val, { el: item.el, badge });
+      }
+
+      return { valid: true, min, max };
+    }
+
+    // =========================================================================
+    // Modal State Management
+    // =========================================================================
+    function openModalLoading(actionType, min, max) {
+      const t = I18N[currentLang];
+      dom.syncModal.style.display = 'flex';
+      
+      dom.modalIcon.className = 'modal-icon-badge loading';
+      dom.modalIcon.innerHTML = '<div class="spinner-ring"></div>';
+      
+      dom.modalTitle.textContent = t.modalLoadingTitle;
+      dom.modalDesc.textContent = t.modalLoadingDesc;
+
+      let actionName = t.modalActionSave;
+      if (actionType === 'SPIN') actionName = t.modalActionSpin;
+      else if (actionType === 'NEXT') actionName = t.modalActionNext;
+      else if (actionType === 'RESET') actionName = t.modalActionReset;
+
+      dom.modalValAction.textContent = actionName;
+      dom.modalValRange.textContent = `${min} — ${max}`;
+
+      // Build winners summary
+      const winnersList = [];
+      if (dom.prize1Token.value.trim()) winnersList.push(`1º: ${dom.prize1Token.value.trim()}`);
+      if (dom.prize2Token.value.trim()) winnersList.push(`2º: ${dom.prize2Token.value.trim()}`);
+      if (dom.prize3Token.value.trim()) winnersList.push(`3º: ${dom.prize3Token.value.trim()}`);
+      if (dom.prize4Token.value.trim()) winnersList.push(`4º: ${dom.prize4Token.value.trim()}`);
+
+      dom.modalValWinners.textContent = winnersList.length > 0 ? winnersList.join(' | ') : t.modalAllRandom;
+
+      dom.modalBtnProceed.style.display = 'none';
+      dom.modalBtnClose.style.display = 'none';
+    }
+
+    function setModalSuccess() {
+      const t = I18N[currentLang];
+      dom.modalIcon.className = 'modal-icon-badge success';
+      dom.modalIcon.innerHTML = '✓';
+      dom.modalTitle.textContent = t.modalSuccessTitle;
+      dom.modalDesc.textContent = t.modalSuccessDesc;
+
+      dom.modalBtnProceed.style.display = 'flex';
+      dom.modalBtnClose.style.display = 'none';
+      dom.modalBtnProceedTxt.textContent = t.modalBtnProceed;
+    }
+
+    function setModalError(errorMessage) {
+      dom.syncModal.style.display = 'flex';
+      dom.modalIcon.className = 'modal-icon-badge error';
+      dom.modalIcon.innerHTML = '✕';
+      dom.modalTitle.textContent = I18N[currentLang].modalErrorTitle;
+      dom.modalDesc.textContent = errorMessage;
+
+      dom.modalBtnProceed.style.display = 'none';
+      dom.modalBtnClose.style.display = 'flex';
+      dom.modalBtnCloseTxt.textContent = I18N[currentLang].modalBtnClose;
+    }
+
+    function closeModal() {
+      dom.syncModal.style.display = 'none';
+    }
+
+    dom.modalBtnProceed.addEventListener('click', closeModal);
+    dom.modalBtnClose.addEventListener('click', closeModal);
 
     // Fetch configuration from Google Sheets
     async function fetchConfig() {
@@ -906,22 +1380,33 @@
       }
     }
 
-    // Save & push configuration to Google Sheets
-    async function saveConfig(actionOverride = null) {
+    // Save & push configuration to Google Sheets with Progress Modal
+    async function saveConfig(actionOverride = 'NONE') {
+      const t = I18N[currentLang];
       const url = dom.apiUrl.value.trim();
       if (!url) {
-        alert(currentLang === 'pt' ? 'Insira a URL do Web App.' : 'Please enter Web App URL.');
+        setModalError(t.errNoUrl);
+        return;
+      }
+
+      // Step 1: Strict input validation
+      const valResult = validateInputs();
+      if (!valResult.valid) {
+        setModalError(valResult.message);
         return;
       }
 
       localStorage.setItem(STORAGE_KEY, url);
       setSyncStatus('updating', 'updating');
       dom.btnSaveSync.disabled = true;
-      dom.saveText.textContent = I18N[currentLang].saveBtnUpdating;
+      dom.saveText.textContent = t.saveBtnUpdating;
+
+      // Step 2: Open Progress Modal in Loading State
+      openModalLoading(actionOverride, valResult.min, valResult.max);
 
       const payload = {
-        minToken: Number(dom.minToken.value) || 1111,
-        maxToken: Number(dom.maxToken.value) || 1360,
+        minToken: valResult.min,
+        maxToken: valResult.max,
         prize1Winner: dom.prize1Token.value.trim(),
         prize2Winner: dom.prize2Token.value.trim(),
         prize3Winner: dom.prize3Token.value.trim(),
@@ -939,26 +1424,31 @@
         const data = await res.json();
         if (data.status === 'success') {
           setSyncStatus('synced', 'synced');
-          showBanner('success', I18N[currentLang].msgSaved);
-          dom.saveText.textContent = I18N[currentLang].saveBtnSuccess;
+          showBanner('success', t.msgSaved);
+          dom.saveText.textContent = t.saveBtnSuccess;
+          
+          // Step 3: Switch Modal to Success state with Proceed button
+          setModalSuccess();
+
           setTimeout(() => {
-            dom.saveText.textContent = I18N[currentLang].saveBtn;
+            dom.saveText.textContent = t.saveBtn;
             dom.btnSaveSync.disabled = false;
-          }, 2500);
+          }, 2000);
         } else {
-          throw new Error(data.message || 'Error');
+          throw new Error(data.message || 'Erro ao sincronizar');
         }
       } catch (err) {
         setSyncStatus('error', 'error');
         showBanner('error', 'Error: ' + err.message);
-        dom.saveText.textContent = I18N[currentLang].saveBtn;
+        dom.saveText.textContent = t.saveBtn;
         dom.btnSaveSync.disabled = false;
+        // Switch Modal to Error state with Close & Fix button
+        setModalError(err.message || 'Erro de conexão com o servidor.');
       }
     }
 
     // Remote actions
     async function sendRemoteAction(action) {
-      showBanner('success', I18N[currentLang].msgSendingAction(action));
       await saveConfig(action);
     }
 
