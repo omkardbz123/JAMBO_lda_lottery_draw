@@ -3,27 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Admin Dashboard - Mega Lottery Controller</title>
+  <title>Mega Lottery — Executive Admin Controller</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-base: #090d16;
-      --bg-surface: #111827;
-      --bg-card: #151f32;
-      --bg-card-hover: #1a273f;
-      --bg-input: #0b1120;
+      --bg-body: #070a12;
+      --bg-canvas: #0b0f19;
+      --bg-card: #111726;
+      --bg-card-subtle: #161f33;
+      --bg-input: #0a0d17;
       
-      --border-subtle: #1e293b;
-      --border-medium: #334155;
-      --border-focus: #38bdf8;
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-accent: #38bdf8;
       
-      --accent-blue: #38bdf8;
-      --accent-blue-dark: #0284c7;
-      --accent-blue-soft: rgba(56, 189, 248, 0.12);
+      --cyan-primary: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.25);
+      --blue-accent: #0284c7;
+      --blue-gradient: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      --gold-accent: #fbbf24;
       
-      --text-primary: #f8fafc;
+      --text-white: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
       
@@ -31,10 +33,14 @@
       --status-green-bg: rgba(16, 185, 129, 0.12);
       --status-amber: #f59e0b;
       --status-amber-bg: rgba(245, 158, 11, 0.12);
-      --status-red: #ef4444;
-      --status-red-bg: rgba(239, 68, 68, 0.12);
+      --status-red: #f43f5e;
+      --status-red-bg: rgba(244, 63, 94, 0.12);
       
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
     }
 
     * {
@@ -45,336 +51,389 @@
     }
 
     body {
-      background-color: var(--bg-base);
-      font-family: var(--font-sans);
-      color: var(--text-primary);
+      background-color: var(--bg-body);
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(2, 132, 199, 0.04) 0%, transparent 50%);
+      font-family: var(--font);
+      color: var(--text-white);
       min-height: 100vh;
-      padding: 20px 14px 48px;
+      padding: 24px 16px 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
       line-height: 1.5;
     }
 
-    .admin-container {
+    .dashboard-wrapper {
       width: 100%;
-      max-width: 620px;
+      max-width: 660px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
     }
 
-    /* Top Executive Header */
-    .header-bar {
+    /* Top Navigation Bar */
+    .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
       background: var(--bg-card);
       border: 1px solid var(--border-medium);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
 
-    .header-title-wrap {
+    .brand-block {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .header-title {
-      font-size: 1.15rem;
+    .brand-title {
+      font-size: 1.12rem;
       font-weight: 800;
-      color: var(--text-primary);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--text-white);
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .header-title-badge {
-      color: var(--accent-blue);
-      font-size: 0.72rem;
+    .brand-badge {
+      font-size: 0.65rem;
       font-weight: 700;
+      letter-spacing: 0.06em;
       padding: 2px 7px;
-      background: var(--accent-blue-soft);
-      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan-primary);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      text-transform: uppercase;
     }
 
-    .header-subtitle {
+    .brand-sub {
       font-size: 0.76rem;
       color: var(--text-secondary);
       font-weight: 500;
     }
 
-    /* Status Pill */
-    .sync-status-pill {
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Language Segmented Toggle */
+    .lang-switcher {
+      display: flex;
+      background: var(--bg-input);
+      padding: 3px;
+      border-radius: 9px;
+      border: 1px solid var(--border-medium);
+      gap: 2px;
+    }
+
+    .lang-btn {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font);
+    }
+
+    .lang-btn.active {
+      background: var(--cyan-primary);
+      color: #070a12;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Live Sync Pill */
+    .sync-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      background: var(--bg-surface);
+      background: var(--bg-input);
       border: 1px solid var(--border-medium);
       color: var(--text-secondary);
       transition: all 0.25s ease;
     }
 
-    .sync-status-pill.synced {
+    .sync-pill.synced {
       background: var(--status-green-bg);
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgba(16, 185, 129, 0.35);
       color: #34d399;
     }
 
-    .sync-status-pill.updating {
+    .sync-pill.updating {
       background: var(--status-amber-bg);
-      border-color: rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.35);
       color: #fbbf24;
     }
 
-    .sync-status-pill.error {
+    .sync-pill.error {
       background: var(--status-red-bg);
-      border-color: rgba(239, 68, 68, 0.4);
-      color: #f87171;
+      border-color: rgba(244, 63, 94, 0.35);
+      color: #fb7185;
     }
 
-    .pulse-dot {
-      width: 7px;
-      height: 7px;
+    .beacon-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: currentColor;
     }
 
-    /* Dashboard Cards */
-    .card {
+    /* Content Cards */
+    .section-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 18px 18px;
+      border-radius: var(--radius-lg);
+      padding: 20px 20px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      gap: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
-    .card-header {
+    .card-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 10px;
     }
 
     .card-title {
-      font-size: 0.95rem;
+      font-size: 0.94rem;
       font-weight: 700;
-      color: var(--text-primary);
+      color: var(--text-white);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
+      letter-spacing: -0.01em;
     }
 
-    .card-title-icon {
-      color: var(--accent-blue);
-      font-size: 1rem;
+    .card-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--cyan-primary);
+      font-size: 0.95rem;
     }
 
-    /* Form Inputs */
-    .form-group {
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: -8px;
+    }
+
+    /* Input & Labels */
+    .input-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
-    label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
+    .input-label {
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      color: var(--text-secondary);
     }
 
-    input[type="text"],
-    input[type="number"],
-    input[type="url"] {
+    .input-control {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 14px;
       background: var(--bg-input);
       border: 1px solid var(--border-medium);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-family: var(--font-sans);
+      border-radius: var(--radius-sm);
+      color: var(--text-white);
+      font-family: var(--font);
       font-size: 0.92rem;
       font-weight: 600;
       outline: none;
       transition: all 0.2s ease;
     }
 
-    input:focus {
-      border-color: var(--border-focus);
-      background: #0d1527;
+    .input-control:focus {
+      border-color: var(--border-accent);
+      background: #0d1424;
       box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
     }
 
-    input::placeholder {
+    .input-control::placeholder {
       color: var(--text-muted);
       font-weight: 400;
       font-size: 0.85rem;
     }
 
-    /* Quick Preset Chips */
-    .preset-chips {
-      display: flex;
-      flex-wrap: wrap;
+    /* Preset Quick Range Chips */
+    .chips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 8px;
-      margin-top: 4px;
     }
 
-    .chip-btn {
-      background: var(--bg-surface);
+    .chip-item {
+      background: var(--bg-card-subtle);
       border: 1px solid var(--border-medium);
       color: var(--text-secondary);
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.78rem;
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
+      text-align: center;
       transition: all 0.15s ease;
+      font-family: var(--font);
     }
 
-    .chip-btn:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
+    .chip-item:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--cyan-primary);
+      color: var(--cyan-primary);
     }
 
-    .chip-btn:active {
-      transform: translateY(1px);
-    }
-
-    /* Prize Config Rows */
-    .prize-list {
+    /* Prize Cards */
+    .prizes-stack {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .prize-item {
-      background: var(--bg-surface);
+    .prize-row {
+      background: var(--bg-card-subtle);
       border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       transition: border-color 0.2s ease;
     }
 
-    .prize-item:focus-within {
-      border-color: rgba(56, 189, 248, 0.5);
+    .prize-row:focus-within {
+      border-color: rgba(56, 189, 248, 0.4);
     }
 
-    .prize-item-header {
+    .prize-row.grand-prize {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, rgba(22, 31, 51, 0.8) 100%);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .prize-header-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .prize-item-name {
+    .prize-name-label {
       font-size: 0.88rem;
       font-weight: 700;
-      color: var(--text-primary);
+      color: var(--text-white);
     }
 
-    .prize-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+    .prize-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
       padding: 3px 8px;
-      border-radius: 4px;
-      background: rgba(56, 189, 248, 0.1);
-      color: var(--accent-blue);
+      border-radius: 5px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--cyan-primary);
       border: 1px solid rgba(56, 189, 248, 0.25);
+      text-transform: uppercase;
     }
 
-    .prize-item.grand .prize-badge {
-      background: rgba(245, 158, 11, 0.12);
-      color: #fbbf24;
-      border-color: rgba(245, 158, 11, 0.3);
+    .prize-row.grand-prize .prize-tag {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold-accent);
+      border-color: rgba(245, 158, 11, 0.35);
     }
 
-    .btn-clear-link {
+    .text-link-btn {
       background: none;
       border: none;
-      color: var(--accent-blue);
-      font-size: 0.76rem;
+      color: var(--cyan-primary);
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
+      font-family: var(--font);
+      transition: color 0.15s ease;
     }
 
-    .btn-clear-link:hover {
+    .text-link-btn:hover {
       color: #7dd3fc;
+      text-decoration: underline;
     }
 
-    /* Main Save & Sync Button */
-    .btn-main-save {
+    /* Primary Save Action Button */
+    .btn-submit-main {
       width: 100%;
-      padding: 14px 20px;
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      border: 1px solid #38bdf8;
-      border-radius: 8px;
+      padding: 15px 22px;
+      background: var(--blue-gradient);
+      border: 1px solid var(--cyan-primary);
+      border-radius: var(--radius-md);
       color: #ffffff;
-      font-family: var(--font-sans);
-      font-size: 0.95rem;
+      font-family: var(--font);
+      font-size: 0.96rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .btn-main-save:hover:not(:disabled) {
+    .btn-submit-main:hover:not(:disabled) {
       background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+      box-shadow: 0 6px 22px rgba(2, 132, 199, 0.5);
       transform: translateY(-1px);
     }
 
-    .btn-main-save:active:not(:disabled) {
+    .btn-submit-main:active:not(:disabled) {
       transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
     }
 
-    .btn-main-save:disabled {
+    .btn-submit-main:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
 
     /* Remote Stage Controls Grid */
-    .remote-grid {
+    .remote-actions-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
 
-    .btn-remote {
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-family: var(--font-sans);
-      font-size: 0.84rem;
+    .btn-control-tile {
+      padding: 13px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.82rem;
       font-weight: 700;
+      letter-spacing: 0.02em;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -382,218 +441,230 @@
       gap: 8px;
       text-transform: uppercase;
       transition: all 0.15s ease;
+      border: 1px solid var(--border-medium);
+      background: var(--bg-card-subtle);
+      color: var(--text-white);
     }
 
-    .btn-remote.spin {
+    .btn-control-tile.spin-action {
       grid-column: span 2;
       background: #0284c7;
-      border: 1px solid #38bdf8;
+      border-color: var(--cyan-primary);
       color: #ffffff;
-      padding: 13px;
+      padding: 14px;
+      font-size: 0.88rem;
     }
 
-    .btn-remote.spin:hover {
+    .btn-control-tile.spin-action:hover {
       background: #0369a1;
     }
 
-    .btn-remote.next {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-medium);
-      color: var(--text-primary);
+    .btn-control-tile.next-action:hover {
+      background: var(--bg-card);
+      border-color: var(--cyan-primary);
+      color: var(--cyan-primary);
     }
 
-    .btn-remote.next:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--accent-blue);
+    .btn-control-tile.reset-action {
+      background: rgba(244, 63, 94, 0.08);
+      border-color: rgba(244, 63, 94, 0.3);
+      color: #fda4af;
     }
 
-    .btn-remote.reset {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-    }
-
-    .btn-remote.reset:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #ef4444;
+    .btn-control-tile.reset-action:hover {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: var(--status-red);
       color: #ffffff;
     }
 
-    .btn-remote:active {
+    .btn-control-tile:active {
       transform: translateY(1px);
     }
 
-    /* Notification Banner */
-    .status-banner {
-      padding: 12px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
+    /* Alert Banner */
+    .alert-banner {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
       font-weight: 600;
       display: none;
       align-items: center;
-      gap: 8px;
-      animation: slideDown 0.2s ease forwards;
+      gap: 10px;
+      animation: fadeIn 0.2s ease forwards;
     }
 
-    @keyframes slideDown {
+    @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .status-banner.success {
+    .alert-banner.success {
       display: flex;
       background: var(--status-green-bg);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.35);
       color: #6ee7b7;
     }
 
-    .status-banner.error {
+    .alert-banner.error {
       display: flex;
       background: var(--status-red-bg);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #fca5a5;
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fda4af;
     }
   </style>
 </head>
 <body>
 
-  <div class="admin-container">
+  <div class="dashboard-wrapper">
     
-    <!-- Top Executive Header Bar -->
-    <header class="header-bar">
-      <div class="header-title-wrap">
-        <h1 class="header-title">
+    <!-- Top Navigation Header -->
+    <header class="top-nav">
+      <div class="brand-block">
+        <h1 class="brand-title">
           Lottery Remote
-          <span class="header-title-badge">PRO ADMIN</span>
+          <span class="brand-badge">ADMIN PRO</span>
         </h1>
-        <span class="header-subtitle">Gestão de Séries e Controlo em Tempo Real</span>
+        <span class="brand-sub" id="txt-brand-sub">Gestão de Séries e Controlo em Tempo Real</span>
       </div>
-      
-      <div id="sync-pill" class="sync-status-pill synced">
-        <span class="pulse-dot"></span>
-        <span id="sync-text">Conectado</span>
+
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+          <button class="lang-btn active" id="btn-lang-pt" onclick="switchLanguage('pt')">PT</button>
+          <button class="lang-btn" id="btn-lang-en" onclick="switchLanguage('en')">EN</button>
+        </div>
+
+        <!-- Live Sync Status -->
+        <div id="sync-pill" class="sync-pill synced">
+          <span class="beacon-dot"></span>
+          <span id="sync-text">Conectado</span>
+        </div>
       </div>
     </header>
 
-    <!-- Notification Banner -->
-    <div id="status-banner" class="status-banner"></div>
+    <!-- Feedback Banner -->
+    <div id="status-banner" class="alert-banner"></div>
 
     <!-- 1. Google Apps Script Web App Connection -->
-    <section class="card">
-      <div class="card-header">
+    <section class="section-card">
+      <div class="card-title-row">
         <h2 class="card-title">
-          <span class="card-title-icon">🔗</span>
-          Serviço Google Apps Script
+          <span class="card-icon">🔗</span>
+          <span id="txt-title-service">Serviço Google Apps Script</span>
         </h2>
+        <button id="btn-test-conn" class="text-link-btn">🔄 <span id="txt-btn-reload">Recarregar Dados</span></button>
       </div>
-      <div class="form-group">
-        <label for="api-url">URL do Web App:</label>
-        <input type="url" id="api-url" placeholder="https://script.google.com/macros/s/.../exec" />
+      <p class="card-desc" id="txt-desc-service">Endpoint do Web App vinculado à planilha Google lotter_realtime</p>
+      
+      <div class="input-group">
+        <label class="input-label" for="api-url" id="txt-lbl-endpoint">URL do Web App:</label>
+        <input type="url" id="api-url" class="input-control" placeholder="https://script.google.com/macros/s/.../exec" />
       </div>
-      <button id="btn-test-conn" class="chip-btn" style="padding: 9px; align-self: flex-start;">🔄 Testar &amp; Recarregar Dados</button>
     </section>
 
     <!-- 2. Token Range Configuration -->
-    <section class="card">
-      <div class="card-header">
+    <section class="section-card">
+      <div class="card-title-row">
         <h2 class="card-title">
-          <span class="card-title-icon">🔢</span>
-          Faixa de Números (Série)
+          <span class="card-icon">🔢</span>
+          <span id="txt-title-range">Faixa de Números (Série)</span>
         </h2>
       </div>
+      <p class="card-desc" id="txt-desc-range">Defina os limites numéricos para a geração dos bilhetes sorteados</p>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div class="form-group">
-          <label for="min-token">Número Mínimo:</label>
-          <input type="number" id="min-token" value="1111" />
+        <div class="input-group">
+          <label class="input-label" for="min-token" id="txt-lbl-min">Número Mínimo:</label>
+          <input type="number" id="min-token" class="input-control" value="1111" />
         </div>
-        <div class="form-group">
-          <label for="max-token">Número Máximo:</label>
-          <input type="number" id="max-token" value="1360" />
+        <div class="input-group">
+          <label class="input-label" for="max-token" id="txt-lbl-max">Número Máximo:</label>
+          <input type="number" id="max-token" class="input-control" value="1360" />
         </div>
       </div>
       
-      <div class="preset-chips">
-        <button class="chip-btn" onclick="setRange(1111, 1360)">1111 — 1360 (Padrão)</button>
-        <button class="chip-btn" onclick="setRange(100, 2000)">100 — 2000</button>
-        <button class="chip-btn" onclick="setRange(1, 5000)">1 — 5000</button>
-        <button class="chip-btn" onclick="setRange(1, 20000)">1 — 20000</button>
+      <div class="chips-grid">
+        <button class="chip-item" onclick="setRange(1111, 1360)">1111 — 1360 <span id="txt-chip-def">(Padrão)</span></button>
+        <button class="chip-item" onclick="setRange(100, 2000)">100 — 2000</button>
+        <button class="chip-item" onclick="setRange(1, 5000)">1 — 5000</button>
+        <button class="chip-item" onclick="setRange(1, 20000)">1 — 20000</button>
       </div>
     </section>
 
     <!-- 3. Preset Winning Tokens (Specific Winner / Random) -->
-    <section class="card">
-      <div class="card-header">
+    <section class="section-card">
+      <div class="card-title-row">
         <h2 class="card-title">
-          <span class="card-title-icon">🎯</span>
-          Números Vencedores por Prémio
+          <span class="card-icon">🎯</span>
+          <span id="txt-title-winners">Números Vencedores por Prémio</span>
         </h2>
-        <button class="btn-clear-link" id="btn-clear-winners">Deixar Todos Aleatórios</button>
+        <button class="text-link-btn" id="btn-clear-winners">🎲 <span id="txt-btn-clear-all">Deixar Todos Aleatórios</span></button>
       </div>
+      <p class="card-desc" id="txt-desc-winners">Atribua um número fixo ou deixe o campo em branco para sorteio aleatório</p>
 
-      <div class="prize-list">
+      <div class="prizes-stack">
         <!-- Prize 1 -->
-        <div class="prize-item">
-          <div class="prize-item-header">
-            <span class="prize-item-name">Coluna de Som LG XBOOM</span>
-            <span class="prize-badge">1º PRÉMIO</span>
+        <div class="prize-row">
+          <div class="prize-header-meta">
+            <span class="prize-name-label" id="txt-prize-1-name">Coluna de Som LG XBOOM RNC5</span>
+            <span class="prize-tag" id="txt-prize-1-badge">1º Prémio</span>
           </div>
-          <input type="text" id="prize-1-token" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-1-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 2 -->
-        <div class="prize-item">
-          <div class="prize-item-header">
-            <span class="prize-item-name">Fogão a Gás Prince 4 Bocas</span>
-            <span class="prize-badge">2º PRÉMIO</span>
+        <div class="prize-row">
+          <div class="prize-header-meta">
+            <span class="prize-name-label" id="txt-prize-2-name">Fogão a Gás Prince 4 Bocas</span>
+            <span class="prize-tag" id="txt-prize-2-badge">2º Prémio</span>
           </div>
-          <input type="text" id="prize-2-token" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-2-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 3 -->
-        <div class="prize-item">
-          <div class="prize-item-header">
-            <span class="prize-item-name">Ar-Condicionado Prince</span>
-            <span class="prize-badge">3º PRÉMIO</span>
+        <div class="prize-row">
+          <div class="prize-header-meta">
+            <span class="prize-name-label" id="txt-prize-3-name">Ar-Condicionado Inverter Prince</span>
+            <span class="prize-tag" id="txt-prize-3-badge">3º Prémio</span>
           </div>
-          <input type="text" id="prize-3-token" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-3-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 4 (Grand Prize) -->
-        <div class="prize-item grand">
-          <div class="prize-item-header">
-            <span class="prize-item-name">Geleira Prince Duas Portas</span>
-            <span class="prize-badge">GRANDE PRÉMIO</span>
+        <div class="prize-row grand-prize">
+          <div class="prize-header-meta">
+            <span class="prize-name-label" id="txt-prize-4-name">Geleira Prince Duas Portas</span>
+            <span class="prize-tag" id="txt-prize-4-badge">Grande Prémio</span>
           </div>
-          <input type="text" id="prize-4-token" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-4-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
         </div>
       </div>
     </section>
 
-    <!-- Save & Synchronize Button -->
-    <button id="btn-save-sync" class="btn-main-save">
-      <span id="save-icon">💾</span>
+    <!-- Main Save & Sync Button -->
+    <button id="btn-save-sync" class="btn-submit-main">
+      <span>💾</span>
       <span id="save-text">Salvar &amp; Sincronizar Alterações</span>
     </button>
 
     <!-- 4. Remote Live Controls -->
-    <section class="card">
-      <div class="card-header">
+    <section class="section-card">
+      <div class="card-title-row">
         <h2 class="card-title">
-          <span class="card-title-icon">🕹️</span>
-          Ações Remotas do Palco
+          <span class="card-icon">🕹️</span>
+          <span id="txt-title-remote">Ações Remotas do Palco</span>
         </h2>
       </div>
       
-      <div class="remote-grid">
-        <button class="btn-remote spin" id="btn-remote-spin">
-          🎰 Girar Roda no Palco
+      <div class="remote-actions-grid">
+        <button class="btn-control-tile spin-action" id="btn-remote-spin">
+          🎰 <span id="txt-btn-spin">Girar Roda no Palco</span>
         </button>
-        <button class="btn-remote next" id="btn-remote-next">
-          ❯ Próxima Rodada
+        <button class="btn-control-tile next-action" id="btn-remote-next">
+          ❯ <span id="txt-btn-next">Próxima Rodada</span>
         </button>
-        <button class="btn-remote reset" id="btn-remote-reset">
-          🔄 Reiniciar Sorteio
+        <button class="btn-control-tile reset-action" id="btn-remote-reset">
+          🔄 <span id="txt-btn-reset">Reiniciar Sorteio</span>
         </button>
       </div>
     </section>
@@ -602,10 +673,97 @@
 
   <script>
     const STORAGE_KEY = 'lottery_admin_api_url';
+    const LANG_STORAGE_KEY = 'lottery_admin_lang';
     const FALLBACK_URL = 'https://script.google.com/macros/s/AKfycbxzMMpp2xfmuKbIdFBKRLWsxsM0H_Nt5_5u1ZoS6dt5bxJm8StdqfeghjijLGq5KDxz/exec';
     const DEFAULT_API_URL = localStorage.getItem(STORAGE_KEY) || FALLBACK_URL;
+    let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || 'pt';
+
+    const I18N = {
+      pt: {
+        brandSub: 'Gestão de Séries e Controlo em Tempo Real',
+        synced: 'Conectado',
+        updating: 'A Atualizar...',
+        loading: 'A Carregar...',
+        error: 'Erro de Conexão',
+        noUrl: 'Sem URL',
+        serviceTitle: 'Serviço Google Apps Script',
+        serviceDesc: 'Endpoint do Web App vinculado à planilha Google lotter_realtime',
+        btnReload: 'Recarregar Dados',
+        lblEndpoint: 'URL do Web App:',
+        rangeTitle: 'Faixa de Números (Série)',
+        rangeDesc: 'Defina os limites numéricos para a geração dos bilhetes sorteados',
+        lblMin: 'Número Mínimo:',
+        lblMax: 'Número Máximo:',
+        chipDef: '(Padrão)',
+        winnersTitle: 'Números Vencedores por Prémio',
+        winnersDesc: 'Atribua um número fixo ou deixe o campo em branco para sorteio aleatório',
+        btnClearAll: 'Deixar Todos Aleatórios',
+        prize1: 'Coluna de Som LG XBOOM RNC5',
+        prize2: 'Fogão a Gás Prince 4 Bocas',
+        prize3: 'Ar-Condicionado Inverter Prince',
+        prize4: 'Geleira Prince Duas Portas',
+        badge1: '1º Prémio',
+        badge2: '2º Prémio',
+        badge3: '3º Prémio',
+        badge4: 'Grande Prémio',
+        placeholderRandom: 'Em branco = Sorteio Aleatório',
+        saveBtn: 'Salvar & Sincronizar Alterações',
+        saveBtnUpdating: 'A Atualizar Planilha...',
+        saveBtnSuccess: 'Sincronizado com Sucesso!',
+        remoteTitle: 'Ações Remotas do Palco',
+        btnSpin: 'Girar Roda no Palco',
+        btnNext: 'Próxima Rodada',
+        btnReset: 'Reiniciar Sorteio',
+        msgAllRandom: 'Todos os prémios foram definidos para Sorteio Aleatório.',
+        msgSaved: 'Configurações salvas e sincronizadas com sucesso!',
+        msgLoaded: 'Conectado com sucesso à planilha Google!',
+        msgSendingAction: (act) => `Enviando comando: ${act}...`
+      },
+      en: {
+        brandSub: 'Series Management & Live Stage Remote',
+        synced: 'Connected',
+        updating: 'Updating...',
+        loading: 'Loading...',
+        error: 'Connection Error',
+        noUrl: 'No URL',
+        serviceTitle: 'Google Apps Script Service',
+        serviceDesc: 'Web App endpoint linked to lotter_realtime Google Sheet',
+        btnReload: 'Reload Data',
+        lblEndpoint: 'Web App URL:',
+        rangeTitle: 'Number Range (Series)',
+        rangeDesc: 'Set numerical bounds for winning lottery tokens',
+        lblMin: 'Minimum Number:',
+        lblMax: 'Maximum Number:',
+        chipDef: '(Default)',
+        winnersTitle: 'Winning Tokens per Prize',
+        winnersDesc: 'Assign a fixed token number or leave blank for fair random draw',
+        btnClearAll: 'Set All to Random',
+        prize1: 'LG XBOOM RNC5 Sound Tower',
+        prize2: 'Prince 4-Burner Gas Cooker',
+        prize3: 'Prince Inverter Air Conditioner',
+        prize4: 'Prince Double-Door Refrigerator',
+        badge1: '1st Prize',
+        badge2: '2nd Prize',
+        badge3: '3rd Prize',
+        badge4: 'Grand Prize',
+        placeholderRandom: 'Blank = Fair Random Draw',
+        saveBtn: 'Save & Sync Changes',
+        saveBtnUpdating: 'Updating Spreadsheet...',
+        saveBtnSuccess: 'Synchronized Successfully!',
+        remoteTitle: 'Live Stage Remote Actions',
+        btnSpin: 'Spin Wheel on Stage',
+        btnNext: 'Next Round',
+        btnReset: 'Restart Lottery',
+        msgAllRandom: 'All prizes set to random draw mode.',
+        msgSaved: 'Configuration saved and synced successfully!',
+        msgLoaded: 'Successfully connected to Google Sheet!',
+        msgSendingAction: (act) => `Sending command: ${act}...`
+      }
+    };
 
     const dom = {
+      btnLangPt: document.getElementById('btn-lang-pt'),
+      btnLangEn: document.getElementById('btn-lang-en'),
       apiUrl: document.getElementById('api-url'),
       btnTestConn: document.getElementById('btn-test-conn'),
       syncPill: document.getElementById('sync-pill'),
@@ -629,13 +787,71 @@
       dom.apiUrl.value = DEFAULT_API_URL;
     }
 
-    function setSyncStatus(state, message) {
-      dom.syncPill.className = 'sync-status-pill ' + state;
-      dom.syncText.textContent = message;
+    function switchLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const t = I18N[currentLang];
+      dom.btnLangPt.classList.toggle('active', currentLang === 'pt');
+      dom.btnLangEn.classList.toggle('active', currentLang === 'en');
+
+      document.getElementById('txt-brand-sub').textContent = t.brandSub;
+      document.getElementById('txt-title-service').textContent = t.serviceTitle;
+      document.getElementById('txt-desc-service').textContent = t.serviceDesc;
+      document.getElementById('txt-btn-reload').textContent = t.btnReload;
+      document.getElementById('txt-lbl-endpoint').textContent = t.lblEndpoint;
+
+      document.getElementById('txt-title-range').textContent = t.rangeTitle;
+      document.getElementById('txt-desc-range').textContent = t.rangeDesc;
+      document.getElementById('txt-lbl-min').textContent = t.lblMin;
+      document.getElementById('txt-lbl-max').textContent = t.lblMax;
+      document.getElementById('txt-chip-def').textContent = t.chipDef;
+
+      document.getElementById('txt-title-winners').textContent = t.winnersTitle;
+      document.getElementById('txt-desc-winners').textContent = t.winnersDesc;
+      document.getElementById('txt-btn-clear-all').textContent = t.btnClearAll;
+
+      document.getElementById('txt-prize-1-name').textContent = t.prize1;
+      document.getElementById('txt-prize-2-name').textContent = t.prize2;
+      document.getElementById('txt-prize-3-name').textContent = t.prize3;
+      document.getElementById('txt-prize-4-name').textContent = t.prize4;
+
+      document.getElementById('txt-prize-1-badge').textContent = t.badge1;
+      document.getElementById('txt-prize-2-badge').textContent = t.badge2;
+      document.getElementById('txt-prize-3-badge').textContent = t.badge3;
+      document.getElementById('txt-prize-4-badge').textContent = t.badge4;
+
+      dom.prize1Token.placeholder = t.placeholderRandom;
+      dom.prize2Token.placeholder = t.placeholderRandom;
+      dom.prize3Token.placeholder = t.placeholderRandom;
+      dom.prize4Token.placeholder = t.placeholderRandom;
+
+      dom.saveText.textContent = t.saveBtn;
+      document.getElementById('txt-title-remote').textContent = t.remoteTitle;
+      document.getElementById('txt-btn-spin').textContent = t.btnSpin;
+      document.getElementById('txt-btn-next').textContent = t.btnNext;
+      document.getElementById('txt-btn-reset').textContent = t.btnReset;
+
+      dom.syncPill.className = 'sync-pill ' + currentSyncState;
+      dom.syncText.textContent = t[currentSyncMsgKey] || currentSyncMsgKey;
+    }
+
+    let currentSyncState = 'synced';
+    let currentSyncMsgKey = 'synced';
+
+    function setSyncStatus(state, messageKey) {
+      currentSyncState = state;
+      currentSyncMsgKey = messageKey;
+      dom.syncPill.className = 'sync-pill ' + state;
+      const t = I18N[currentLang];
+      dom.syncText.textContent = t[messageKey] || messageKey;
     }
 
     function showBanner(type, msg) {
-      dom.statusBanner.className = 'status-banner ' + type;
+      dom.statusBanner.className = 'alert-banner ' + type;
       dom.statusBanner.textContent = msg;
       setTimeout(() => {
         dom.statusBanner.style.display = 'none';
@@ -652,19 +868,19 @@
       dom.prize2Token.value = '';
       dom.prize3Token.value = '';
       dom.prize4Token.value = '';
-      showBanner('success', 'Todos os prémios foram definidos para Sorteio Aleatório.');
+      showBanner('success', I18N[currentLang].msgAllRandom);
     });
 
     // Fetch configuration from Google Sheets
     async function fetchConfig() {
       const url = dom.apiUrl.value.trim();
       if (!url) {
-        setSyncStatus('error', 'Sem URL');
+        setSyncStatus('error', 'noUrl');
         return;
       }
 
       localStorage.setItem(STORAGE_KEY, url);
-      setSyncStatus('updating', 'A Carregar...');
+      setSyncStatus('updating', 'loading');
 
       try {
         const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now());
@@ -679,14 +895,14 @@
           dom.prize3Token.value = data.prize3Winner || '';
           dom.prize4Token.value = data.prize4Winner || '';
 
-          setSyncStatus('synced', 'Sincronizado');
-          showBanner('success', 'Conectado com sucesso à planilha Google!');
+          setSyncStatus('synced', 'synced');
+          showBanner('success', I18N[currentLang].msgLoaded);
         } else {
-          throw new Error(data.message || 'Erro desconhecido');
+          throw new Error(data.message || 'Erro');
         }
       } catch (err) {
-        setSyncStatus('error', 'Erro Conexão');
-        showBanner('error', 'Erro ao conectar: ' + err.message);
+        setSyncStatus('error', 'error');
+        showBanner('error', 'Error: ' + err.message);
       }
     }
 
@@ -694,14 +910,14 @@
     async function saveConfig(actionOverride = null) {
       const url = dom.apiUrl.value.trim();
       if (!url) {
-        alert('Por favor, insira a URL do Web App do Google Apps Script.');
+        alert(currentLang === 'pt' ? 'Insira a URL do Web App.' : 'Please enter Web App URL.');
         return;
       }
 
       localStorage.setItem(STORAGE_KEY, url);
-      setSyncStatus('updating', 'A Atualizar...');
+      setSyncStatus('updating', 'updating');
       dom.btnSaveSync.disabled = true;
-      dom.saveText.textContent = 'A Atualizar Planilha...';
+      dom.saveText.textContent = I18N[currentLang].saveBtnUpdating;
 
       const payload = {
         minToken: Number(dom.minToken.value) || 1111,
@@ -722,27 +938,27 @@
 
         const data = await res.json();
         if (data.status === 'success') {
-          setSyncStatus('synced', 'Sincronizado');
-          showBanner('success', 'Configurações salvas e sincronizadas com sucesso!');
-          dom.saveText.textContent = 'Sincronizado com Sucesso!';
+          setSyncStatus('synced', 'synced');
+          showBanner('success', I18N[currentLang].msgSaved);
+          dom.saveText.textContent = I18N[currentLang].saveBtnSuccess;
           setTimeout(() => {
-            dom.saveText.textContent = 'Salvar & Sincronizar Alterações';
+            dom.saveText.textContent = I18N[currentLang].saveBtn;
             dom.btnSaveSync.disabled = false;
           }, 2500);
         } else {
-          throw new Error(data.message || 'Erro ao salvar');
+          throw new Error(data.message || 'Error');
         }
       } catch (err) {
-        setSyncStatus('error', 'Erro ao Salvar');
-        showBanner('error', 'Erro ao sincronizar: ' + err.message);
-        dom.saveText.textContent = 'Salvar & Sincronizar Alterações';
+        setSyncStatus('error', 'error');
+        showBanner('error', 'Error: ' + err.message);
+        dom.saveText.textContent = I18N[currentLang].saveBtn;
         dom.btnSaveSync.disabled = false;
       }
     }
 
     // Remote actions
     async function sendRemoteAction(action) {
-      showBanner('success', 'Enviando comando: ' + action + '...');
+      showBanner('success', I18N[currentLang].msgSendingAction(action));
       await saveConfig(action);
     }
 
@@ -752,10 +968,12 @@
     dom.btnRemoteNext.addEventListener('click', () => sendRemoteAction('NEXT'));
     dom.btnRemoteReset.addEventListener('click', () => sendRemoteAction('RESET'));
 
+    applyLanguage();
+
     if (DEFAULT_API_URL) {
       fetchConfig();
     } else {
-      setSyncStatus('error', 'Sem URL');
+      setSyncStatus('error', 'noUrl');
     }
   </script>
 </body>
