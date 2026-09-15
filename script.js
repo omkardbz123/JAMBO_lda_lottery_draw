@@ -588,27 +588,27 @@
   // =========================================================================
   // 9. Mechanical Deceleration Physics Model
   // =========================================================================
-  function calculateReelPosition(t, t_spin, t_decel, D_total) {
+  function calculateReelProgress(t, t_spin, t_decel) {
     const denom = t_spin + (1.0 / 3.0) * t_decel;
-    const v0 = D_total / denom;
+    const v0_norm = 1.0 / denom;
     const t_total = t_spin + t_decel;
 
     if (t <= 0) return 0;
-    if (t <= t_spin) return v0 * t;
+    if (t <= t_spin) return v0_norm * t;
     if (t < t_total) {
       const tau = (t - t_spin) / t_decel;
-      const d_decel = v0 * t_decel * (tau - Math.pow(tau, 2) + Math.pow(tau, 3) / 3.0);
-      return v0 * t_spin + d_decel;
+      const d_decel = v0_norm * t_decel * (tau - Math.pow(tau, 2) + Math.pow(tau, 3) / 3.0);
+      return Math.min(1.0, v0_norm * t_spin + d_decel);
     }
 
     const settleElapsed = t - t_total;
     if (settleElapsed < 0.18) {
       const s = settleElapsed / 0.18;
-      const bounce = Math.sin(s * Math.PI) * 4.0 * (1 - s);
-      return D_total + bounce;
+      const bounce = (Math.sin(s * Math.PI) * 4.0 * (1 - s)) / 800.0;
+      return 1.0 + bounce;
     }
 
-    return D_total;
+    return 1.0;
   }
 
   // =========================================================================
@@ -672,25 +672,12 @@
           slot: reelSlot,
           targetDigit,
           digitsSequence,
-          totalDistance: 0,
-          digitHeight: 0,
           t_spin: cfg.t_spin,
           t_decel: cfg.t_decel,
           totalTime,
           lastPassedDigit: -1,
           isLocked: false
         };
-      });
-
-      // Measure exact rendered digit height directly from DOM element
-      const firstDigitElem = reels[0].strip.querySelector('.reel-digit');
-      const measuredHeight = firstDigitElem && firstDigitElem.getBoundingClientRect().height > 0
-        ? firstDigitElem.getBoundingClientRect().height
-        : (dom.reelSlots[0].clientHeight || 168);
-
-      reels.forEach(r => {
-        r.digitHeight = measuredHeight;
-        r.totalDistance = (r.digitsSequence.length - 1) * measuredHeight;
       });
 
       const startTime = performance.now();
@@ -702,15 +689,6 @@
         for (let i = 0; i < 4; i++) {
           const r = reels[i];
           if (!r.isLocked) {
-            const currentY = calculateReelPosition(elapsedSec, r.t_spin, r.t_decel, r.totalDistance);
-            r.strip.style.transform = `translate3d(0, -${currentY.toFixed(1)}px, 0)`;
-
-            const currentPassed = Math.floor(currentY / r.digitHeight);
-            if (currentPassed > r.lastPassedDigit) {
-              r.lastPassedDigit = currentPassed;
-              audio.playTick();
-            }
-
             if (elapsedSec >= r.totalTime + 0.18) {
               r.isLocked = true;
               // Clean lock: swap strip to exact single winning digit at 0 offset
@@ -721,6 +699,20 @@
               audio.playReelLock(r.index);
             } else {
               allLocked = false;
+              const progress = calculateReelProgress(elapsedSec, r.t_spin, r.t_decel);
+              const digitElem = r.strip.firstElementChild;
+              const curH = digitElem && digitElem.getBoundingClientRect().height > 0
+                ? digitElem.getBoundingClientRect().height
+                : (r.slot.clientHeight || 168);
+              const curTotalDist = (r.digitsSequence.length - 1) * curH;
+              const currentY = progress * curTotalDist;
+              r.strip.style.transform = `translate3d(0, -${currentY.toFixed(1)}px, 0)`;
+
+              const currentPassed = Math.floor(currentY / (curH || 1));
+              if (currentPassed > r.lastPassedDigit) {
+                r.lastPassedDigit = currentPassed;
+                audio.playTick();
+              }
             }
           }
         }
@@ -1192,7 +1184,12 @@
       }
     }
 
-    document.addEventListener('fullscreenchange', updateFullscreenButton);
+    document.addEventListener('fullscreenchange', () => {
+      updateFullscreenButton();
+      if (!isSpinning) {
+        renderStaticReels();
+      }
+    });
 
     window.addEventListener('resize', () => {
       if (!isSpinning) {
