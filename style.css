@@ -212,15 +212,15 @@ html, body {
   z-index: 10;
 }
 
-/* Stage Area Bounded Box */
+/* /* Stage Area Bounded Box */
 .stage-center-anchor {
   position: absolute;
-  top: 44%;
+  top: 41%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 95vw;
-  max-width: 1550px;
-  height: 68vh;
+  width: 98vw;
+  max-width: 1800px;
+  height: 72vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -539,7 +539,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: clamp(8px, 1.6vh, 22px);
+  margin-bottom: clamp(10px, 1.8vh, 24px);
   text-align: center;
   animation: winner-entrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
@@ -552,9 +552,9 @@ html, body {
 /* "Congratulations!" Glowing Script */
 .congrats-script {
   font-family: var(--font-script);
-  font-size: clamp(3.2rem, 5.5vh, 5.8rem);
+  font-size: clamp(4.2rem, 7.5vh, 7.8rem);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.05;
   color: #ffca3a;
   text-shadow: 
     0 0 10px #ffb703,
@@ -562,7 +562,7 @@ html, body {
     0 0 45px #ffb703,
     2px 2px 4px rgba(0, 0, 0, 0.9);
   transform: rotate(-3deg);
-  margin-bottom: clamp(-12px, -1.5vh, -6px);
+  margin-bottom: clamp(-16px, -2vh, -8px);
 }
 
 /* "YOU ARE THE" Royal Purple Ribbon */
@@ -571,14 +571,14 @@ html, body {
   background: linear-gradient(180deg, #49179c 0%, #2f0e69 100%);
   border: 1.5px solid #ffcc00;
   color: #ffffff;
-  padding: clamp(3px, 0.5vh, 6px) clamp(18px, 2.2vw, 38px);
+  padding: clamp(4px, 0.6vh, 8px) clamp(22px, 2.5vw, 44px);
   border-radius: 4px;
-  font-size: clamp(0.78rem, 1.1vh, 1.15rem);
+  font-size: clamp(0.88rem, 1.3vh, 1.35rem);
   font-weight: 900;
-  letter-spacing: clamp(2px, 0.3vw, 4.5px);
+  letter-spacing: clamp(2.5px, 0.4vw, 5px);
   text-transform: uppercase;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 15px rgba(138, 43, 226, 0.6);
-  margin-bottom: clamp(-12px, -1.4vh, -6px);
+  margin-bottom: clamp(-14px, -1.8vh, -8px);
   z-index: 2;
 }
 
@@ -587,16 +587,16 @@ html, body {
   content: '★';
   color: #ffdd44;
   margin: 0 clamp(4px, 0.6vw, 10px);
-  font-size: clamp(0.7rem, 1vh, 0.95rem);
+  font-size: clamp(0.75rem, 1.1vh, 1.1rem);
 }
 
 /* Massive 3D Gold "WINNER" / "É O VENCEDOR!" */
 .winner-3d-text {
   font-family: var(--font-winner);
-  font-size: clamp(2.8rem, 6vh, 6rem);
+  font-size: clamp(3.6rem, 7.5vh, 7.5rem);
   font-weight: 900;
   line-height: 1.05;
-  letter-spacing: clamp(2px, 0.4vw, 7px);
+  letter-spacing: clamp(3px, 0.5vw, 9px);
   text-transform: uppercase;
   white-space: nowrap;
   background: linear-gradient(
@@ -628,13 +628,13 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(14px, 2vw, 36px);
+  gap: clamp(18px, 2.5vw, 44px);
   width: 100%;
 }
 
 .flank-prize {
-  width: clamp(180px, 16vw, 320px);
-  height: clamp(150px, 20vh, 280px);
+  width: clamp(240px, 22vw, 400px);
+  height: clamp(200px, 28vh, 360px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -656,10 +656,12 @@ html, body {
 }
 
 .flank-prize img {
+  width: 100%;
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(0, 242, 254, 0.4));
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 25px rgba(0, 242, 254, 0.45));
 }
 
 /* ==========================================================================
