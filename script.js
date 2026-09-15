@@ -1327,8 +1327,10 @@
   // =========================================================================
   // 16. Google Sheets & Apps Script Real-Time Synchronization
   // =========================================================================
+  const DEFAULT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxw7ioFbt2ZE_EpAjwBzS4kDvqmx0HsEW81AvWVNd2rmn5ojrfMnWI5Do6bhfb55QMl/exec';
+
   async function pollGoogleSheetsSync() {
-    const url = localStorage.getItem(API_STORAGE_KEY);
+    const url = localStorage.getItem(API_STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL;
     if (!url) return;
 
     try {
@@ -1395,7 +1397,7 @@
   }
 
   async function logWinnerToSheet(record) {
-    const url = localStorage.getItem(API_STORAGE_KEY);
+    const url = localStorage.getItem(API_STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL;
     if (!url) return;
     try {
       await fetch(url, {

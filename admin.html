@@ -517,7 +517,8 @@
 
   <script>
     const STORAGE_KEY = 'lottery_admin_api_url';
-    const DEFAULT_API_URL = localStorage.getItem(STORAGE_KEY) || '';
+    const FALLBACK_URL = 'https://script.google.com/macros/s/AKfycbxw7ioFbt2ZE_EpAjwBzS4kDvqmx0HsEW81AvWVNd2rmn5ojrfMnWI5Do6bhfb55QMl/exec';
+    const DEFAULT_API_URL = localStorage.getItem(STORAGE_KEY) || FALLBACK_URL;
 
     const dom = {
       apiUrl: document.getElementById('api-url'),
