@@ -3,21 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Painel de Controlo - Mega Lottery Admin</title>
+  <title>Admin Dashboard - Mega Lottery Controller</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --neon-cyan: #00f2fe;
-      --neon-blue: #4facfe;
-      --gold-primary: #ffde7a;
-      --gold-gradient: linear-gradient(90deg, #fbc02d 0%, #f59e0b 50%, #e67e22 100%);
-      --bg-dark: #030a1c;
-      --card-bg: rgba(9, 24, 58, 0.85);
-      --border-glow: rgba(0, 242, 254, 0.35);
-      --font-main: 'Montserrat', -apple-system, sans-serif;
-      --font-title: 'Cinzel', serif;
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #151f32;
+      --bg-card-hover: #1a273f;
+      --bg-input: #0b1120;
+      
+      --border-subtle: #1e293b;
+      --border-medium: #334155;
+      --border-focus: #38bdf8;
+      
+      --accent-blue: #38bdf8;
+      --accent-blue-dark: #0284c7;
+      --accent-blue-soft: rgba(56, 189, 248, 0.12);
+      
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      
+      --status-green: #10b981;
+      --status-green-bg: rgba(16, 185, 129, 0.12);
+      --status-amber: #f59e0b;
+      --status-amber-bg: rgba(245, 158, 11, 0.12);
+      --status-red: #ef4444;
+      --status-red-bg: rgba(239, 68, 68, 0.12);
+      
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     * {
@@ -28,206 +45,239 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.12) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 90%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
-      font-family: var(--font-main);
-      color: #ffffff;
+      background-color: var(--bg-base);
+      font-family: var(--font-sans);
+      color: var(--text-primary);
       min-height: 100vh;
-      padding: 16px 14px 40px;
+      padding: 20px 14px 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      line-height: 1.5;
     }
 
     .admin-container {
       width: 100%;
-      max-width: 680px;
+      max-width: 620px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    /* Header Bar */
+    /* Top Executive Header */
     .header-bar {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      text-align: center;
-      padding: 14px 10px;
-      background: var(--card-bg);
-      border: 1.5px solid var(--border-glow);
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 254, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-medium);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
     .header-title {
-      font-family: var(--font-title);
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--gold-primary);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    /* Live Sync Pill */
-    .sync-status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 9999px;
-      font-size: 0.82rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      letter-spacing: 1px;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .sync-status-pill.synced {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: #10b981;
-      color: #6ee7b7;
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
-    }
-
-    .sync-status-pill.updating {
-      background: rgba(245, 158, 11, 0.2);
-      border-color: #f59e0b;
-      color: #fde68a;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
-    }
-
-    .sync-status-pill.error {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #ef4444;
-      color: #fca5a5;
-      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
-    }
-
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 8px currentColor;
-      animation: pulse 1.5s infinite ease-in-out;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
-
-    /* Cards */
-    .card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--border-glow);
-      border-radius: 16px;
-      padding: 18px 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--neon-cyan);
-      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
-      letter-spacing: 0.5px;
     }
 
-    /* Form Fields */
+    .header-title-badge {
+      color: var(--accent-blue);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      background: var(--accent-blue-soft);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 6px;
+    }
+
+    .header-subtitle {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Status Pill */
+    .sync-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+    }
+
+    .sync-status-pill.synced {
+      background: var(--status-green-bg);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .sync-status-pill.updating {
+      background: var(--status-amber-bg);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    .sync-status-pill.error {
+      background: var(--status-red-bg);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Dashboard Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title-icon {
+      color: var(--accent-blue);
+      font-size: 1rem;
+    }
+
+    /* Form Inputs */
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
     }
 
     label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #cbd5e1;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
 
     input[type="text"],
     input[type="number"],
     input[type="url"] {
       width: 100%;
-      padding: 12px 14px;
-      background: rgba(4, 13, 33, 0.85);
-      border: 1.5px solid rgba(0, 242, 254, 0.3);
-      border-radius: 10px;
-      color: #ffffff;
-      font-family: var(--font-main);
-      font-size: 1rem;
-      font-weight: 700;
+      padding: 10px 12px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 600;
       outline: none;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
     }
 
     input:focus {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-      background: rgba(7, 21, 54, 0.95);
+      border-color: var(--border-focus);
+      background: #0d1527;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
     }
 
-    /* Quick Preset Buttons */
+    input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    /* Quick Preset Chips */
     .preset-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
 
     .chip-btn {
-      background: rgba(15, 39, 84, 0.8);
-      border: 1px solid rgba(0, 242, 254, 0.35);
-      color: #c7ecff;
-      border-radius: 9999px;
-      padding: 5px 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      color: var(--text-secondary);
+      border-radius: 6px;
+      padding: 6px 12px;
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
 
-    .chip-btn:hover, .chip-btn:active {
-      background: rgba(0, 242, 254, 0.25);
-      border-color: var(--neon-cyan);
-      color: #ffffff;
+    .chip-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
     }
 
-    /* Prize Cards List */
+    .chip-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Prize Config Rows */
+    .prize-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     .prize-item {
-      background: rgba(4, 13, 33, 0.6);
-      border: 1px solid rgba(255, 222, 122, 0.25);
-      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
       padding: 12px 14px;
-      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+      transition: border-color 0.2s ease;
     }
 
-    .prize-item.grand {
-      border-color: rgba(255, 215, 0, 0.6);
-      background: rgba(25, 18, 4, 0.5);
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+    .prize-item:focus-within {
+      border-color: rgba(56, 189, 248, 0.5);
     }
 
     .prize-item-header {
@@ -237,71 +287,74 @@
     }
 
     .prize-item-name {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .prize-badge {
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       padding: 3px 8px;
-      border-radius: 9999px;
-      background: rgba(0, 242, 254, 0.15);
-      color: var(--neon-cyan);
-      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.25);
     }
 
     .prize-item.grand .prize-badge {
-      background: rgba(255, 215, 0, 0.2);
-      color: #ffd700;
-      border-color: #ffd700;
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
     }
 
-    .prize-input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
+    .btn-clear-link {
+      background: none;
+      border: none;
+      color: var(--accent-blue);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
     }
 
-    .prize-input-row input {
-      flex: 1;
-      padding: 10px 12px;
-      font-size: 0.95rem;
+    .btn-clear-link:hover {
+      color: #7dd3fc;
     }
 
-    .random-hint {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      font-style: italic;
-    }
-
-    /* Action Buttons */
+    /* Main Save & Sync Button */
     .btn-main-save {
       width: 100%;
-      padding: 16px 20px;
-      background: var(--gold-gradient);
-      border: 1.5px solid #ffde7a;
-      border-radius: 9999px;
-      color: #061026;
-      font-family: var(--font-main);
-      font-size: 1.1rem;
-      font-weight: 900;
-      letter-spacing: 1.5px;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border: 1px solid #38bdf8;
+      border-radius: 8px;
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
-      transition: all 0.25s ease;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .btn-main-save:active {
-      transform: scale(0.98);
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.7);
+    .btn-main-save:hover:not(:disabled) {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-main-save:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
     }
 
     .btn-main-save:disabled {
@@ -309,7 +362,7 @@
       cursor: not-allowed;
     }
 
-    /* Remote Stage Controls */
+    /* Remote Stage Controls Grid */
     .remote-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -318,73 +371,86 @@
 
     .btn-remote {
       padding: 12px 14px;
-      border-radius: 12px;
-      font-family: var(--font-main);
-      font-size: 0.88rem;
-      font-weight: 800;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       text-transform: uppercase;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
 
     .btn-remote.spin {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      border: 1.5px solid #38bdf8;
-      color: #ffffff;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
       grid-column: span 2;
-      padding: 14px;
-      font-size: 0.98rem;
+      background: #0284c7;
+      border: 1px solid #38bdf8;
+      color: #ffffff;
+      padding: 13px;
+    }
+
+    .btn-remote.spin:hover {
+      background: #0369a1;
     }
 
     .btn-remote.next {
-      background: rgba(15, 39, 84, 0.85);
-      border: 1.5px solid rgba(0, 242, 254, 0.4);
-      color: #c7ecff;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      color: var(--text-primary);
+    }
+
+    .btn-remote.next:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
     }
 
     .btn-remote.reset {
-      background: rgba(69, 10, 10, 0.85);
-      border: 1.5px solid rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
       color: #fca5a5;
     }
 
+    .btn-remote.reset:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+
     .btn-remote:active {
-      transform: scale(0.96);
+      transform: translateY(1px);
     }
 
     /* Notification Banner */
     .status-banner {
       padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 700;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
       display: none;
       align-items: center;
-      gap: 10px;
-      animation: fadeIn 0.3s ease forwards;
+      gap: 8px;
+      animation: slideDown 0.2s ease forwards;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-6px); }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .status-banner.success {
       display: flex;
-      background: rgba(16, 185, 129, 0.2);
-      border: 1.5px solid #10b981;
+      background: var(--status-green-bg);
+      border: 1px solid rgba(16, 185, 129, 0.4);
       color: #6ee7b7;
     }
 
     .status-banner.error {
       display: flex;
-      background: rgba(239, 68, 68, 0.2);
-      border: 1.5px solid #ef4444;
+      background: var(--status-red-bg);
+      border: 1px solid rgba(239, 68, 68, 0.4);
       color: #fca5a5;
     }
   </style>
@@ -393,33 +459,49 @@
 
   <div class="admin-container">
     
-    <!-- Top Header -->
+    <!-- Top Executive Header Bar -->
     <header class="header-bar">
-      <h1 class="header-title">Mega Lottery Remote</h1>
-      <div id="sync-pill" class="sync-status-pill">
+      <div class="header-title-wrap">
+        <h1 class="header-title">
+          Lottery Remote
+          <span class="header-title-badge">PRO ADMIN</span>
+        </h1>
+        <span class="header-subtitle">Gestão de Séries e Controlo em Tempo Real</span>
+      </div>
+      
+      <div id="sync-pill" class="sync-status-pill synced">
         <span class="pulse-dot"></span>
-        <span id="sync-text">A Conectar...</span>
+        <span id="sync-text">Conectado</span>
       </div>
     </header>
 
-    <!-- Feedback Banner -->
+    <!-- Notification Banner -->
     <div id="status-banner" class="status-banner"></div>
 
     <!-- 1. Google Apps Script Web App Connection -->
     <section class="card">
-      <h2 class="card-title">🌐 Conexão Google Apps Script</h2>
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="card-title-icon">🔗</span>
+          Serviço Google Apps Script
+        </h2>
+      </div>
       <div class="form-group">
-        <label for="api-url">URL do Web App (Apps Script):</label>
+        <label for="api-url">URL do Web App:</label>
         <input type="url" id="api-url" placeholder="https://script.google.com/macros/s/.../exec" />
       </div>
-      <div style="display: flex; gap: 8px; margin-top: 10px;">
-        <button id="btn-test-conn" class="chip-btn" style="flex: 1; padding: 9px;">🔄 Testar & Carregar Dados</button>
-      </div>
+      <button id="btn-test-conn" class="chip-btn" style="padding: 9px; align-self: flex-start;">🔄 Testar &amp; Recarregar Dados</button>
     </section>
 
     <!-- 2. Token Range Configuration -->
     <section class="card">
-      <h2 class="card-title">🔢 Faixa de Números (Série)</h2>
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="card-title-icon">🔢</span>
+          Faixa de Números (Série)
+        </h2>
+      </div>
+      
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div class="form-group">
           <label for="min-token">Número Mínimo:</label>
@@ -441,65 +523,68 @@
 
     <!-- 3. Preset Winning Tokens (Specific Winner / Random) -->
     <section class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <h2 class="card-title" style="margin-bottom: 0;">🎯 Números Vencedores</h2>
-        <button class="chip-btn" id="btn-clear-winners">🎲 Deixar Todos Aleatórios</button>
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="card-title-icon">🎯</span>
+          Números Vencedores por Prémio
+        </h2>
+        <button class="btn-clear-link" id="btn-clear-winners">Deixar Todos Aleatórios</button>
       </div>
 
-      <!-- Prize 1 -->
-      <div class="prize-item">
-        <div class="prize-item-header">
-          <span class="prize-item-name">Coluna de Som LG XBOOM</span>
-          <span class="prize-badge">1º PRÉMIO</span>
+      <div class="prize-list">
+        <!-- Prize 1 -->
+        <div class="prize-item">
+          <div class="prize-item-header">
+            <span class="prize-item-name">Coluna de Som LG XBOOM</span>
+            <span class="prize-badge">1º PRÉMIO</span>
+          </div>
+          <input type="text" id="prize-1-token" placeholder="Em branco = Sorteio Aleatório" />
         </div>
-        <div class="prize-input-row">
-          <input type="text" id="prize-1-token" placeholder="Deixe em branco para Aleatório" />
-        </div>
-      </div>
 
-      <!-- Prize 2 -->
-      <div class="prize-item">
-        <div class="prize-item-header">
-          <span class="prize-item-name">Fogão a Gás Prince 4 Bocas</span>
-          <span class="prize-badge">2º PRÉMIO</span>
+        <!-- Prize 2 -->
+        <div class="prize-item">
+          <div class="prize-item-header">
+            <span class="prize-item-name">Fogão a Gás Prince 4 Bocas</span>
+            <span class="prize-badge">2º PRÉMIO</span>
+          </div>
+          <input type="text" id="prize-2-token" placeholder="Em branco = Sorteio Aleatório" />
         </div>
-        <div class="prize-input-row">
-          <input type="text" id="prize-2-token" placeholder="Deixe em branco para Aleatório" />
-        </div>
-      </div>
 
-      <!-- Prize 3 -->
-      <div class="prize-item">
-        <div class="prize-item-header">
-          <span class="prize-item-name">Ar-Condicionado Prince</span>
-          <span class="prize-badge">3º PRÉMIO</span>
+        <!-- Prize 3 -->
+        <div class="prize-item">
+          <div class="prize-item-header">
+            <span class="prize-item-name">Ar-Condicionado Prince</span>
+            <span class="prize-badge">3º PRÉMIO</span>
+          </div>
+          <input type="text" id="prize-3-token" placeholder="Em branco = Sorteio Aleatório" />
         </div>
-        <div class="prize-input-row">
-          <input type="text" id="prize-3-token" placeholder="Deixe em branco para Aleatório" />
-        </div>
-      </div>
 
-      <!-- Prize 4 (Grand Prize) -->
-      <div class="prize-item grand">
-        <div class="prize-item-header">
-          <span class="prize-item-name">Geleira Prince Duas Portas</span>
-          <span class="prize-badge">GRANDE PRÉMIO</span>
-        </div>
-        <div class="prize-input-row">
-          <input type="text" id="prize-4-token" placeholder="Deixe em branco para Aleatório" />
+        <!-- Prize 4 (Grand Prize) -->
+        <div class="prize-item grand">
+          <div class="prize-item-header">
+            <span class="prize-item-name">Geleira Prince Duas Portas</span>
+            <span class="prize-badge">GRANDE PRÉMIO</span>
+          </div>
+          <input type="text" id="prize-4-token" placeholder="Em branco = Sorteio Aleatório" />
         </div>
       </div>
     </section>
 
-    <!-- Main Save & Sync Button -->
+    <!-- Save & Synchronize Button -->
     <button id="btn-save-sync" class="btn-main-save">
       <span id="save-icon">💾</span>
-      <span id="save-text">Salvar &amp; Sincronizar Agora</span>
+      <span id="save-text">Salvar &amp; Sincronizar Alterações</span>
     </button>
 
-    <!-- 4. Remote Trigger Actions -->
-    <section class="card" style="margin-top: 8px;">
-      <h2 class="card-title">🕹️ Controlo Remoto do Palco</h2>
+    <!-- 4. Remote Live Controls -->
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="card-title-icon">🕹️</span>
+          Ações Remotas do Palco
+        </h2>
+      </div>
+      
       <div class="remote-grid">
         <button class="btn-remote spin" id="btn-remote-spin">
           🎰 Girar Roda no Palco
@@ -567,14 +652,14 @@
       dom.prize2Token.value = '';
       dom.prize3Token.value = '';
       dom.prize4Token.value = '';
-      showBanner('success', '🎲 Todos os prémios foram definidos para Sorteio Aleatório.');
+      showBanner('success', 'Todos os prémios foram definidos para Sorteio Aleatório.');
     });
 
     // Fetch configuration from Google Sheets
     async function fetchConfig() {
       const url = dom.apiUrl.value.trim();
       if (!url) {
-        setSyncStatus('error', 'URL Ausente');
+        setSyncStatus('error', 'Sem URL');
         return;
       }
 
@@ -595,13 +680,13 @@
           dom.prize4Token.value = data.prize4Winner || '';
 
           setSyncStatus('synced', 'Sincronizado');
-          showBanner('success', '✅ Conectado com sucesso à planilha Google!');
+          showBanner('success', 'Conectado com sucesso à planilha Google!');
         } else {
           throw new Error(data.message || 'Erro desconhecido');
         }
       } catch (err) {
         setSyncStatus('error', 'Erro Conexão');
-        showBanner('error', '❌ Erro ao conectar: ' + err.message + '. Verifique se o Web App está com acesso "Anyone".');
+        showBanner('error', 'Erro ao conectar: ' + err.message);
       }
     }
 
@@ -638,10 +723,10 @@
         const data = await res.json();
         if (data.status === 'success') {
           setSyncStatus('synced', 'Sincronizado');
-          showBanner('success', '✅ Configurações salvas e sincronizadas com sucesso!');
-          dom.saveText.textContent = '✅ Sincronizado com Sucesso!';
+          showBanner('success', 'Configurações salvas e sincronizadas com sucesso!');
+          dom.saveText.textContent = 'Sincronizado com Sucesso!';
           setTimeout(() => {
-            dom.saveText.textContent = 'Salvar & Sincronizar Agora';
+            dom.saveText.textContent = 'Salvar & Sincronizar Alterações';
             dom.btnSaveSync.disabled = false;
           }, 2500);
         } else {
@@ -649,15 +734,15 @@
         }
       } catch (err) {
         setSyncStatus('error', 'Erro ao Salvar');
-        showBanner('error', '❌ Erro ao sincronizar: ' + err.message);
-        dom.saveText.textContent = 'Salvar & Sincronizar Agora';
+        showBanner('error', 'Erro ao sincronizar: ' + err.message);
+        dom.saveText.textContent = 'Salvar & Sincronizar Alterações';
         dom.btnSaveSync.disabled = false;
       }
     }
 
     // Remote actions
     async function sendRemoteAction(action) {
-      showBanner('success', '📡 Enviando comando: ' + action + '...');
+      showBanner('success', 'Enviando comando: ' + action + '...');
       await saveConfig(action);
     }
 
