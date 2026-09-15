@@ -1814,23 +1814,383 @@ html, body {
 }
 
 /* ==========================================================================
-   Responsive Scaling Fallbacks & Edge Screens
+   Comprehensive Mobile Phone Responsive Optimizations (<= 899px)
+   Widescreen (>= 900px) remains completely unchanged.
    ========================================================================== */
-@media (max-width: 900px) {
-  .flank-prize {
+@media (max-width: 899px) {
+  :root {
+    --reel-h: clamp(75px, 11vh, 100px);
+  }
+
+  html, body {
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  #app-container {
+    background-size: cover;
+    background-position: center 25%;
+    height: 100vh;
+    height: 100dvh;
+    padding: 0;
+  }
+
+  /* 1. Grand Welcome Screen on Mobile */
+  .curtain-center-card {
+    width: 90vw;
+    max-width: 360px;
+    padding: 24px 16px;
+    gap: 16px;
+    border-radius: 24px;
+  }
+
+  .curtain-main-title {
+    gap: 2px;
+  }
+
+  .title-line-1 {
+    font-size: clamp(1.2rem, 5.5vw, 1.8rem);
+    letter-spacing: 3px;
+  }
+
+  .title-line-2,
+  .title-line-3 {
+    font-size: clamp(1.8rem, 8.5vw, 2.7rem);
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+
+  .btn-open-curtains {
+    width: 100%;
+    max-width: 300px;
+    padding: 13px 20px;
+    font-size: 0.95rem;
+    letter-spacing: 1.2px;
+  }
+
+  /* 2. Top Header Navigation HUD on Mobile */
+  .top-nav-hud {
+    top: 8px;
+    width: calc(100% - 16px);
+    max-width: 440px;
+    transform: translateX(-50%);
+  }
+
+  .hud-capsule {
+    padding: 4px 8px;
+    gap: 4px;
+    border-radius: 20px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .round-pill {
+    padding: 3px 8px;
+    font-size: 0.68rem;
+    gap: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .round-pill .pulse-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .hud-divider {
+    height: 14px;
     display: none;
   }
+
+  .hud-btn {
+    padding: 3px 7px;
+    font-size: 0.68rem;
+    gap: 4px;
+  }
+
+  #sound-text,
+  #fullscreen-text {
+    display: none;
+  }
+
+  .hud-btn.lang-btn {
+    padding: 3px 7px;
+  }
+
+  .lang-pill {
+    font-size: 0.72rem;
+  }
+
+  /* 3. Main Stage Layout on Mobile */
+  .main-stage {
+    padding: 55px 12px clamp(75px, 12vh, 95px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stage-center-anchor {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 4. Showcase View on Mobile */
+  .showcase-view {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prize-display-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .prize-info-panel {
+    position: static;
+    transform: none;
+    width: 100%;
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+
+  .prize-title-text {
+    font-size: clamp(1.2rem, 5.2vw, 1.75rem);
+    letter-spacing: 1px;
+    line-height: 1.25;
+  }
+
+  .prize-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: clamp(170px, 32vh, 250px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prize-image-wrapper img {
+    max-height: clamp(160px, 30vh, 240px);
+    max-width: 82vw;
+    object-fit: contain;
+  }
+
+  .podium-light-ring {
+    width: clamp(180px, 65vw, 280px);
+    height: clamp(35px, 6vh, 50px);
+    bottom: -10px;
+  }
+
+  /* 5. Token Cylinder & Slot Machine Reels on Mobile */
+  .flank-prize {
+    display: none !important;
+  }
+
+  .wheel-stage-row {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .token-cylinder-container {
+    padding: 8px 10px;
+    border-radius: 22px;
+    max-width: 96vw;
+    border-width: 2.5px;
+  }
+
+  .token-cylinder-container::before {
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 26px;
+  }
+
+  .reels-grid {
+    gap: 6px;
+  }
+
+  .reel-slot {
+    width: clamp(52px, 19vw, 76px);
+    height: var(--reel-h);
+    border-radius: 10px;
+    border-width: 2px;
+  }
+
+  .reels-grid.five-digits .reel-slot {
+    width: clamp(44px, 16vw, 62px);
+  }
+
+  .reel-digit {
+    font-size: clamp(2.4rem, 8.8vw, 3.8rem);
+    height: var(--reel-h);
+    min-height: var(--reel-h);
+    max-height: var(--reel-h);
+    line-height: var(--reel-h);
+    letter-spacing: -1px;
+  }
+
+  /* 6. Winner Celebration Header & Plaque on Mobile */
+  .winner-header-group {
+    margin-bottom: 8px;
+  }
+
+  .winner-faded-shadow-bg {
+    width: 95vw;
+    height: 150px;
+  }
+
+  .congrats-script {
+    font-size: clamp(2.2rem, 9.2vw, 3.5rem);
+    line-height: 1.15;
+    padding: 0.1em;
+  }
+
+  .winner-gold-swoosh {
+    margin: 1px 0;
+    max-width: 90vw;
+  }
+
+  .winner-gold-swoosh .swoosh-svg {
+    width: 90vw;
+    height: 14px;
+  }
+
+  .winner-3d-text {
+    font-size: clamp(1.3rem, 5.8vw, 2.1rem);
+    letter-spacing: 2px;
+  }
+
+  .winner-prize-plaque {
+    padding: 6px 14px;
+    border-radius: 14px;
+    margin-top: 8px;
+    max-width: 94vw;
+  }
+
+  .plaque-prize-title {
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+  }
+
+  .laurel-svg {
+    width: 18px;
+    height: 28px;
+  }
+
+  /* 7. Bottom Stage Action Buttons on Mobile */
+  .bottom-action-bar {
+    padding: 0 16px calc(14px + env(safe-area-inset-bottom, 8px)) 16px;
+    z-index: 50;
+  }
+
+  .btn-spin-wheel,
+  .btn-next-draw {
+    width: 100%;
+    max-width: 320px;
+    min-width: auto;
+    padding: 12px 18px;
+    font-size: 0.92rem;
+    letter-spacing: 1px;
+  }
+
+  /* 8. Winners Drawer on Mobile (Bottom Sheet) */
+  .winners-drawer {
+    width: 100%;
+    max-width: 100%;
+    right: 0;
+    top: auto;
+    bottom: -100%;
+    height: 80vh;
+    height: 80dvh;
+    border-left: none;
+    border-top: 2px solid rgba(0, 242, 254, 0.4);
+    border-radius: 22px 22px 0 0;
+    transition: bottom 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  }
+
+  .winners-drawer.active {
+    bottom: 0;
+    right: 0;
+  }
+
+  .drawer-header {
+    padding: 16px 18px;
+  }
+
+  .drawer-title {
+    font-size: 1.1rem;
+  }
+
+  .drawer-content {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .winner-card {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .winner-card-thumb {
+    width: 54px;
+    height: 48px;
+  }
+
+  .winner-card-title {
+    font-size: 0.85rem;
+  }
+
+  .winner-card-token {
+    font-size: 1.05rem;
+  }
+
+  /* 9. End of Draw Summary Modal on Mobile */
+  .summary-modal-card {
+    width: 92vw;
+    max-width: 92vw;
+    max-height: 88vh;
+    max-height: 88dvh;
+    padding: 20px 14px;
+    border-radius: 20px;
+    overflow-y: auto;
+  }
+
+  .summary-title {
+    font-size: 1.35rem;
+  }
+
+  .summary-prizes-grid,
   .finale-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .summary-prize-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .summary-actions-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-summary-action {
+    width: 100%;
   }
 }
 
-@media (max-width: 600px) {
-  .finale-grid {
-    grid-template-columns: 1fr;
-  }
-  .ribbon-banner {
-    font-size: 0.72rem;
-    padding: 3px 14px;
-  }
-}

@@ -723,6 +723,151 @@
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-white);
     }
+
+    /* =========================================================================
+       Mobile Phone Specific Optimizations (<= 580px)
+       ========================================================================= */
+    @media (max-width: 580px) {
+      body {
+        padding: 12px 10px calc(24px + env(safe-area-inset-bottom, 16px));
+      }
+
+      .dashboard-wrapper {
+        gap: 12px;
+      }
+
+      .top-nav {
+        padding: 12px 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .brand-block {
+        flex: 1 1 auto;
+      }
+
+      .brand-title {
+        font-size: 1.05rem;
+      }
+
+      .brand-sub {
+        font-size: 0.72rem;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .lang-switcher {
+        padding: 2px;
+      }
+
+      .lang-btn {
+        padding: 5px 9px;
+        font-size: 0.72rem;
+      }
+
+      .sync-pill {
+        padding: 5px 10px;
+        font-size: 0.68rem;
+      }
+
+      .section-card {
+        padding: 15px 14px;
+        gap: 13px;
+        border-radius: var(--radius-md);
+      }
+
+      .card-title {
+        font-size: 0.88rem;
+      }
+
+      .card-desc {
+        font-size: 0.74rem;
+      }
+
+      .input-control {
+        padding: 11px 12px;
+        font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+        border-radius: var(--radius-sm);
+      }
+
+      .chips-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+
+      .chip-item {
+        padding: 9px 6px;
+        font-size: 0.74rem;
+      }
+
+      .prize-row {
+        padding: 12px 12px;
+        gap: 8px;
+      }
+
+      .prize-name-label {
+        font-size: 0.82rem;
+      }
+
+      .prize-tag {
+        font-size: 0.64rem;
+        padding: 2px 6px;
+      }
+
+      .btn-submit-main {
+        padding: 14px 18px;
+        font-size: 0.9rem;
+      }
+
+      .remote-actions-grid {
+        gap: 8px;
+      }
+
+      .btn-control-tile {
+        padding: 12px 10px;
+        font-size: 0.78rem;
+      }
+
+      .modal-card {
+        padding: 22px 16px;
+        gap: 16px;
+        max-width: 95vw;
+        border-radius: var(--radius-md);
+      }
+
+      .modal-title {
+        font-size: 1.05rem;
+      }
+
+      .modal-desc {
+        font-size: 0.8rem;
+      }
+
+      .modal-icon-badge {
+        width: 58px;
+        height: 58px;
+        font-size: 1.7rem;
+      }
+
+      .modal-details-box {
+        padding: 12px;
+        gap: 8px;
+      }
+
+      .modal-detail-row {
+        font-size: 0.76rem;
+      }
+
+      .modal-btn {
+        padding: 12px 14px;
+        font-size: 0.88rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -770,7 +915,7 @@
       
       <div class="input-group">
         <label class="input-label" for="api-url" id="txt-lbl-endpoint">URL do Web App:</label>
-        <input type="url" id="api-url" class="input-control" placeholder="https://script.google.com/macros/s/.../exec" />
+        <input type="url" id="api-url" class="input-control" inputmode="url" placeholder="https://script.google.com/macros/s/.../exec" />
       </div>
     </section>
 
@@ -787,11 +932,11 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div class="input-group">
           <label class="input-label" for="min-token" id="txt-lbl-min">Número Mínimo:</label>
-          <input type="number" id="min-token" class="input-control" value="1111" />
+          <input type="number" id="min-token" class="input-control" inputmode="numeric" pattern="[0-9]*" value="1111" />
         </div>
         <div class="input-group">
           <label class="input-label" for="max-token" id="txt-lbl-max">Número Máximo:</label>
-          <input type="number" id="max-token" class="input-control" value="1360" />
+          <input type="number" id="max-token" class="input-control" inputmode="numeric" pattern="[0-9]*" value="1360" />
         </div>
       </div>
       
@@ -821,7 +966,7 @@
             <span class="prize-name-label" id="txt-prize-1-name">Coluna de Som LG XBOOM RNC5</span>
             <span class="prize-tag" id="txt-prize-1-badge">1º Prémio</span>
           </div>
-          <input type="text" id="prize-1-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-1-token" class="input-control" inputmode="numeric" pattern="[0-9]*" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 2 -->
@@ -830,7 +975,7 @@
             <span class="prize-name-label" id="txt-prize-2-name">Fogão a Gás Prince 4 Bocas</span>
             <span class="prize-tag" id="txt-prize-2-badge">2º Prémio</span>
           </div>
-          <input type="text" id="prize-2-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-2-token" class="input-control" inputmode="numeric" pattern="[0-9]*" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 3 -->
@@ -839,7 +984,7 @@
             <span class="prize-name-label" id="txt-prize-3-name">Ar-Condicionado Inverter Prince</span>
             <span class="prize-tag" id="txt-prize-3-badge">3º Prémio</span>
           </div>
-          <input type="text" id="prize-3-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-3-token" class="input-control" inputmode="numeric" pattern="[0-9]*" placeholder="Em branco = Sorteio Aleatório" />
         </div>
 
         <!-- Prize 4 (Grand Prize) -->
@@ -848,7 +993,7 @@
             <span class="prize-name-label" id="txt-prize-4-name">Geleira Prince Duas Portas</span>
             <span class="prize-tag" id="txt-prize-4-badge">Grande Prémio</span>
           </div>
-          <input type="text" id="prize-4-token" class="input-control" placeholder="Em branco = Sorteio Aleatório" />
+          <input type="text" id="prize-4-token" class="input-control" inputmode="numeric" pattern="[0-9]*" placeholder="Em branco = Sorteio Aleatório" />
         </div>
       </div>
     </section>
