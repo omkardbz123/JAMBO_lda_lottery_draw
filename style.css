@@ -1326,6 +1326,124 @@ html, body {
 }
 
 /* ==========================================================================
+   Custom Luxury Confirmation Popup Modal
+   ========================================================================== */
+.confirm-card {
+  width: 520px;
+  max-width: 92vw;
+  background: linear-gradient(180deg, #0b1a3d 0%, #061026 100%);
+  border: 1.5px solid rgba(0, 242, 254, 0.45);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.95),
+    0 0 30px rgba(0, 242, 254, 0.25),
+    inset 0 0 20px rgba(0, 242, 254, 0.1);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .confirm-card {
+  transform: scale(1);
+}
+
+.confirm-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 242, 254, 0.12);
+  border: 1.5px solid rgba(0, 242, 254, 0.4);
+  box-shadow: 0 0 18px rgba(0, 242, 254, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.confirm-icon {
+  font-size: 1.7rem;
+}
+
+.confirm-title {
+  font-family: var(--font-winner);
+  font-size: clamp(1.35rem, 2.2vh, 1.8rem);
+  font-weight: 900;
+  color: #ffde7a;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.confirm-desc {
+  font-size: clamp(0.85rem, 1.2vh, 0.96rem);
+  line-height: 1.55;
+  color: #c7ecff;
+  margin-bottom: 24px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-confirm-cancel {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #cbd5e1;
+  font-family: var(--font-main);
+  font-size: clamp(0.82rem, 1.1vh, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-confirm-cancel:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.btn-confirm-accept {
+  flex: 1.3;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #f59e0b 0%, #e67e22 100%);
+  border: 1.5px solid #ffde7a;
+  color: #061026;
+  font-family: var(--font-main);
+  font-size: clamp(0.82rem, 1.1vh, 0.95rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+  transition: all 0.2s ease;
+}
+
+.btn-confirm-accept:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.8);
+  filter: brightness(1.08);
+}
+
+.btn-confirm-accept:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
    Grand Welcome Screen (Directly on Stage Background, No Card / No Blur)
    ========================================================================== */
 .stage-curtains {

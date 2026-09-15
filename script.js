@@ -49,6 +49,10 @@
       summarySubtitle: 'Os 4 Prémios Exclusivos foram Atribuídos com Sucesso aos números Vencedores',
       closeSummary: '✕ Fechar Resumo',
       startNewLottery: '🔄 Iniciar Novo Sorteio',
+      confirmRestartTitle: 'Reiniciar o Sorteio?',
+      confirmRestartDesc: 'Tem a certeza de que deseja iniciar uma nova sessão? Todos os números vencedores anteriores serão limpos e o sorteio começará de novo.',
+      confirmCancelBtn: '✕ Cancelar',
+      confirmRestartBtn: '🔄 Sim, Reiniciar',
       copyReportHeader: '🏆 VENCEDORES DO GRANDE SORTEIO DE PRÉMIOS 🏆\nSérie Nº: 1111 — 1360\n=========================================\n\n',
       copyReportFooter: 'Parabéns a todos os números contemplados!'
     },
@@ -87,6 +91,10 @@
       summarySubtitle: 'All 4 exclusive prizes have been successfully awarded to winning tokens',
       closeSummary: '✕ Close Summary',
       startNewLottery: '🔄 Start New Lottery',
+      confirmRestartTitle: 'Restart Lucky Draw?',
+      confirmRestartDesc: 'Are you sure you want to start a new session? All previous winning tokens will be cleared and the draw will restart immediately.',
+      confirmCancelBtn: '✕ Cancel',
+      confirmRestartBtn: '🔄 Yes, Restart',
       copyReportHeader: '🏆 MEGA LOTTERY DRAW WINNERS 🏆\nSeries No: 1111 — 1360\n=========================================\n\n',
       copyReportFooter: 'Congratulations to all winning tokens!'
     }
@@ -514,7 +522,14 @@
     finaleSubtitleText: document.getElementById('finale-subtitle-text'),
     finaleGrid: document.getElementById('finale-grid'),
     btnFinaleClose: document.getElementById('btn-finale-close'),
-    btnFinaleRestart: document.getElementById('btn-finale-restart')
+    btnFinaleRestart: document.getElementById('btn-finale-restart'),
+
+    // Custom Confirmation Modal
+    confirmModal: document.getElementById('confirm-modal'),
+    confirmTitleText: document.getElementById('confirm-title-text'),
+    confirmDescText: document.getElementById('confirm-desc-text'),
+    btnConfirmCancel: document.getElementById('btn-confirm-cancel'),
+    btnConfirmAccept: document.getElementById('btn-confirm-accept')
   };
 
   // =========================================================================
@@ -947,10 +962,23 @@
     });
   }
 
-  function resetSession() {
-    const t = I18N[currentLang];
-    const confirmReset = confirm(t.resetConfirm);
-    if (!confirmReset) return;
+  // =========================================================================
+  // 12. Reset Session & Custom Confirmation
+  // =========================================================================
+  function promptResetConfirmation() {
+    if (dom.confirmModal) {
+      dom.confirmModal.classList.add('active');
+    }
+  }
+
+  function closeResetConfirmation() {
+    if (dom.confirmModal) {
+      dom.confirmModal.classList.remove('active');
+    }
+  }
+
+  function executeResetSession() {
+    closeResetConfirmation();
 
     if (masterRafId) {
       cancelAnimationFrame(masterRafId);
@@ -965,7 +993,9 @@
     currentReelDigits = [1, 1, 1, 1];
     confetti.stop();
 
-    dom.finaleModal.classList.remove('active');
+    if (dom.finaleModal) {
+      dom.finaleModal.classList.remove('active');
+    }
     toggleDrawer(false);
 
     dom.wheelView.style.display = 'none';
@@ -983,8 +1013,8 @@
     dom.btnSpinWheel.style.display = 'inline-block';
     dom.btnSpinWheel.disabled = false;
 
-    // Reset curtains to closed state for a fresh opening ceremony
-    closeCurtains();
+    // Directly open and show stage ready for immediate spin
+    openCurtains();
 
     updateNavigationStatus();
     updateActionButtonsText();
@@ -992,7 +1022,7 @@
   }
 
   // =========================================================================
-  // 12. Complete Bilingual Language Switching
+  // 13. Complete Bilingual Language Switching
   // =========================================================================
   function applyLanguage() {
     const t = I18N[currentLang];
@@ -1027,6 +1057,12 @@
     if (dom.finaleSubtitleText) dom.finaleSubtitleText.textContent = t.summarySubtitle;
     if (dom.btnFinaleClose) dom.btnFinaleClose.textContent = t.closeSummary;
     if (dom.btnFinaleRestart) dom.btnFinaleRestart.textContent = t.startNewLottery;
+
+    // Confirmation Modal
+    if (dom.confirmTitleText) dom.confirmTitleText.textContent = t.confirmRestartTitle;
+    if (dom.confirmDescText) dom.confirmDescText.textContent = t.confirmRestartDesc;
+    if (dom.btnConfirmCancel) dom.btnConfirmCancel.textContent = t.confirmCancelBtn;
+    if (dom.btnConfirmAccept) dom.btnConfirmAccept.textContent = t.confirmRestartBtn;
 
     // Sub-components
     updateSoundButton();
@@ -1170,13 +1206,21 @@
     dom.btnCloseDrawer.addEventListener('click', () => toggleDrawer(false));
     dom.drawerBackdrop.addEventListener('click', () => toggleDrawer(false));
     dom.btnCopyWinners.addEventListener('click', copyWinnersList);
-    dom.btnResetSession.addEventListener('click', resetSession);
+    dom.btnResetSession.addEventListener('click', promptResetConfirmation);
 
     // Finale modal buttons
     dom.btnFinaleClose.addEventListener('click', () => {
       dom.finaleModal.classList.remove('active');
     });
-    dom.btnFinaleRestart.addEventListener('click', resetSession);
+    dom.btnFinaleRestart.addEventListener('click', promptResetConfirmation);
+
+    // Confirmation modal buttons
+    if (dom.btnConfirmCancel) {
+      dom.btnConfirmCancel.addEventListener('click', closeResetConfirmation);
+    }
+    if (dom.btnConfirmAccept) {
+      dom.btnConfirmAccept.addEventListener('click', executeResetSession);
+    }
 
     function toggleTopNav() {
       if (dom.topNavHud) {
@@ -1222,7 +1266,8 @@
       }
       if (e.code === 'Escape') {
         toggleDrawer(false);
-        dom.finaleModal.classList.remove('active');
+        if (dom.finaleModal) dom.finaleModal.classList.remove('active');
+        closeResetConfirmation();
       }
     });
   }
