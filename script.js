@@ -15,8 +15,8 @@
   // =========================================================================
   const I18N = {
     pt: {
-      curtainEyebrow: 'BEM-VINDOS AO',
-      curtainTitleW1: 'SORTEIO',
+      curtainEyebrow: 'BEM-VINDOS',
+      curtainTitleW1: 'AO SORTEIO',
       curtainTitleW2: 'DE PRÉMIOS',
       curtainTitle: 'Bem-vindos ao Sorteio de Prémios',
       curtainSubtitle: 'GRANDE SORTEIO OFICIAL DE PRÉMIOS EXCLUSIVOS',
@@ -53,8 +53,8 @@
       copyReportFooter: 'Parabéns a todos os números contemplados!'
     },
     en: {
-      curtainEyebrow: 'WELCOME TO THE',
-      curtainTitleW1: 'PRIZE',
+      curtainEyebrow: 'WELCOME',
+      curtainTitleW1: 'TO THE PRIZE',
       curtainTitleW2: 'DRAW',
       curtainTitle: 'Welcome to the Prize Draw',
       curtainSubtitle: 'OFFICIAL EXCLUSIVE PRIZE DRAW',

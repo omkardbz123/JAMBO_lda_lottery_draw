@@ -18,51 +18,20 @@
   <div id="app-container">
     <div class="stage-atmosphere"></div>
 
-    <!-- Grand Theatrical Curtain Welcome Screen -->
+    <!-- Grand Welcome Screen (Directly on Background Image) -->
     <div id="stage-curtains" class="stage-curtains">
-      <!-- Left Curtain Panel -->
-      <div class="curtain-panel curtain-left" id="curtain-left">
-        <div class="curtain-folds"></div>
-        <div class="curtain-edge-shadow"></div>
-      </div>
-
-      <!-- Right Curtain Panel -->
-      <div class="curtain-panel curtain-right" id="curtain-right">
-        <div class="curtain-folds"></div>
-        <div class="curtain-edge-shadow"></div>
-      </div>
-
-      <!-- Top Valance Drapery with Gold Trim -->
-      <div class="curtain-valance">
-        <div class="valance-swags"></div>
-        <div class="valance-gold-fringe"></div>
-      </div>
-
-      <!-- Center Opening Card (Matching User Design) -->
+      <!-- Center Opening Content -->
       <div class="curtain-center-card" id="curtain-center-card">
-        <!-- Brand Logos Header -->
-        <div class="curtain-brands-header">
-          <img src="image/user_brands_header_2x.png" alt="ENOC Lubrificantes - JAMBO Lda" class="curtain-brands-img">
-        </div>
-
         <!-- Title Block -->
         <div class="curtain-title-block">
-          <span class="curtain-eyebrow" id="curtain-eyebrow">BEM-VINDOS AO</span>
           <div class="curtain-main-title-wrap">
             <h1 class="curtain-main-title" id="curtain-title">
-              <span class="title-word-prize" id="title-word-prize">SORTEIO</span>
-              <span class="title-word-draw" id="title-word-draw">DE PRÉMIOS</span>
+              <span class="title-line title-line-1" id="curtain-eyebrow">BEM-VINDOS</span>
+              <span class="title-line title-line-2" id="title-word-prize">AO SORTEIO</span>
+              <span class="title-line title-line-3" id="title-word-draw">DE PRÉMIOS</span>
             </h1>
             <span class="title-lens-flare"></span>
           </div>
-          <p class="curtain-sub-title" id="curtain-subtitle">GRANDE SORTEIO OFICIAL DE PRÉMIOS EXCLUSIVOS</p>
-          <div class="curtain-gold-divider"></div>
-        </div>
-
-        <!-- Series Pill -->
-        <div class="curtain-series-pill" id="curtain-series-pill">
-          <span class="series-icon">🎟️</span>
-          <span id="curtain-series-text">SÉRIE Nº: 1111 — 1360</span>
         </div>
 
         <!-- Open Stage Action Button -->
@@ -76,17 +45,6 @@
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </button>
-
-        <!-- Keyboard Hint -->
-        <p class="curtain-hint" id="curtain-hint-text">Pressione ESPAÇO ou clique para iniciar</p>
-
-        <!-- Language Switcher -->
-        <div class="curtain-lang-selector">
-          <button id="btn-curtain-lang" class="curtain-lang-btn" title="Mudar Idioma / Switch Language">
-            <span>🌐</span>
-            <span id="curtain-lang-text">Mudar para Inglês (EN)</span>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -128,23 +86,15 @@
 
         <!-- STATE 1: Starting UI Showcase (matches starting.png) -->
         <section id="showcase-view" class="showcase-view">
-          <div class="showcase-welcome-header">
-            <h2 class="welcome-heading" id="showcase-welcome-text">Bem-vindos ao Sorteio de Prémios</h2>
-            <div class="series-range-pill" id="showcase-series-pill">
-              <span class="series-icon">🎟️</span>
-              <span class="series-text" id="series-label-text">Série Nº: 1111 — 1360</span>
-            </div>
-          </div>
-
           <div class="prize-display-card">
-            <div class="prize-image-wrapper">
-              <img id="showcase-prize-img" src="image/coluna_lg.png" alt="Current Prize" />
-              <div class="podium-light-ring"></div>
-            </div>
             <div class="prize-info-panel">
               <div class="prize-badge-tag" id="showcase-prize-badge">1º PRÉMIO</div>
               <h1 class="prize-title-text" id="showcase-prize-title">Coluna de Som LG XBOOM RNC5</h1>
               <p class="prize-subtitle-text" id="showcase-prize-subtitle">Double Super Bass Boost • Luzes de Festa Multicolor • Modo DJ &amp; Karaoke</p>
+            </div>
+            <div class="prize-image-wrapper">
+              <img id="showcase-prize-img" src="image/coluna_lg.png" alt="Current Prize" />
+              <div class="podium-light-ring"></div>
             </div>
           </div>
         </section>
