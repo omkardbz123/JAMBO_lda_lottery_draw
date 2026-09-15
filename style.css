@@ -210,6 +210,16 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 10;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
+}
+
+/* Hide stage elements while welcome screen is displayed */
+#stage-curtains:not(.curtains-opened) ~ .main-stage,
+#stage-curtains:not(.curtains-opened) ~ .bottom-action-bar,
+#stage-curtains:not(.curtains-opened) ~ .top-nav-hud {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* /* Stage Area Bounded Box */
@@ -844,6 +854,7 @@ html, body {
   padding: 0 20px clamp(60px, 10vh, 110px) 20px;
   background: transparent;
   pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
 }
 
 /* Neon Pill Button "SPIN THE WHEEL" (Size and position matching open stage button) */
