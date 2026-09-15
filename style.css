@@ -1267,25 +1267,35 @@ html, body {
   pointer-events: none;
 }
 
-@keyframes welcomePopEntrance {
+@keyframes welcomeTextPopEntrance {
   0% {
     opacity: 0;
-    transform: scale(0.6) translateY(30px);
+    transform: translate(-50%, calc(-50% + 35px)) scale(0.65);
   }
-  60% {
+  55% {
     opacity: 1;
-    transform: scale(1.06) translateY(-6px);
+    transform: translate(-50%, calc(-50% - 5px)) scale(1.04);
   }
-  85% {
-    transform: scale(0.98) translateY(2px);
+  80% {
+    opacity: 1;
+    transform: translate(-50%, calc(-50% + 2px)) scale(0.99);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
-/* Center Opening Content (No Box/Card Background, Smooth Pop Up) */
+@keyframes welcomeButtonFadeEntrance {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Center Opening Content (No Box/Card Background) */
 .curtain-center-card {
   position: relative;
   z-index: 210;
@@ -1303,7 +1313,6 @@ html, body {
   box-shadow: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  animation: welcomePopEntrance 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
   transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1314,7 +1323,7 @@ html, body {
   animation: none;
 }
 
-/* Title Block - Centered Dead Center on Screen */
+/* Title Block - Centered Dead Center on Screen with Slower Pop Animation */
 .curtain-title-block {
   display: flex;
   flex-direction: column;
@@ -1327,6 +1336,7 @@ html, body {
   width: 90vw;
   max-width: 900px;
   margin: 0;
+  animation: welcomeTextPopEntrance 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .curtain-eyebrow {
@@ -1431,7 +1441,7 @@ html, body {
   font-size: 0.95rem;
 }
 
-/* Open Stage Action Button - Pinned to Bottom Floor Level */
+/* Open Stage Action Button - Pinned to Bottom Floor Level with Smooth Fade Animation */
 .btn-open-curtains {
   position: absolute;
   bottom: clamp(60px, 10vh, 110px);
@@ -1458,6 +1468,7 @@ html, body {
   box-shadow: 
     0 3.5px 0 #b45309,
     0 10px 24px rgba(0, 0, 0, 0.65);
+  animation: welcomeButtonFadeEntrance 1.6s ease-out both;
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
