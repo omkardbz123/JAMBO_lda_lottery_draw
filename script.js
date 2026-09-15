@@ -1327,7 +1327,7 @@
   // =========================================================================
   // 16. Google Sheets & Apps Script Real-Time Synchronization
   // =========================================================================
-  const DEFAULT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxw7ioFbt2ZE_EpAjwBzS4kDvqmx0HsEW81AvWVNd2rmn5ojrfMnWI5Do6bhfb55QMl/exec';
+  const DEFAULT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzMMpp2xfmuKbIdFBKRLWsxsM0H_Nt5_5u1ZoS6dt5bxJm8StdqfeghjijLGq5KDxz/exec';
 
   async function pollGoogleSheetsSync() {
     const url = localStorage.getItem(API_STORAGE_KEY) || DEFAULT_APPS_SCRIPT_URL;
