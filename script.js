@@ -636,9 +636,6 @@
     dom.btnSpinWheel.disabled = true;
 
     requestAnimationFrame(() => {
-      const slot = dom.reelSlots[0];
-      const digitHeight = slot.clientHeight || 168;
-
       const reelConfigs = [
         { minDigits: 36, t_spin: 1.6, t_decel: 1.6 },
         { minDigits: 52, t_spin: 2.6, t_decel: 1.9 },
@@ -646,11 +643,11 @@
         { minDigits: 92, t_spin: 5.0, t_decel: 2.8 }
       ];
 
+      // Populate reel strips
       const reels = targetDigits.map((targetDigit, i) => {
-        const startDigit = currentReelDigits[i];
+        const startDigit = currentReelDigits[i] !== undefined ? currentReelDigits[i] : 1;
         const cfg = reelConfigs[i];
         const digitsSequence = generateStripSequence(startDigit, targetDigit, cfg.minDigits);
-        const totalDistance = (digitsSequence.length - 1) * digitHeight;
         const totalTime = cfg.t_spin + cfg.t_decel;
 
         const strip = dom.reelStrips[i];
@@ -675,13 +672,25 @@
           slot: reelSlot,
           targetDigit,
           digitsSequence,
-          totalDistance,
+          totalDistance: 0,
+          digitHeight: 0,
           t_spin: cfg.t_spin,
           t_decel: cfg.t_decel,
           totalTime,
           lastPassedDigit: -1,
           isLocked: false
         };
+      });
+
+      // Measure exact rendered digit height directly from DOM element
+      const firstDigitElem = reels[0].strip.querySelector('.reel-digit');
+      const measuredHeight = firstDigitElem && firstDigitElem.getBoundingClientRect().height > 0
+        ? firstDigitElem.getBoundingClientRect().height
+        : (dom.reelSlots[0].clientHeight || 168);
+
+      reels.forEach(r => {
+        r.digitHeight = measuredHeight;
+        r.totalDistance = (r.digitsSequence.length - 1) * measuredHeight;
       });
 
       const startTime = performance.now();
@@ -696,7 +705,7 @@
             const currentY = calculateReelPosition(elapsedSec, r.t_spin, r.t_decel, r.totalDistance);
             r.strip.style.transform = `translate3d(0, -${currentY.toFixed(1)}px, 0)`;
 
-            const currentPassed = Math.floor(currentY / digitHeight);
+            const currentPassed = Math.floor(currentY / r.digitHeight);
             if (currentPassed > r.lastPassedDigit) {
               r.lastPassedDigit = currentPassed;
               audio.playTick();
@@ -704,7 +713,9 @@
 
             if (elapsedSec >= r.totalTime + 0.18) {
               r.isLocked = true;
-              r.strip.style.transform = `translate3d(0, -${r.totalDistance}px, 0)`;
+              // Clean lock: swap strip to exact single winning digit at 0 offset
+              r.strip.innerHTML = `<div class="reel-digit">${r.targetDigit}</div>`;
+              r.strip.style.transform = 'translate3d(0, 0, 0)';
               r.slot.classList.remove('is-spinning');
               r.slot.classList.add('is-locked');
               audio.playReelLock(r.index);
@@ -718,6 +729,7 @@
           masterRafId = requestAnimationFrame(animationLoop);
         } else {
           currentReelDigits = [...targetDigits];
+          renderStaticReels();
 
           setTimeout(() => {
             completeDraw(winningToken, tokenStr);
@@ -745,20 +757,25 @@
     winnersHistory.push(record);
     saveState();
 
+    restoreWinnerViewUI(record);
+    audio.playFanfare();
+    confetti.start(160);
+  }
+
+  // Restore or display winner UI around cylinder without altering state
+  function restoreWinnerViewUI(record) {
+    const prize = (record && record.prize) || PRIZES[currentRound] || PRIZES[0];
+
     // Populate flanking prizes and award plaque details
-    dom.winnerFlankImgLeft.src = currentPrize.image;
-    dom.winnerFlankImgRight.src = currentPrize.image;
+    if (dom.winnerFlankImgLeft) dom.winnerFlankImgLeft.src = prize.image;
+    if (dom.winnerFlankImgRight) dom.winnerFlankImgRight.src = prize.image;
     updateAwardPlaqueText();
 
-    // Reveal winner elements around the existing cylinder!
+    // Reveal winner elements around the existing cylinder
     dom.winnerHeaderGroup.style.display = 'flex';
     dom.winnerFlankLeft.style.display = 'flex';
     dom.winnerFlankRight.style.display = 'flex';
     dom.winnerLaurelBadge.style.display = 'inline-flex';
-
-    // Celebration sounds and confetti
-    audio.playFanfare();
-    confetti.start(160);
 
     // Update Bottom Buttons
     dom.btnSpinWheel.style.display = 'none';
@@ -768,6 +785,9 @@
     } else {
       dom.btnNextDraw.style.display = 'none';
       dom.btnFinalSummary.style.display = 'inline-flex';
+      if (dom.viewWinnersBtnText) {
+        dom.viewWinnersBtnText.textContent = I18N[currentLang].viewAllWinners;
+      }
     }
 
     updateNavigationStatus();
@@ -1082,7 +1102,7 @@
         dom.showcaseView.style.display = 'none';
         dom.wheelView.style.display = 'flex';
         renderStaticReels();
-        completeDraw(lastWinner.token, lastWinner.formattedToken);
+        restoreWinnerViewUI(lastWinner);
       } else if (winnersHistory.length > 0) {
         currentRound = winnersHistory.length;
         setupShowcaseForCurrentRound();
@@ -1173,6 +1193,12 @@
     }
 
     document.addEventListener('fullscreenchange', updateFullscreenButton);
+
+    window.addEventListener('resize', () => {
+      if (!isSpinning) {
+        renderStaticReels();
+      }
+    });
 
     window.addEventListener('keydown', e => {
       // Space key handling
