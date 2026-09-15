@@ -96,9 +96,10 @@ html, body {
 }
 
 .top-nav-hud.hud-hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -30px);
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -30px) !important;
+  visibility: hidden !important;
 }
 
 .hud-capsule {
@@ -284,13 +285,13 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 380px;
-  max-width: 680px;
+  height: clamp(280px, 38vh, 420px);
+  max-width: 90vw;
 }
 
 .prize-image-wrapper img {
-  max-height: 360px;
-  max-width: 620px;
+  max-height: clamp(260px, 36vh, 400px);
+  max-width: clamp(280px, 45vw, 640px);
   object-fit: contain;
   filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 25px rgba(0, 242, 254, 0.25));
   transition: all 0.4s ease;
@@ -325,12 +326,13 @@ html, body {
 }
 
 .prize-title-text {
-  font-size: 1.95rem;
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
   font-weight: 800;
   letter-spacing: 1.5px;
   color: #ffffff;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 242, 254, 0.6);
   margin: 0;
+  white-space: nowrap;
 }
 
 .prize-subtitle-text {
@@ -760,14 +762,17 @@ html, body {
    Bottom Action Control Bar
    ========================================================================== */
 .bottom-action-bar {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   z-index: 50;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px 28px 20px;
+  padding: 0 20px 95px 20px;
   background: transparent;
+  pointer-events: none;
 }
 
 /* Neon Pill Button "SPIN THE WHEEL" (Size and position matching open stage button) */
@@ -782,12 +787,13 @@ html, body {
   border: 2.5px solid #38bdf8;
   border-radius: 9999px;
   font-family: var(--font-main);
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #ffffff;
-  margin-bottom: 67px;
+  margin: 0;
+  pointer-events: auto;
   box-shadow: 
     0 0 20px rgba(56, 189, 248, 0.8),
     0 0 40px rgba(14, 165, 233, 0.5),
@@ -829,12 +835,13 @@ html, body {
   border: 2.5px solid #ffde7a;
   border-radius: 9999px;
   font-family: var(--font-main);
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: 0.92rem;
+  font-weight: 900;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #ffffff;
-  margin-bottom: 67px;
+  margin: 0;
+  pointer-events: auto;
   box-shadow: 
     0 0 20px rgba(245, 158, 11, 0.8),
     inset 0 0 15px rgba(255, 222, 122, 0.4),
