@@ -103,7 +103,25 @@
         <section id="wheel-view" class="wheel-view" style="display: none;">
           <!-- Winner Header (Hidden during spin, animated in when reels lock) -->
           <div id="winner-header-group" class="winner-header-group" style="display: none;">
+            <div class="winner-faded-shadow-bg"></div>
             <div class="congrats-script" id="winner-congrats-text">Parabéns!</div>
+            <div class="winner-gold-swoosh top-swoosh">
+              <span class="swoosh-sparkle sparkle-left">✦</span>
+              <svg class="swoosh-svg" viewBox="0 0 600 24" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="goldSwooshGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ffd700" stop-opacity="0" />
+                    <stop offset="15%" stop-color="#ffb703" stop-opacity="0.8" />
+                    <stop offset="50%" stop-color="#ffffff" stop-opacity="1" />
+                    <stop offset="85%" stop-color="#ffb703" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#ffd700" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d="M 10 4 Q 300 22 590 4" fill="none" stroke="url(#goldSwooshGrad1)" stroke-width="2.5" />
+              </svg>
+              <div class="swoosh-flare"></div>
+              <span class="swoosh-sparkle sparkle-right">✦</span>
+            </div>
             <div class="winner-3d-text" id="winner-youare-text">É O VENCEDOR!</div>
           </div>
 
