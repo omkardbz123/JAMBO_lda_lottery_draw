@@ -448,6 +448,10 @@ html, body {
   justify-content: center;
 }
 
+.reels-grid.five-digits .reel-slot {
+  width: clamp(80px, 6.6vw, 128px);
+}
+
 /* Glass Reflection Highlight on each Reel */
 .reel-slot::after {
   content: '';

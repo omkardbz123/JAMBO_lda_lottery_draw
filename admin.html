@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Painel de Controlo - Mega Lottery Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-cyan: #00f2fe;
+      --neon-blue: #4facfe;
+      --gold-primary: #ffde7a;
+      --gold-gradient: linear-gradient(90deg, #fbc02d 0%, #f59e0b 50%, #e67e22 100%);
+      --bg-dark: #030a1c;
+      --card-bg: rgba(9, 24, 58, 0.85);
+      --border-glow: rgba(0, 242, 254, 0.35);
+      --font-main: 'Montserrat', -apple-system, sans-serif;
+      --font-title: 'Cinzel', serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 90%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
+      font-family: var(--font-main);
+      color: #ffffff;
+      min-height: 100vh;
+      padding: 16px 14px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .admin-container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Header Bar */
+    .header-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+      padding: 14px 10px;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-glow);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 254, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .header-title {
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold-primary);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Live Sync Pill */
+    .sync-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .sync-status-pill.synced {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #6ee7b7;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+    }
+
+    .sync-status-pill.updating {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+      color: #fde68a;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+    }
+
+    .sync-status-pill.error {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #fca5a5;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 18px 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="url"] {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(4, 13, 33, 0.85);
+      border: 1.5px solid rgba(0, 242, 254, 0.3);
+      border-radius: 10px;
+      color: #ffffff;
+      font-family: var(--font-main);
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+      background: rgba(7, 21, 54, 0.95);
+    }
+
+    /* Quick Preset Buttons */
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .chip-btn {
+      background: rgba(15, 39, 84, 0.8);
+      border: 1px solid rgba(0, 242, 254, 0.35);
+      color: #c7ecff;
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .chip-btn:hover, .chip-btn:active {
+      background: rgba(0, 242, 254, 0.25);
+      border-color: var(--neon-cyan);
+      color: #ffffff;
+    }
+
+    /* Prize Cards List */
+    .prize-item {
+      background: rgba(4, 13, 33, 0.6);
+      border: 1px solid rgba(255, 222, 122, 0.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .prize-item.grand {
+      border-color: rgba(255, 215, 0, 0.6);
+      background: rgba(25, 18, 4, 0.5);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+    }
+
+    .prize-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prize-item-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .prize-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      background: rgba(0, 242, 254, 0.15);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+    }
+
+    .prize-item.grand .prize-badge {
+      background: rgba(255, 215, 0, 0.2);
+      color: #ffd700;
+      border-color: #ffd700;
+    }
+
+    .prize-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .prize-input-row input {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+    }
+
+    .random-hint {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* Action Buttons */
+    .btn-main-save {
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--gold-gradient);
+      border: 1.5px solid #ffde7a;
+      border-radius: 9999px;
+      color: #061026;
+      font-family: var(--font-main);
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-main-save:active {
+      transform: scale(0.98);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.7);
+    }
+
+    .btn-main-save:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Remote Stage Controls */
+    .remote-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-remote {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-family: var(--font-main);
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .btn-remote.spin {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border: 1.5px solid #38bdf8;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+      grid-column: span 2;
+      padding: 14px;
+      font-size: 0.98rem;
+    }
+
+    .btn-remote.next {
+      background: rgba(15, 39, 84, 0.85);
+      border: 1.5px solid rgba(0, 242, 254, 0.4);
+      color: #c7ecff;
+    }
+
+    .btn-remote.reset {
+      background: rgba(69, 10, 10, 0.85);
+      border: 1.5px solid rgba(239, 68, 68, 0.45);
+      color: #fca5a5;
+    }
+
+    .btn-remote:active {
+      transform: scale(0.96);
+    }
+
+    /* Notification Banner */
+    .status-banner {
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .status-banner.success {
+      display: flex;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1.5px solid #10b981;
+      color: #6ee7b7;
+    }
+
+    .status-banner.error {
+      display: flex;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1.5px solid #ef4444;
+      color: #fca5a5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    
+    <!-- Top Header -->
+    <header class="header-bar">
+      <h1 class="header-title">Mega Lottery Remote</h1>
+      <div id="sync-pill" class="sync-status-pill">
+        <span class="pulse-dot"></span>
+        <span id="sync-text">A Conectar...</span>
+      </div>
+    </header>
+
+    <!-- Feedback Banner -->
+    <div id="status-banner" class="status-banner"></div>
+
+    <!-- 1. Google Apps Script Web App Connection -->
+    <section class="card">
+      <h2 class="card-title">🌐 Conexão Google Apps Script</h2>
+      <div class="form-group">
+        <label for="api-url">URL do Web App (Apps Script):</label>
+        <input type="url" id="api-url" placeholder="https://script.google.com/macros/s/.../exec" />
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button id="btn-test-conn" class="chip-btn" style="flex: 1; padding: 9px;">🔄 Testar & Carregar Dados</button>
+      </div>
+    </section>
+
+    <!-- 2. Token Range Configuration -->
+    <section class="card">
+      <h2 class="card-title">🔢 Faixa de Números (Série)</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="form-group">
+          <label for="min-token">Número Mínimo:</label>
+          <input type="number" id="min-token" value="1111" />
+        </div>
+        <div class="form-group">
+          <label for="max-token">Número Máximo:</label>
+          <input type="number" id="max-token" value="1360" />
+        </div>
+      </div>
+      
+      <div class="preset-chips">
+        <button class="chip-btn" onclick="setRange(1111, 1360)">1111 — 1360 (Padrão)</button>
+        <button class="chip-btn" onclick="setRange(100, 2000)">100 — 2000</button>
+        <button class="chip-btn" onclick="setRange(1, 5000)">1 — 5000</button>
+        <button class="chip-btn" onclick="setRange(1, 20000)">1 — 20000</button>
+      </div>
+    </section>
+
+    <!-- 3. Preset Winning Tokens (Specific Winner / Random) -->
+    <section class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 class="card-title" style="margin-bottom: 0;">🎯 Números Vencedores</h2>
+        <button class="chip-btn" id="btn-clear-winners">🎲 Deixar Todos Aleatórios</button>
+      </div>
+
+      <!-- Prize 1 -->
+      <div class="prize-item">
+        <div class="prize-item-header">
+          <span class="prize-item-name">Coluna de Som LG XBOOM</span>
+          <span class="prize-badge">1º PRÉMIO</span>
+        </div>
+        <div class="prize-input-row">
+          <input type="text" id="prize-1-token" placeholder="Deixe em branco para Aleatório" />
+        </div>
+      </div>
+
+      <!-- Prize 2 -->
+      <div class="prize-item">
+        <div class="prize-item-header">
+          <span class="prize-item-name">Fogão a Gás Prince 4 Bocas</span>
+          <span class="prize-badge">2º PRÉMIO</span>
+        </div>
+        <div class="prize-input-row">
+          <input type="text" id="prize-2-token" placeholder="Deixe em branco para Aleatório" />
+        </div>
+      </div>
+
+      <!-- Prize 3 -->
+      <div class="prize-item">
+        <div class="prize-item-header">
+          <span class="prize-item-name">Ar-Condicionado Prince</span>
+          <span class="prize-badge">3º PRÉMIO</span>
+        </div>
+        <div class="prize-input-row">
+          <input type="text" id="prize-3-token" placeholder="Deixe em branco para Aleatório" />
+        </div>
+      </div>
+
+      <!-- Prize 4 (Grand Prize) -->
+      <div class="prize-item grand">
+        <div class="prize-item-header">
+          <span class="prize-item-name">Geleira Prince Duas Portas</span>
+          <span class="prize-badge">GRANDE PRÉMIO</span>
+        </div>
+        <div class="prize-input-row">
+          <input type="text" id="prize-4-token" placeholder="Deixe em branco para Aleatório" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Save & Sync Button -->
+    <button id="btn-save-sync" class="btn-main-save">
+      <span id="save-icon">💾</span>
+      <span id="save-text">Salvar &amp; Sincronizar Agora</span>
+    </button>
+
+    <!-- 4. Remote Trigger Actions -->
+    <section class="card" style="margin-top: 8px;">
+      <h2 class="card-title">🕹️ Controlo Remoto do Palco</h2>
+      <div class="remote-grid">
+        <button class="btn-remote spin" id="btn-remote-spin">
+          🎰 Girar Roda no Palco
+        </button>
+        <button class="btn-remote next" id="btn-remote-next">
+          ❯ Próxima Rodada
+        </button>
+        <button class="btn-remote reset" id="btn-remote-reset">
+          🔄 Reiniciar Sorteio
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'lottery_admin_api_url';
+    const DEFAULT_API_URL = localStorage.getItem(STORAGE_KEY) || '';
+
+    const dom = {
+      apiUrl: document.getElementById('api-url'),
+      btnTestConn: document.getElementById('btn-test-conn'),
+      syncPill: document.getElementById('sync-pill'),
+      syncText: document.getElementById('sync-text'),
+      statusBanner: document.getElementById('status-banner'),
+      minToken: document.getElementById('min-token'),
+      maxToken: document.getElementById('max-token'),
+      prize1Token: document.getElementById('prize-1-token'),
+      prize2Token: document.getElementById('prize-2-token'),
+      prize3Token: document.getElementById('prize-3-token'),
+      prize4Token: document.getElementById('prize-4-token'),
+      btnClearWinners: document.getElementById('btn-clear-winners'),
+      btnSaveSync: document.getElementById('btn-save-sync'),
+      saveText: document.getElementById('save-text'),
+      btnRemoteSpin: document.getElementById('btn-remote-spin'),
+      btnRemoteNext: document.getElementById('btn-remote-next'),
+      btnRemoteReset: document.getElementById('btn-remote-reset')
+    };
+
+    if (DEFAULT_API_URL) {
+      dom.apiUrl.value = DEFAULT_API_URL;
+    }
+
+    function setSyncStatus(state, message) {
+      dom.syncPill.className = 'sync-status-pill ' + state;
+      dom.syncText.textContent = message;
+    }
+
+    function showBanner(type, msg) {
+      dom.statusBanner.className = 'status-banner ' + type;
+      dom.statusBanner.textContent = msg;
+      setTimeout(() => {
+        dom.statusBanner.style.display = 'none';
+      }, 5000);
+    }
+
+    function setRange(min, max) {
+      dom.minToken.value = min;
+      dom.maxToken.value = max;
+    }
+
+    dom.btnClearWinners.addEventListener('click', () => {
+      dom.prize1Token.value = '';
+      dom.prize2Token.value = '';
+      dom.prize3Token.value = '';
+      dom.prize4Token.value = '';
+      showBanner('success', '🎲 Todos os prémios foram definidos para Sorteio Aleatório.');
+    });
+
+    // Fetch configuration from Google Sheets
+    async function fetchConfig() {
+      const url = dom.apiUrl.value.trim();
+      if (!url) {
+        setSyncStatus('error', 'URL Ausente');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY, url);
+      setSyncStatus('updating', 'A Carregar...');
+
+      try {
+        const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        if (data.status === 'success') {
+          if (data.minToken) dom.minToken.value = data.minToken;
+          if (data.maxToken) dom.maxToken.value = data.maxToken;
+          dom.prize1Token.value = data.prize1Winner || '';
+          dom.prize2Token.value = data.prize2Winner || '';
+          dom.prize3Token.value = data.prize3Winner || '';
+          dom.prize4Token.value = data.prize4Winner || '';
+
+          setSyncStatus('synced', 'Sincronizado');
+          showBanner('success', '✅ Conectado com sucesso à planilha Google!');
+        } else {
+          throw new Error(data.message || 'Erro desconhecido');
+        }
+      } catch (err) {
+        setSyncStatus('error', 'Erro Conexão');
+        showBanner('error', '❌ Erro ao conectar: ' + err.message + '. Verifique se o Web App está com acesso "Anyone".');
+      }
+    }
+
+    // Save & push configuration to Google Sheets
+    async function saveConfig(actionOverride = null) {
+      const url = dom.apiUrl.value.trim();
+      if (!url) {
+        alert('Por favor, insira a URL do Web App do Google Apps Script.');
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEY, url);
+      setSyncStatus('updating', 'A Atualizar...');
+      dom.btnSaveSync.disabled = true;
+      dom.saveText.textContent = 'A Atualizar Planilha...';
+
+      const payload = {
+        minToken: Number(dom.minToken.value) || 1111,
+        maxToken: Number(dom.maxToken.value) || 1360,
+        prize1Winner: dom.prize1Token.value.trim(),
+        prize2Winner: dom.prize2Token.value.trim(),
+        prize3Winner: dom.prize3Token.value.trim(),
+        prize4Winner: dom.prize4Token.value.trim(),
+        remoteAction: actionOverride || 'NONE'
+      };
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (data.status === 'success') {
+          setSyncStatus('synced', 'Sincronizado');
+          showBanner('success', '✅ Configurações salvas e sincronizadas com sucesso!');
+          dom.saveText.textContent = '✅ Sincronizado com Sucesso!';
+          setTimeout(() => {
+            dom.saveText.textContent = 'Salvar & Sincronizar Agora';
+            dom.btnSaveSync.disabled = false;
+          }, 2500);
+        } else {
+          throw new Error(data.message || 'Erro ao salvar');
+        }
+      } catch (err) {
+        setSyncStatus('error', 'Erro ao Salvar');
+        showBanner('error', '❌ Erro ao sincronizar: ' + err.message);
+        dom.saveText.textContent = 'Salvar & Sincronizar Agora';
+        dom.btnSaveSync.disabled = false;
+      }
+    }
+
+    // Remote actions
+    async function sendRemoteAction(action) {
+      showBanner('success', '📡 Enviando comando: ' + action + '...');
+      await saveConfig(action);
+    }
+
+    dom.btnTestConn.addEventListener('click', fetchConfig);
+    dom.btnSaveSync.addEventListener('click', () => saveConfig('NONE'));
+    dom.btnRemoteSpin.addEventListener('click', () => sendRemoteAction('SPIN'));
+    dom.btnRemoteNext.addEventListener('click', () => sendRemoteAction('NEXT'));
+    dom.btnRemoteReset.addEventListener('click', () => sendRemoteAction('RESET'));
+
+    if (DEFAULT_API_URL) {
+      fetchConfig();
+    } else {
+      setSyncStatus('error', 'Sem URL');
+    }
+  </script>
+</body>
+</html>

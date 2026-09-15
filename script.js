@@ -174,14 +174,11 @@
     }
   ];
 
-  // Series Range: 1111 to 1360
-  const MIN_TOKEN = 1111;
-  const MAX_TOKEN = 1360;
-
   // =========================================================================
   // 3. Application State & Storage
   // =========================================================================
   const STORAGE_KEY = 'lottery_palco_series_v4';
+  const API_STORAGE_KEY = 'lottery_admin_api_url';
   let currentLang = 'pt';
   let soundEnabled = true;
   let currentRound = 0; // 0 = Draw 1, 1 = Draw 2, 2 = Draw 3, 3 = Draw 4
@@ -191,6 +188,13 @@
   let masterRafId = null;
   let currentReelDigits = [1, 1, 1, 1]; // Starts on Series base 1111
   let curtainsOpened = false;
+
+  // Dynamic Range & Remote Presets
+  let minToken = 1111;
+  let maxToken = 1360;
+  let presetWinners = { 0: '', 1: '', 2: '', 3: '' };
+  let lastSyncTimestamp = 0;
+  let pollTimerId = null;
 
   function getLocalized(val) {
     if (typeof val === 'object' && val !== null) {
@@ -553,25 +557,72 @@
   }
 
   // =========================================================================
-  // 8. Series No 1111 - 1360 Token Generation
+  // 8. Dynamic Token Generation & Strip Helpers
   // =========================================================================
+  function ensureReelSlotsCount(count) {
+    const grid = document.querySelector('.reels-grid');
+    if (!grid) return;
+
+    if (count >= 5) {
+      grid.classList.add('five-digits');
+    } else {
+      grid.classList.remove('five-digits');
+    }
+
+    while (dom.reelSlots.length < count) {
+      const idx = dom.reelSlots.length;
+      const slot = document.createElement('div');
+      slot.className = 'reel-slot';
+      slot.id = `reel-slot-${idx}`;
+      const strip = document.createElement('div');
+      strip.className = 'reel-strip';
+      strip.id = `reel-strip-${idx}`;
+      slot.appendChild(strip);
+      grid.appendChild(slot);
+      dom.reelSlots.push(slot);
+      dom.reelStrips.push(strip);
+      if (currentReelDigits[idx] === undefined) {
+        currentReelDigits.push(0);
+      }
+    }
+
+    while (dom.reelSlots.length > count && count >= 4) {
+      const slot = dom.reelSlots.pop();
+      dom.reelStrips.pop();
+      if (slot && slot.parentElement) {
+        slot.parentElement.removeChild(slot);
+      }
+      currentReelDigits.pop();
+    }
+  }
+
   function generateWinningToken() {
-    const totalPossible = MAX_TOKEN - MIN_TOKEN + 1; // 250 tokens
+    const forced = presetWinners[currentRound];
+    if (forced !== '' && forced !== undefined && !isNaN(Number(forced))) {
+      const num = Number(forced);
+      drawnTokens.add(num);
+      return num;
+    }
+
+    const totalPossible = maxToken - minToken + 1;
     if (drawnTokens.size >= totalPossible) {
       alert(I18N[currentLang].allDrawnAlert);
-      return MIN_TOKEN;
+      return minToken;
     }
     let candidate;
+    let attempts = 0;
     do {
-      candidate = Math.floor(Math.random() * totalPossible) + MIN_TOKEN;
-    } while (drawnTokens.has(candidate));
+      candidate = Math.floor(Math.random() * totalPossible) + minToken;
+      attempts++;
+    } while (drawnTokens.has(candidate) && attempts < 1000);
 
     drawnTokens.add(candidate);
     return candidate;
   }
 
   function formatToken(num) {
-    return String(num).padStart(4, '0');
+    const digitsCount = Math.max(4, String(maxToken).length);
+    return String(num).padStart(digitsCount, '0');
   }
 
   function generateStripSequence(start_d, target_d, min_digits) {
@@ -586,11 +637,14 @@
   }
 
   function renderStaticReels() {
+    const digitsCount = Math.max(4, String(maxToken).length);
+    ensureReelSlotsCount(digitsCount);
+
     dom.reelStrips.forEach((strip, idx) => {
       strip.innerHTML = '';
       const div = document.createElement('div');
       div.className = 'reel-digit';
-      div.textContent = currentReelDigits[idx];
+      div.textContent = currentReelDigits[idx] !== undefined ? currentReelDigits[idx] : 0;
       strip.appendChild(div);
       strip.style.transform = 'translate3d(0, 0, 0)';
     });
@@ -634,10 +688,12 @@
     audio.init();
     isSpinning = true;
 
-    // Pick unique winning token from Series 1111 - 1360
     const winningToken = generateWinningToken();
     const tokenStr = formatToken(winningToken);
     const targetDigits = tokenStr.split('').map(Number);
+    const numDigits = targetDigits.length;
+
+    ensureReelSlotsCount(numDigits);
 
     // Transition view: Hide showcase, reveal unified wheel stage
     dom.showcaseView.style.display = 'none';
@@ -651,19 +707,14 @@
     dom.btnSpinWheel.disabled = true;
 
     requestAnimationFrame(() => {
-      const reelConfigs = [
-        { minDigits: 36, t_spin: 1.6, t_decel: 1.6 },
-        { minDigits: 52, t_spin: 2.6, t_decel: 1.9 },
-        { minDigits: 70, t_spin: 3.7, t_decel: 2.2 },
-        { minDigits: 92, t_spin: 5.0, t_decel: 2.8 }
-      ];
-
       // Populate reel strips
       const reels = targetDigits.map((targetDigit, i) => {
         const startDigit = currentReelDigits[i] !== undefined ? currentReelDigits[i] : 1;
-        const cfg = reelConfigs[i];
-        const digitsSequence = generateStripSequence(startDigit, targetDigit, cfg.minDigits);
-        const totalTime = cfg.t_spin + cfg.t_decel;
+        const minDigits = 32 + i * 18;
+        const t_spin = 1.5 + i * 0.9;
+        const t_decel = 1.5 + i * 0.4;
+        const digitsSequence = generateStripSequence(startDigit, targetDigit, minDigits);
+        const totalTime = t_spin + t_decel;
 
         const strip = dom.reelStrips[i];
         strip.innerHTML = '';
@@ -687,8 +738,8 @@
           slot: reelSlot,
           targetDigit,
           digitsSequence,
-          t_spin: cfg.t_spin,
-          t_decel: cfg.t_decel,
+          t_spin,
+          t_decel,
           totalTime,
           lastPassedDigit: -1,
           isLocked: false
@@ -701,7 +752,7 @@
         const elapsedSec = (now - startTime) / 1000;
         let allLocked = true;
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < numDigits; i++) {
           const r = reels[i];
           if (!r.isLocked) {
             if (elapsedSec >= r.totalTime + 0.18) {
@@ -763,6 +814,7 @@
     };
     winnersHistory.push(record);
     saveState();
+    logWinnerToSheet(record);
 
     restoreWinnerViewUI(record);
     audio.playFanfare();
@@ -1272,6 +1324,94 @@
     });
   }
 
+  // =========================================================================
+  // 16. Google Sheets & Apps Script Real-Time Synchronization
+  // =========================================================================
+  async function pollGoogleSheetsSync() {
+    const url = localStorage.getItem(API_STORAGE_KEY);
+    if (!url) return;
+
+    try {
+      const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now());
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.status === 'success') {
+        applyRemoteConfig(data);
+      }
+    } catch (e) {}
+  }
+
+  function applyRemoteConfig(data) {
+    let needsReelUpdate = false;
+
+    if (data.minToken && Number(data.minToken) !== minToken) {
+      minToken = Number(data.minToken);
+      needsReelUpdate = true;
+    }
+    if (data.maxToken && Number(data.maxToken) !== maxToken) {
+      maxToken = Number(data.maxToken);
+      needsReelUpdate = true;
+    }
+
+    presetWinners[0] = data.prize1Winner || '';
+    presetWinners[1] = data.prize2Winner || '';
+    presetWinners[2] = data.prize3Winner || '';
+    presetWinners[3] = data.prize4Winner || '';
+
+    const digitsCount = Math.max(4, String(maxToken).length);
+    ensureReelSlotsCount(digitsCount);
+
+    I18N.pt.seriesLabel = `Série Nº: ${minToken} — ${maxToken}`;
+    I18N.en.seriesLabel = `Series No: ${minToken} — ${maxToken}`;
+    if (dom.seriesLabelText) dom.seriesLabelText.textContent = I18N[currentLang].seriesLabel;
+    if (dom.curtainSeriesText) dom.curtainSeriesText.textContent = I18N[currentLang].seriesLabel;
+
+    if (needsReelUpdate && !isSpinning) {
+      while (currentReelDigits.length < digitsCount) currentReelDigits.push(0);
+      while (currentReelDigits.length > digitsCount) currentReelDigits.pop();
+      renderStaticReels();
+    }
+
+    // Handle Remote Action Commands
+    if (data.remoteAction && data.remoteAction !== 'NONE' && data.lastUpdated > lastSyncTimestamp) {
+      lastSyncTimestamp = data.lastUpdated;
+      handleRemoteAction(data.remoteAction);
+    }
+  }
+
+  function handleRemoteAction(action) {
+    if (action === 'SPIN') {
+      if (!curtainsOpened) openCurtains();
+      if (!isSpinning && dom.showcaseView.style.display !== 'none') {
+        startDraw();
+      }
+    } else if (action === 'NEXT') {
+      if (dom.btnNextDraw.style.display !== 'none') {
+        nextDraw();
+      }
+    } else if (action === 'RESET') {
+      executeResetSession();
+    }
+  }
+
+  async function logWinnerToSheet(record) {
+    const url = localStorage.getItem(API_STORAGE_KEY);
+    if (!url) return;
+    try {
+      await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({
+          action: 'LOG_WINNER',
+          round: record.round,
+          prizeName: getLocalized(record.prize.name),
+          token: record.token,
+          formattedToken: record.formattedToken
+        })
+      });
+    } catch (e) {}
+  }
+
   function init() {
     loadState();
     renderStaticReels();
@@ -1282,6 +1422,12 @@
     curtainsOpened = false;
     if (dom.stageCurtains) {
       dom.stageCurtains.classList.remove('curtains-opened');
+    }
+
+    // Start background sync with Google Sheets Apps Script every 2.5s
+    pollGoogleSheetsSync();
+    if (!pollTimerId) {
+      pollTimerId = setInterval(pollGoogleSheetsSync, 2500);
     }
   }
 
