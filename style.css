@@ -950,6 +950,138 @@ html, body {
 }
 
 /* ==========================================================================
+   Smooth Round Transition Animations (Claim & Next Prize)
+   ========================================================================== */
+
+/* 1. Winner Celebration Exit: Fade Out & Soft Shrink */
+.winner-screen-fade-out {
+  animation: winnerScreenFadeOut 0.42s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none !important;
+}
+
+@keyframes winnerScreenFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.93) translateY(-14px);
+    filter: blur(8px);
+  }
+}
+
+.btn-action-fade-out {
+  animation: btnActionFadeOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none !important;
+}
+
+@keyframes btnActionFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+}
+
+/* 2. Next Prize Showcase Entry: Smooth Pop-In & Glow */
+.showcase-pop-in {
+  animation: showcasePopIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards !important;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes showcasePopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(28px);
+    filter: blur(8px);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-3px);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+
+.showcase-pop-in .prize-info-panel {
+  animation: prizeTitlePopIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes prizeTitlePopIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -24px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.showcase-pop-in .prize-image-wrapper {
+  animation: prizeImagePopIn 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.22) forwards;
+}
+
+@keyframes prizeImagePopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.72) translateY(32px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.showcase-pop-in .podium-light-ring {
+  animation: podiumLightPulseIn 0.7s ease-out forwards;
+}
+
+@keyframes podiumLightPulseIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.btn-action-pop-in {
+  animation: btnActionPopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  will-change: transform, opacity;
+}
+
+@keyframes btnActionPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.75) translateY(18px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ==========================================================================
    Winners Drawer & Modal
    ========================================================================== */
 .drawer-backdrop {

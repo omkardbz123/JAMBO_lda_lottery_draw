@@ -195,6 +195,7 @@
   let presetWinners = { 0: '', 1: '', 2: '', 3: '' };
   let lastSyncTimestamp = 0;
   let pollTimerId = null;
+  let isTransitioningRound = false;
 
   function getLocalized(val) {
     if (typeof val === 'object' && val !== null) {
@@ -877,28 +878,63 @@
     }
   }
 
-  // Move to next draw (Draw 2, Draw 3, Draw 4)
+  // Move to next draw (Draw 2, Draw 3, Draw 4) with smooth broadcast transition
   function nextDraw() {
+    if (isTransitioningRound) return;
+
     if (currentRound < 3) {
-      currentRound++;
-      saveState();
+      isTransitioningRound = true;
 
+      // 1. Smooth Fade-Out exit of all congratulations screen elements
+      if (dom.wheelView) dom.wheelView.classList.add('winner-screen-fade-out');
+      if (dom.btnNextDraw) dom.btnNextDraw.classList.add('btn-action-fade-out');
+
+      // Stop confetti
       confetti.stop();
-      dom.wheelView.style.display = 'none';
-      dom.winnerHeaderGroup.style.display = 'none';
-      dom.winnerFlankLeft.style.display = 'none';
-      dom.winnerFlankRight.style.display = 'none';
-      dom.winnerLaurelBadge.style.display = 'none';
-      dom.btnNextDraw.style.display = 'none';
 
-      setupShowcaseForCurrentRound();
-      renderStaticReels();
+      // 2. Once faded out (420ms), advance round and smoothly pop up next prize showcase
+      setTimeout(() => {
+        // Clean exit classes
+        if (dom.wheelView) dom.wheelView.classList.remove('winner-screen-fade-out');
+        if (dom.btnNextDraw) dom.btnNextDraw.classList.remove('btn-action-fade-out');
 
-      dom.showcaseView.style.display = 'flex';
-      dom.btnSpinWheel.style.display = 'inline-block';
-      dom.btnSpinWheel.disabled = false;
+        currentRound++;
+        saveState();
 
-      updateNavigationStatus();
+        // Hide old celebration views
+        dom.wheelView.style.display = 'none';
+        dom.winnerHeaderGroup.style.display = 'none';
+        dom.winnerFlankLeft.style.display = 'none';
+        dom.winnerFlankRight.style.display = 'none';
+        dom.winnerLaurelBadge.style.display = 'none';
+        dom.btnNextDraw.style.display = 'none';
+
+        // Setup new prize showcase details and static token reels
+        setupShowcaseForCurrentRound();
+        renderStaticReels();
+        updateNavigationStatus();
+        updateActionButtonsText();
+
+        // Reveal new prize showcase with vibrant pop-in animation
+        dom.showcaseView.style.display = 'flex';
+        dom.showcaseView.classList.remove('showcase-pop-in');
+        void dom.showcaseView.offsetWidth; // Trigger browser reflow
+        dom.showcaseView.classList.add('showcase-pop-in');
+
+        // Reveal Spin button with pop-in animation
+        dom.btnSpinWheel.style.display = 'inline-block';
+        dom.btnSpinWheel.disabled = false;
+        dom.btnSpinWheel.classList.remove('btn-action-pop-in');
+        void dom.btnSpinWheel.offsetWidth; // Trigger browser reflow
+        dom.btnSpinWheel.classList.add('btn-action-pop-in');
+
+        // Remove animation classes once completed
+        setTimeout(() => {
+          dom.showcaseView.classList.remove('showcase-pop-in');
+          dom.btnSpinWheel.classList.remove('btn-action-pop-in');
+          isTransitioningRound = false;
+        }, 750);
+      }, 420);
     } else {
       showFinalSummary();
     }
@@ -1031,6 +1067,7 @@
 
   function executeResetSession() {
     closeResetConfirmation();
+    isTransitioningRound = false;
 
     if (masterRafId) {
       cancelAnimationFrame(masterRafId);
@@ -1049,6 +1086,11 @@
       dom.finaleModal.classList.remove('active');
     }
     toggleDrawer(false);
+
+    if (dom.wheelView) dom.wheelView.classList.remove('winner-screen-fade-out');
+    if (dom.btnNextDraw) dom.btnNextDraw.classList.remove('btn-action-fade-out');
+    if (dom.showcaseView) dom.showcaseView.classList.remove('showcase-pop-in');
+    if (dom.btnSpinWheel) dom.btnSpinWheel.classList.remove('btn-action-pop-in');
 
     dom.wheelView.style.display = 'none';
     dom.winnerHeaderGroup.style.display = 'none';
