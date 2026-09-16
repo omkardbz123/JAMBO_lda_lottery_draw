@@ -111,8 +111,8 @@
         en: 'LG XBOOM RNC5 Speaker'
       },
       badge: {
-        pt: '1º PRÉMIO',
-        en: '1ST PRIZE'
+        pt: 'PRÉMIO',
+        en: 'PRIZE'
       },
       subtitle: {
         pt: 'Double Super Bass Boost • Luzes de Festa Multicolor • Modo DJ & Karaoke',
@@ -128,8 +128,8 @@
         en: 'Prince Stainless Gas Cooker'
       },
       badge: {
-        pt: '2º PRÉMIO',
-        en: '2ND PRIZE'
+        pt: 'PRÉMIO',
+        en: 'PRIZE'
       },
       subtitle: {
         pt: 'Grelhas em Ferro Fundido • Forno com Vidro Duplo • Ignição Automática',
@@ -145,8 +145,8 @@
         en: 'Prince Air Conditioner'
       },
       badge: {
-        pt: '3º PRÉMIO',
-        en: '3RD PRIZE'
+        pt: 'PRÉMIO',
+        en: 'PRIZE'
       },
       subtitle: {
         pt: 'Dual Inverter • Refrigeração Rápida Turbo • Alta Eficiência Energética',
