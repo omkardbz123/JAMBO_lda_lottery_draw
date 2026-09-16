@@ -107,8 +107,8 @@
     {
       id: 1,
       name: {
-        pt: 'Coluna de Som LG XBOOM RNC5',
-        en: 'LG XBOOM RNC5 Sound Tower'
+        pt: 'Coluna LG XBOOM RNC5',
+        en: 'LG XBOOM RNC5 Speaker'
       },
       badge: {
         pt: '1º PRÉMIO',
@@ -124,8 +124,8 @@
     {
       id: 2,
       name: {
-        pt: 'Fogão a Gás Prince 4 Bocas',
-        en: 'Prince 4-Burner Gas Cooker'
+        pt: 'Fogão a Gás Inox Prince',
+        en: 'Prince Stainless Gas Cooker'
       },
       badge: {
         pt: '2º PRÉMIO',
@@ -141,8 +141,8 @@
     {
       id: 3,
       name: {
-        pt: 'Ar-Condicionado Inverter Prince',
-        en: 'Prince Inverter Air Conditioner'
+        pt: 'Ar Condicionado Prince',
+        en: 'Prince Air Conditioner'
       },
       badge: {
         pt: '3º PRÉMIO',
@@ -162,8 +162,8 @@
         en: 'Prince Double-Door Refrigerator'
       },
       badge: {
-        pt: 'GRANDE PRÉMIO',
-        en: 'GRAND PRIZE'
+        pt: 'PRÉMIO',
+        en: 'PRIZE'
       },
       subtitle: {
         pt: 'Tecnologia Frost Free • Multi Fluxo de Ar • Vidro Temperado • Baixo Consumo',
