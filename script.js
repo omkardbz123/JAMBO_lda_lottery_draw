@@ -1065,8 +1065,8 @@
     dom.btnSpinWheel.style.display = 'inline-block';
     dom.btnSpinWheel.disabled = false;
 
-    // Directly open and show stage ready for immediate spin
-    openCurtains();
+    // Reset curtains back to closed welcome screen until user clicks "ABRIR O PALCO"
+    closeCurtains();
 
     updateNavigationStatus();
     updateActionButtonsText();
@@ -1374,7 +1374,13 @@
       renderStaticReels();
     }
 
-    // Handle Remote Action Commands
+    // Baseline server timestamp on initial sync so past/historical remote actions from previous sessions are never auto-fired on page load
+    if (lastSyncTimestamp === 0) {
+      lastSyncTimestamp = data.lastUpdated || Date.now();
+      return;
+    }
+
+    // Handle NEW Remote Action Commands sent after page was already loaded
     if (data.remoteAction && data.remoteAction !== 'NONE' && data.lastUpdated > lastSyncTimestamp) {
       lastSyncTimestamp = data.lastUpdated;
       handleRemoteAction(data.remoteAction);
